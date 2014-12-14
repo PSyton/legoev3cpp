@@ -1,0 +1,433 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		55A7CB7A1A3E07130028553C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB791A3E07130028553C /* main.m */; };
+		55A7CB7D1A3E07130028553C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7C1A3E07130028553C /* AppDelegate.m */; };
+		55A7CB801A3E07130028553C /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7F1A3E07130028553C /* FirstViewController.m */; };
+		55A7CB831A3E07130028553C /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB821A3E07130028553C /* SecondViewController.m */; };
+		55A7CB861A3E07130028553C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55A7CB841A3E07130028553C /* Main.storyboard */; };
+		55A7CB881A3E07130028553C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55A7CB871A3E07130028553C /* Images.xcassets */; };
+		55A7CB8B1A3E07130028553C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A7CB891A3E07130028553C /* LaunchScreen.xib */; };
+		55A7CB971A3E07130028553C /* Jove_s_LandingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB961A3E07130028553C /* Jove_s_LandingTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		55A7CB911A3E07130028553C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 55A7CB6C1A3E07130028553C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 55A7CB731A3E07130028553C;
+			remoteInfo = "Jove's Landing";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		55A7CB741A3E07130028553C /* Jove's Landing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jove's Landing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		55A7CB781A3E07130028553C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55A7CB791A3E07130028553C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		55A7CB7B1A3E07130028553C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		55A7CB7C1A3E07130028553C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		55A7CB7E1A3E07130028553C /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
+		55A7CB7F1A3E07130028553C /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		55A7CB811A3E07130028553C /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		55A7CB821A3E07130028553C /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		55A7CB851A3E07130028553C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		55A7CB871A3E07130028553C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		55A7CB8A1A3E07130028553C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		55A7CB901A3E07130028553C /* Jove's LandingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Jove's LandingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		55A7CB951A3E07130028553C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		55A7CB961A3E07130028553C /* Jove_s_LandingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Jove_s_LandingTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		55A7CB711A3E07130028553C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		55A7CB8D1A3E07130028553C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		55A7CB6B1A3E07130028553C = {
+			isa = PBXGroup;
+			children = (
+				55A7CB761A3E07130028553C /* Jove's Landing */,
+				55A7CB931A3E07130028553C /* Jove's LandingTests */,
+				55A7CB751A3E07130028553C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		55A7CB751A3E07130028553C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				55A7CB741A3E07130028553C /* Jove's Landing.app */,
+				55A7CB901A3E07130028553C /* Jove's LandingTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		55A7CB761A3E07130028553C /* Jove's Landing */ = {
+			isa = PBXGroup;
+			children = (
+				55A7CB7B1A3E07130028553C /* AppDelegate.h */,
+				55A7CB7C1A3E07130028553C /* AppDelegate.m */,
+				55A7CB7E1A3E07130028553C /* FirstViewController.h */,
+				55A7CB7F1A3E07130028553C /* FirstViewController.m */,
+				55A7CB811A3E07130028553C /* SecondViewController.h */,
+				55A7CB821A3E07130028553C /* SecondViewController.m */,
+				55A7CB841A3E07130028553C /* Main.storyboard */,
+				55A7CB871A3E07130028553C /* Images.xcassets */,
+				55A7CB891A3E07130028553C /* LaunchScreen.xib */,
+				55A7CB771A3E07130028553C /* Supporting Files */,
+			);
+			path = "Jove's Landing";
+			sourceTree = "<group>";
+		};
+		55A7CB771A3E07130028553C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				55A7CB781A3E07130028553C /* Info.plist */,
+				55A7CB791A3E07130028553C /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		55A7CB931A3E07130028553C /* Jove's LandingTests */ = {
+			isa = PBXGroup;
+			children = (
+				55A7CB961A3E07130028553C /* Jove_s_LandingTests.m */,
+				55A7CB941A3E07130028553C /* Supporting Files */,
+			);
+			path = "Jove's LandingTests";
+			sourceTree = "<group>";
+		};
+		55A7CB941A3E07130028553C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				55A7CB951A3E07130028553C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		55A7CB731A3E07130028553C /* Jove's Landing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 55A7CB9A1A3E07130028553C /* Build configuration list for PBXNativeTarget "Jove's Landing" */;
+			buildPhases = (
+				55A7CB701A3E07130028553C /* Sources */,
+				55A7CB711A3E07130028553C /* Frameworks */,
+				55A7CB721A3E07130028553C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Jove's Landing";
+			productName = "Jove's Landing";
+			productReference = 55A7CB741A3E07130028553C /* Jove's Landing.app */;
+			productType = "com.apple.product-type.application";
+		};
+		55A7CB8F1A3E07130028553C /* Jove's LandingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 55A7CB9D1A3E07130028553C /* Build configuration list for PBXNativeTarget "Jove's LandingTests" */;
+			buildPhases = (
+				55A7CB8C1A3E07130028553C /* Sources */,
+				55A7CB8D1A3E07130028553C /* Frameworks */,
+				55A7CB8E1A3E07130028553C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				55A7CB921A3E07130028553C /* PBXTargetDependency */,
+			);
+			name = "Jove's LandingTests";
+			productName = "Jove's LandingTests";
+			productReference = 55A7CB901A3E07130028553C /* Jove's LandingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		55A7CB6C1A3E07130028553C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Software by Jove";
+				TargetAttributes = {
+					55A7CB731A3E07130028553C = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					55A7CB8F1A3E07130028553C = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = 55A7CB731A3E07130028553C;
+					};
+				};
+			};
+			buildConfigurationList = 55A7CB6F1A3E07130028553C /* Build configuration list for PBXProject "Jove's Landing" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 55A7CB6B1A3E07130028553C;
+			productRefGroup = 55A7CB751A3E07130028553C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				55A7CB731A3E07130028553C /* Jove's Landing */,
+				55A7CB8F1A3E07130028553C /* Jove's LandingTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		55A7CB721A3E07130028553C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55A7CB861A3E07130028553C /* Main.storyboard in Resources */,
+				55A7CB8B1A3E07130028553C /* LaunchScreen.xib in Resources */,
+				55A7CB881A3E07130028553C /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		55A7CB8E1A3E07130028553C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		55A7CB701A3E07130028553C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55A7CB831A3E07130028553C /* SecondViewController.m in Sources */,
+				55A7CB7D1A3E07130028553C /* AppDelegate.m in Sources */,
+				55A7CB801A3E07130028553C /* FirstViewController.m in Sources */,
+				55A7CB7A1A3E07130028553C /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		55A7CB8C1A3E07130028553C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55A7CB971A3E07130028553C /* Jove_s_LandingTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		55A7CB921A3E07130028553C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 55A7CB731A3E07130028553C /* Jove's Landing */;
+			targetProxy = 55A7CB911A3E07130028553C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		55A7CB841A3E07130028553C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55A7CB851A3E07130028553C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		55A7CB891A3E07130028553C /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55A7CB8A1A3E07130028553C /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		55A7CB981A3E07130028553C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		55A7CB991A3E07130028553C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		55A7CB9B1A3E07130028553C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Jove's Landing/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		55A7CB9C1A3E07130028553C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Jove's Landing/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		55A7CB9E1A3E07130028553C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Jove's LandingTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jove's Landing.app/Jove's Landing";
+			};
+			name = Debug;
+		};
+		55A7CB9F1A3E07130028553C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Jove's LandingTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jove's Landing.app/Jove's Landing";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		55A7CB6F1A3E07130028553C /* Build configuration list for PBXProject "Jove's Landing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55A7CB981A3E07130028553C /* Debug */,
+				55A7CB991A3E07130028553C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		55A7CB9A1A3E07130028553C /* Build configuration list for PBXNativeTarget "Jove's Landing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55A7CB9B1A3E07130028553C /* Debug */,
+				55A7CB9C1A3E07130028553C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		55A7CB9D1A3E07130028553C /* Build configuration list for PBXNativeTarget "Jove's LandingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				55A7CB9E1A3E07130028553C /* Debug */,
+				55A7CB9F1A3E07130028553C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 55A7CB6C1A3E07130028553C /* Project object */;
+}
