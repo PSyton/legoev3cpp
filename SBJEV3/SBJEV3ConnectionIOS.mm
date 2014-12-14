@@ -25,6 +25,7 @@ using namespace SBJ::EV3;
 - (id) initWithAccessory: (EAAccessory*) accessory;
 - (void) start: (Connection::Read) read;
 - (bool) write: (const uint8_t*) buffer len: (size_t) len;
+- (void) close;
 
 @end
 
@@ -35,8 +36,19 @@ ConnectionIOS::ConnectionIOS(EAAccessory* accessory)
 
 ConnectionIOS::~ConnectionIOS()
 {
+	[_delegate close]; // dealloc not called from below...
 	_delegate = nil;
 }
+
+Connection::Type ConnectionIOS::type() const
+{
+#if (TARGET_IPHONE_SIMULATOR)
+	return Connection::Type::simulator;
+#else
+	return Connection::Type::bluetooth;
+#endif
+}
+
 
 void ConnectionIOS::start(Read read)
 {
@@ -74,8 +86,21 @@ bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
 
 - (void) dealloc
 {
-	[_session.inputStream removeFromRunLoop: _runLoop forMode: NSDefaultRunLoopMode];
-	[_session.outputStream removeFromRunLoop: _runLoop forMode: NSDefaultRunLoopMode];
+	[self close];
+}
+
+- (void) close
+{
+	[self closeStream: _session.inputStream];
+	[self closeStream: _session.outputStream];
+	_session = nil;
+}
+
+- (void) closeStream: (NSStream*) stream
+{
+	[stream close];
+	[stream removeFromRunLoop: _runLoop forMode: NSDefaultRunLoopMode];
+	stream.delegate = nil;
 }
 
 - (void) start: (Connection::Read) read

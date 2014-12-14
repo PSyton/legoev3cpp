@@ -20,6 +20,7 @@ Brick::Brick(ConnectionFactory& factory, const DeviceIdentifier& identifier)
 		  {
 			  _identifier = updatedIdentifier;
 			  _stack.connectionChange(connection);
+			  _connectionType = connection ? connection->type() : Connection::Type::none;
 			  if (connectionEvent) connectionEvent(*this);
 		  })));
 }

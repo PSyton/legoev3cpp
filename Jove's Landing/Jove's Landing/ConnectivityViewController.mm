@@ -15,6 +15,10 @@ using namespace SBJ::EV3;
 {
 	Brick* _brick;
 	IBOutlet UISwitch* _connected;
+	IBOutlet UILabel* _name;
+	IBOutlet UILabel* _serial;
+	IBOutlet UIImageView* _connectType;
+
 }
 
 @end
@@ -51,8 +55,37 @@ using namespace SBJ::EV3;
 
 - (void) updateUI
 {
-	bool connected = _brick ? _brick->isConnected() : false;
-	_connected.on = connected;
+	if (_brick)
+	{
+		_connected.on = _brick->isConnected();
+		_name.text = [NSString stringWithUTF8String: _brick->identifier().name.c_str()];
+		_serial.text = [NSString stringWithUTF8String: _brick->identifier().serial.c_str()];
+		switch (_brick->connectionType())
+		{
+			case Connection::Type::usb:
+				_connectType.image = [UIImage imageNamed: @"USB"];
+				break;
+			case Connection::Type::bluetooth:
+				_connectType.image = [UIImage imageNamed: @"Bluetooth"];
+				break;
+			case Connection::Type::wifi:
+				_connectType.image = [UIImage imageNamed: @"WIFI"];
+				break;
+			case Connection::Type::simulator:
+				_connectType.image = [UIImage imageNamed: @"Simulator"];
+				break;
+			case Connection::Type::none:
+				_connectType.image = [UIImage imageNamed: @"None"];
+				break;
+		}
+	}
+	else
+	{
+		_connected.on = false;
+		_name.text = @"N/A";
+		_serial.text = @"N/A";
+		_connectType.image = [UIImage imageNamed: @"None"];
+	}
 }
 
 @end

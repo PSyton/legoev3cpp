@@ -39,7 +39,7 @@ bool ConnectionToken::makeConnection(const DeviceIdentifier& updatedIdentifier, 
 	{
 		// keep our identifier the same but pass along the update
 		_connected = connection != nullptr;
-		_action(updatedIdentifier, connection);
+		if (_action) _action(updatedIdentifier, connection);
 		return true;
 	}
 	return false;
@@ -48,5 +48,5 @@ bool ConnectionToken::makeConnection(const DeviceIdentifier& updatedIdentifier, 
 void ConnectionToken::disconnect()
 {
 	_connected = false;
-	_action(_identifier, nullptr);
+	if (_action) _action(_identifier, nullptr);
 }

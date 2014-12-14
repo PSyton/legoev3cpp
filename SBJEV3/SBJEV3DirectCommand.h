@@ -24,7 +24,6 @@ template <typename... Opcodes>
 class DirectCommand
 {
 public:
-	using Status = typename DirectReply<Opcodes...>::Status;
 	using Results = typename DirectReply<Opcodes...>::Results;
 	
 	DirectCommand(unsigned short messageId, float timeout, Opcodes... opcodes)
@@ -38,7 +37,7 @@ public:
 		return { _instructions.messageId(), _instructions, _instructions.size(), _reply.replyResponse() };
 	}
 	
-	Status status() const
+	ReplyStatus status() const
 	{
 		return _reply.status();
 	}

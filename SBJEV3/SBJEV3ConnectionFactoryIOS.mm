@@ -84,8 +84,14 @@ void ConnectionFactory::promptBluetooth(DeviceIdentifier identifier, PromptBluet
 	EAAccessoryManager* mgr = [EAAccessoryManager sharedAccessoryManager];
 	[mgr showBluetoothAccessoryPickerWithNameFilter: nil completion:^(NSError *error)
 	{
-		// TODO: differentiate between user cancel and pairing error
-		if (completion) completion(error != nil);
+		if (error.code == 2)
+		{
+			if (completion) completion(true);
+		}
+		else if (error.code == 0)
+		{
+			handleChangeInAccessoryConnection();
+		}
 	}];
 #endif
 }
@@ -204,8 +210,10 @@ Connection* ConnectionFactory::findConnection(DeviceIdentifier& identifier)
 	
 	if (foundIt != NSNotFound)
 	{
-		// TODO: populate identifier missing fields
 		EAAccessory* accessory = accessories[foundIt];
+		// TODO: get real values from EV3
+		//identifier.name = accessory.name.UTF8String;
+		//identifier.serial = accessory.serialNumber.UTF8String;
 		return new ConnectionIOS(accessory);
 	}
 	return nullptr;

@@ -24,9 +24,21 @@ namespace EV3
 class Connection
 {
 public:
+
+	enum Type
+	{
+		none,
+		simulator,
+		usb,
+		bluetooth,
+		wifi
+	};
+
 	using Read = std::function< void(const uint8_t* buffer, size_t size)>;
 
 	virtual ~Connection() {};
+	
+	virtual Type type() const = 0;
 	
 	virtual void start(Connection::Read read) = 0;
 	

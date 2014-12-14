@@ -10,6 +10,7 @@
 
 #include "SBJEV3InvocationStack.h"
 #include "SBJEV3DirectCommand.h"
+#include "SBJEV3Connection.h"
 #include "SBJEV3DeviceIdentifier.h"
 
 #include <memory>
@@ -50,20 +51,31 @@ public:
 		return _identifier;
 	}
 	
-// TODO: expose DirectCommand status
-
+	Connection::Type connectionType() const
+	{
+		return _connectionType;
+	}
+	
+	ReplyStatus replyStatus() const
+	{
+		return _replyStatus;
+	}
+	
 	template <typename...  Opcodes>
 	typename DirectCommand<Opcodes...>::Results directCommand(float timeout, Opcodes... opcodes)
 	{
 		DirectCommand<Opcodes...> command(_messageCounter, timeout, opcodes...);
 		_messageCounter++;
 		InvocationScope invocationScope(_stack, command);
+		_replyStatus = command.status();
 		return command.wait();
 	}
 
 private:
 	DeviceIdentifier _identifier;
 	InvocationStack _stack;
+	Connection::Type _connectionType = Connection::Type::none;
+	ReplyStatus _replyStatus = ReplyStatus::none;
 	std::unique_ptr<ConnectionToken> _token;
 	unsigned short _messageCounter = 0;
 };

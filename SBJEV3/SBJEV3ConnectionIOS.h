@@ -30,6 +30,8 @@ public:
 	
 	virtual ~ConnectionIOS();
 	
+	virtual Type type() const;
+	
 	virtual void start(Read read);
 	
 	virtual bool write(const uint8_t* buffer, size_t len);

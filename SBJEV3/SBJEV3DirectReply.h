@@ -20,6 +20,16 @@ namespace SBJ
 namespace EV3
 {
 
+enum class ReplyStatus
+{
+	none,
+	building,
+	success,
+	sendError,
+	argumentError,
+	formatError,
+};
+	
 /*
  * DirectReply receives a buffer response and extracts the requested results from the opcodes.
  * The reponse buffer is a snapshot of the global space for the mini-program.
@@ -29,21 +39,12 @@ template <typename... Opcodes>
 class DirectReply
 {
 public:
-	enum class Status
-	{
-		none,
-		building,
-		success,
-		sendError,
-		argumentError,
-		formatError,
-	};
 	
 	using Results = std::tuple<typename Opcodes::Result::Output...>;
 
 	DirectReply(float timeout)
 	: _timeout(timeout)
-	, _status(Status::none)
+	, _status(ReplyStatus::none)
 	{
 	}
 	
@@ -67,16 +68,16 @@ public:
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
 			int time = _timeout * 1000.0;
-			_waitOn.wait_for(lock, std::chrono::milliseconds(time), [this]{return _status > Status::building;});
+			_waitOn.wait_for(lock, std::chrono::milliseconds(time), [this]{return _status > ReplyStatus::building;});
 		}
 		else
 		{
-			_status = Status::success;
+			_status = ReplyStatus::success;
 		}
 		return _results;
 	}
 	
-	Status status() const
+	ReplyStatus status() const
 	{
 		std::unique_lock<std::mutex> lock(_mutex);
 		return _status;
@@ -85,13 +86,13 @@ public:
 private:
 	using Converters = std::tuple<typename Opcodes::Result...>;
 	
-	std::mutex _mutex;
+	mutable std::mutex _mutex;
 	std::condition_variable _waitOn;
 	
 	const float _timeout;
 	Converters _converters;
 	Results _results;
-	Status _status;
+	ReplyStatus _status;
 	
 	bool replied(const uint8_t* buffer, size_t len)
 	{
@@ -99,7 +100,7 @@ private:
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
 			// strange edge case
-			if (_status > Status::building)
+			if (_status > ReplyStatus::building)
 			{
 				ready = true;
 			}
@@ -108,7 +109,7 @@ private:
 				// set if the send fails
 				if (buffer == nullptr || len == 0)
 				{
-					_status = Status::sendError;
+					_status = ReplyStatus::sendError;
 					ready = true;
 				}
 				else
@@ -117,23 +118,23 @@ private:
 					COMRPL* header = (COMRPL*)buffer;
 					if (header->Cmd == DIRECT_REPLY_ERROR)
 					{
-						_status = Status::argumentError;
+						_status = ReplyStatus::argumentError;
 						ready = true;
 					}
 					else
 					{
 						// Convert the values
-						_status = Status::building;
+						_status = ReplyStatus::building;
 						const size_t payloadLen = len - sizeof(COMRPL);
 						const uint8_t* payload = buffer + sizeof(COMRPL);
 						if (itemizedCopy(SizeT<0>(), payload, payloadLen))
 						{
-							_status = Status::success;
+							_status = ReplyStatus::success;
 						}
 						// Lengths do not match up
 						else
 						{
-							_status = Status::formatError;
+							_status = ReplyStatus::formatError;
 						}
 						ready = true;
 					}
