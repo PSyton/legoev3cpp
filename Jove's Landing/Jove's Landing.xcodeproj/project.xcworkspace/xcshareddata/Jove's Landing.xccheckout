@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>24C5FA0A-F80F-4DD2-A52A-624E870DD38D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Jove's Landing</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>DE25939B9E7EA8A8637EB86AA1905477A9313414</key>
+		<string>https://github.com/dsjove/legoev3cpp.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Jove's Landing/Jove's Landing.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>DE25939B9E7EA8A8637EB86AA1905477A9313414</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/dsjove/legoev3cpp.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>DE25939B9E7EA8A8637EB86AA1905477A9313414</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DE25939B9E7EA8A8637EB86AA1905477A9313414</string>
+			<key>IDESourceControlWCCName</key>
+			<string>legoev3cpp</string>
+		</dict>
+	</array>
+</dict>
+</plist>
