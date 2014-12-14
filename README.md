@@ -11,4 +11,4 @@ The following are on the TODO list...
 
 This project is dependent on the ev3 sources with the minor header changes made in the dsjove fork (pull request has been made).
 
-
+The "Jove's Landing" sample app demonstrates usage. "AppDelegate.mm" shows how to create the link to the EV3. "RailSwitch.mm" shows how to send a command to EV3.
