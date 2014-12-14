@@ -46,7 +46,10 @@ void InvocationStack::invoke(const Invocation& invocation)
 	}
 	if (_connection)
 	{
-		_connection->write(invocation.data, invocation.size);
+		if (_connection->write(invocation.data, invocation.size) == false)
+		{
+			remove(invocation.messageId);
+		}
 	}
 	else
 	{
