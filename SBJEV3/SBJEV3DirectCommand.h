@@ -27,14 +27,15 @@ public:
 	using Results = typename DirectReply<Opcodes...>::Results;
 	
 	DirectCommand(unsigned short messageId, float timeout, Opcodes... opcodes)
-	: _instructions(messageId, timeout > 0.0, opcodes...)
+	: _messageId(messageId)
+	, _instructions(messageId, timeout > 0.0, opcodes...)
 	, _reply(timeout)
 	{
 	}
 	
-	operator Invocation ()
+	Invocation invocation()
 	{
-		return { _instructions.messageId(), _instructions, _instructions.size(), _reply.replyResponse() };
+		return { _messageId, _instructions.data(), _instructions.size(), _reply.replyResponse() };
 	}
 	
 	ReplyStatus status() const
@@ -48,6 +49,7 @@ public:
 	}
 	
 private:
+	unsigned short _messageId;
 	DirectInstructions<Opcodes...> _instructions;
 	DirectReply<Opcodes...> _reply;
 };

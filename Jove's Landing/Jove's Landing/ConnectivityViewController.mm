@@ -18,7 +18,6 @@ using namespace SBJ::EV3;
 	IBOutlet UILabel* _name;
 	IBOutlet UILabel* _serial;
 	IBOutlet UIImageView* _connectType;
-
 }
 
 @end

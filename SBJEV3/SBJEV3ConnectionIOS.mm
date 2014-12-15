@@ -36,7 +36,8 @@ ConnectionIOS::ConnectionIOS(EAAccessory* accessory)
 
 ConnectionIOS::~ConnectionIOS()
 {
-	[_delegate close]; // dealloc not called from below...
+	// Sessions use strong reference delegates - must break circular reference
+	[_delegate close];
 	_delegate = nil;
 }
 

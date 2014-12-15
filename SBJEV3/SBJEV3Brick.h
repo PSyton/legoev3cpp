@@ -66,7 +66,8 @@ public:
 	{
 		DirectCommand<Opcodes...> command(_messageCounter, timeout, opcodes...);
 		_messageCounter++;
-		InvocationScope invocationScope(_stack, command);
+		Invocation invocation(std::move(command.invocation()));
+		InvocationScope invocationScope(_stack, invocation);
 		_replyStatus = command.status();
 		return command.wait();
 	}

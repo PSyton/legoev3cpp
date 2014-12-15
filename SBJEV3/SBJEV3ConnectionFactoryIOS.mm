@@ -46,12 +46,20 @@ using namespace SBJ::EV3;
 
 - (void) accessoryDidConnect: (id) v
 {
-	_factory->handleChangeInAccessoryConnection();
+	EAAccessory* accessory = v;
+	if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
+	{
+		_factory->handleChangeInAccessoryConnection();
+	}
 }
 
 - (void) accessoryDidDisconnect: (id) v
 {
-	_factory->handleChangeInAccessoryConnection();
+	EAAccessory* accessory = v;
+	if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
+	{
+		_factory->handleChangeInAccessoryConnection();
+	}
 }
 
 @end
@@ -84,13 +92,21 @@ void ConnectionFactory::promptBluetooth(DeviceIdentifier identifier, PromptBluet
 	EAAccessoryManager* mgr = [EAAccessoryManager sharedAccessoryManager];
 	[mgr showBluetoothAccessoryPickerWithNameFilter: nil completion:^(NSError *error)
 	{
+		// Device already connected but reselected
+		if (error && error.code == 0)
+		{
+			// Rebroadcast connection event
+			handleChangeInAccessoryConnection();
+		}
+		// User pressed cancel
 		if (error.code == 2)
 		{
 			if (completion) completion(true);
 		}
-		else if (error.code == 0)
+		else
 		{
-			handleChangeInAccessoryConnection();
+			// TODO: expose error
+			if (completion) completion(true);
 		}
 	}];
 #endif
@@ -128,6 +144,18 @@ void ConnectionFactory::handleChangeInAccessoryConnection()
 	}
 }
 
+std::string fetchNameFromAccessory(EAAccessory* accessory)
+{
+// TODO: EAAccessory is lying
+	return accessory.name.UTF8String;
+}
+
+std::string fetchSerialFromAccessory(EAAccessory* accessory)
+{
+// TODO: EAAccessory is lying
+	return accessory.serialNumber.UTF8String;
+}
+
 Connection* ConnectionFactory::findConnection(DeviceIdentifier& identifier)
 {
 #if (TARGET_IPHONE_SIMULATOR)
@@ -140,14 +168,16 @@ Connection* ConnectionFactory::findConnection(DeviceIdentifier& identifier)
 		return nullptr;
 	}
 	
-	NSString* requestedName = [NSString stringWithUTF8String: identifier.name.c_str()];
-	NSString* requestedSerial = [NSString stringWithUTF8String: identifier.serial.c_str()];
+	__block std::string foundName;
+	__block std::string foundSerial;
 	
 	BOOL(^byProtocol)(id, NSUInteger, BOOL*) = ^(id obj, NSUInteger idx, BOOL *stop)
 	{
 		EAAccessory* accessory = obj;
 		if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
 		{
+			foundName = fetchNameFromAccessory(accessory);
+			foundSerial = fetchSerialFromAccessory(accessory);
 			return YES;
 		}
 		return NO;
@@ -157,8 +187,10 @@ Connection* ConnectionFactory::findConnection(DeviceIdentifier& identifier)
 		EAAccessory* accessory = obj;
 		if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
 		{
-			if ([accessory.name isEqualToString: requestedName])
+			if (identifier.name == fetchNameFromAccessory(accessory))
 			{
+				foundName = identifier.name;
+				foundSerial = fetchSerialFromAccessory(accessory);
 				return YES;
 			}
 		}
@@ -169,8 +201,10 @@ Connection* ConnectionFactory::findConnection(DeviceIdentifier& identifier)
 		EAAccessory* accessory = obj;
 		if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
 		{
-			if ([accessory.serialNumber isEqualToString: requestedSerial])
+			if (identifier.serial == fetchSerialFromAccessory(accessory))
 			{
+				foundSerial = identifier.serial;
+				foundName = fetchNameFromAccessory(accessory);
 				return YES;
 			}
 		}
@@ -211,9 +245,8 @@ Connection* ConnectionFactory::findConnection(DeviceIdentifier& identifier)
 	if (foundIt != NSNotFound)
 	{
 		EAAccessory* accessory = accessories[foundIt];
-		// TODO: get real values from EV3
-		//identifier.name = accessory.name.UTF8String;
-		//identifier.serial = accessory.serialNumber.UTF8String;
+		identifier.name = foundName;
+		identifier.serial = foundSerial;
 		return new ConnectionIOS(accessory);
 	}
 	return nullptr;

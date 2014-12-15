@@ -33,7 +33,7 @@ public:
 		
 	void connectionChange(Connection* connection);
 	
-	void invoke(const Invocation& invocation);
+	void invoke(Invocation& invocation);
 	
 	void remove(unsigned short invocation);
 	
@@ -44,7 +44,7 @@ private:
 	
 	void connectionReplied(const uint8_t* buffer, size_t len);
 	
-	void pushInvocation(const Invocation& invocation);
+	void pushInvocation(Invocation& invocation);
 	void replyInvocation(unsigned short messageId, const uint8_t* buffer, size_t len);
 	void errorInvocation(unsigned short messageId);
 	void removeInvocation(unsigned short messageId);
@@ -58,9 +58,9 @@ private:
 class InvocationScope
 {
 public:
-	InvocationScope(InvocationStack& stack, const Invocation& invocation)
+	InvocationScope(InvocationStack& stack, Invocation& invocation)
 	: _stack(stack)
-	, _messageId(invocation.messageId)
+	, _messageId(invocation.ID())
 	{
 		_stack.invoke(invocation);
 	}

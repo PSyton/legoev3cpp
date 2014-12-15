@@ -34,7 +34,8 @@ static RailSwitch* _switches[4];
 + (void) installPort: (OutputPort) port onBrick: (Brick*) brick
 {
 	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-	RailSwitch* obj = [defaults objectForKey: [NSString stringWithFormat: @"Switch%d", port]];
+	NSData* data = [defaults objectForKey: [NSString stringWithFormat: @"RailSwitch%d", port]];
+	RailSwitch* obj = [NSKeyedUnarchiver unarchiveObjectWithData: data];
 	if (obj == nil)
 	{
 		obj = [[RailSwitch alloc] initWithPort: port];
@@ -51,7 +52,8 @@ static RailSwitch* _switches[4];
 - (void) save
 {
 	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setObject: self forKey: [NSString stringWithFormat: @"Switch%d", _port]];
+	NSData* data = [NSKeyedArchiver archivedDataWithRootObject: self];
+	[defaults setObject: data forKey: [NSString stringWithFormat: @"RailSwitch%d", _port]];
 }
 
 - (id) initWithPort: (OutputPort) port
@@ -121,6 +123,8 @@ static RailSwitch* _switches[4];
 	
 	auto results = _brick->directCommand(1.0, read, motor, start);
 	NSLog(@"%d", std::get<0>(results)[0]);
+	
+	[self save];
 }
 
 @end

@@ -38,22 +38,24 @@ void InvocationStack::connectionChange(Connection* connection)
 	}
 }
 
-void InvocationStack::invoke(const Invocation& invocation)
+void InvocationStack::invoke(Invocation& invocation)
 {
+	const uint8_t* buffer = invocation.data();
+	size_t size = invocation.size();
 	{
 		std::unique_lock<std::mutex> lock(_mutex);
 		pushInvocation(invocation);
 	}
 	if (_connection)
 	{
-		if (_connection->write(invocation.data, invocation.size) == false)
+		if (_connection->write(buffer, size) == false)
 		{
-			remove(invocation.messageId);
+			remove(invocation.ID());
 		}
 	}
 	else
 	{
-		remove(invocation.messageId);
+		remove(invocation.ID());
 	}
 }
 
@@ -75,16 +77,16 @@ void InvocationStack::connectionReplied(const uint8_t* buffer, size_t len)
 
 #pragma mark - private
 
-void InvocationStack::pushInvocation(const Invocation& invocation)
+void InvocationStack::pushInvocation(Invocation& invocation)
 {
-	if (invocation.reply)
+	if (invocation.wantsReply())
 	{
-		_invocations[invocation.messageId] = invocation;
-		std::cout << "Sync " << invocation.messageId << std::endl;
+		_invocations.insert(std::make_pair(invocation.ID(), std::move(invocation)));
+		std::cout << "Sync " << invocation.ID() << std::endl;
 	}
 	else
 	{
-		std::cout << "Call " << invocation.messageId << std::endl;
+		std::cout << "Call " << invocation.ID() << std::endl;
 	}
 }
 

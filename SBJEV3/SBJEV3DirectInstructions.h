@@ -48,29 +48,14 @@ public:
 		calculateReplies();
 	}
 	
-	bool expectsReply() const
-	{
-		return _cmd.Cmd == DIRECT_COMMAND_REPLY;
-	}
-	
-	constexpr static size_t count()
-	{
-		return std::tuple_size<AllOpcodes>::value;
-	}
-	
-	unsigned short messageId() const
-	{
-		return _cmd.MsgCnt;
-	}
-	
-	operator const uint8_t* () const
-	{
-		return (const uint8_t*)&_cmd;
-	}
-	
-	constexpr size_t size() const
+	size_t size() const
 	{
 		return sizeof(COMCMD) + sizeof(DIRCMD) + sizeof(AllOpcodes);
+	}
+	
+	const uint8_t* data() const
+	{
+		return (const uint8_t*)&_cmd;
 	}
 	
 private:
@@ -128,7 +113,7 @@ private:
 		calculateReply(replySize, SizeT<N+1>());
 	}
 	
-	inline void calculateReply(UWORD& replySize, SizeT<count()>)
+	inline void calculateReply(UWORD& replySize, SizeT<std::tuple_size<AllOpcodes>::value>)
 	{
 	}
 	
