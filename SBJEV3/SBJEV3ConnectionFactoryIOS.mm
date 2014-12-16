@@ -46,8 +46,8 @@ using namespace SBJ::EV3;
 
 - (void) accessoryDidConnect: (NSNotification*) notification
 {
-	EAAccessory* accessory = notification.object;
-	if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
+//	EAAccessory* accessory = notification.object;
+//	if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
 	{
 		_factory->handleChangeInAccessoryConnection();
 	}
@@ -55,8 +55,8 @@ using namespace SBJ::EV3;
 
 - (void) accessoryDidDisconnect: (NSNotification*) notification
 {
-	EAAccessory* accessory = notification.object;
-	if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
+//	EAAccessory* accessory = notification.object;
+//	if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
 	{
 		_factory->handleChangeInAccessoryConnection();
 	}

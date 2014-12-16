@@ -124,8 +124,8 @@
                     <connections>
                         <outlet property="_connectType" destination="a2p-jV-zyY" id="OT2-F6-zau"/>
                         <outlet property="_connected" destination="6VZ-yr-hIr" id="Yzh-ya-Hto"/>
-                        <outlet property="_name" destination="gcA-Z7-Uqp" id="DMZ-7X-GuI"/>
-                        <outlet property="_serial" destination="90g-Z4-r4h" id="dw6-KQ-K2F"/>
+                        <outlet property="_name" destination="UWP-yB-4B5" id="86W-0Z-Izh"/>
+                        <outlet property="_serial" destination="DBr-Xl-T7D" id="3LN-c7-Hkf"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zh6-7E-QuD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -173,7 +173,7 @@
                                             <outlet property="open" destination="gJ9-WY-YTs" id="HPj-s6-tyW"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell tag="1" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="zDJ-7c-pgg" customClass="RailSwitchCell">
+                                    <tableViewCell tag="2" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="zDJ-7c-pgg" customClass="RailSwitchCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zDJ-7c-pgg" id="Gto-aW-bD7">
                                             <autoresizingMask key="autoresizingMask"/>

@@ -15,8 +15,8 @@ using namespace SBJ::EV3;
 {
 	Brick* _brick;
 	IBOutlet UISwitch* _connected;
-	IBOutlet UILabel* _name;
-	IBOutlet UILabel* _serial;
+	IBOutlet UITableViewCell* _name;
+	IBOutlet UITableViewCell* _serial;
 	IBOutlet UIImageView* _connectType;
 }
 
@@ -57,8 +57,8 @@ using namespace SBJ::EV3;
 	if (_brick)
 	{
 		_connected.on = _brick->isConnected();
-		_name.text = [NSString stringWithUTF8String: _brick->identifier().name.c_str()];
-		_serial.text = [NSString stringWithUTF8String: _brick->identifier().serial.c_str()];
+		_name.detailTextLabel.text = [NSString stringWithUTF8String: _brick->identifier().name.c_str()];
+		_serial.detailTextLabel.text = [NSString stringWithUTF8String: _brick->identifier().serial.c_str()];
 		switch (_brick->connectionType())
 		{
 			case Connection::Type::usb:
@@ -81,8 +81,8 @@ using namespace SBJ::EV3;
 	else
 	{
 		_connected.on = false;
-		_name.text = @"N/A";
-		_serial.text = @"N/A";
+		_name.detailTextLabel.text = @"N/A";
+		_serial.detailTextLabel.text = @"N/A";
 		_connectType.image = [UIImage imageNamed: @"None"];
 	}
 }

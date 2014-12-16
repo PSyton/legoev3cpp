@@ -32,30 +32,35 @@ class DirectInstructions
 public:
 	
 	DirectInstructions(unsigned short counter, bool forceReply, Opcodes... opcodes)
-	: _cmd
+	: _header
 	{
-		sizeof(COMCMD) - sizeof(CMDSIZE) + sizeof(DIRCMD) + sizeof(AllOpcodes),
-		counter,
-		static_cast<UBYTE>(forceReply ? DIRECT_COMMAND_REPLY : DIRECT_COMMAND_NO_REPLY)
-	}
-	, _vars
-	{
-		0,
-		0
+		{
+			sizeof(COMCMD) - sizeof(CMDSIZE) + sizeof(DIRCMD) + sizeof(AllOpcodes),
+			counter,
+			static_cast<UBYTE>(forceReply ? DIRECT_COMMAND_REPLY : DIRECT_COMMAND_NO_REPLY)
+		},
+		{
+			0,
+			0
+		}
 	}
 	, _opcodes(ExtendedOpcode<Opcodes>(opcodes)...)
 	{
 		calculateReplies();
+		
+		_data = new uint8_t[size()];
+		::memcpy(_data, &_header, sizeof(Header));
+		::memcpy(_data + sizeof(Header) , &_opcodes, sizeof(AllOpcodes));
 	}
 	
 	size_t size() const
 	{
-		return sizeof(COMCMD) + sizeof(DIRCMD) + sizeof(AllOpcodes);
+		return sizeof(Header) + sizeof(AllOpcodes);
 	}
 	
 	const uint8_t* data() const
 	{
-		return (const uint8_t*)&_cmd;
+		return _data;
 	}
 	
 private:
@@ -90,9 +95,16 @@ private:
 	
 	using AllOpcodes = std::tuple<ExtendedOpcode<Opcodes>...>;
 	
-	COMCMD _cmd; // bytes { {0, 1}, {2, 3}, {4} }
-	DIRCMD _vars; // bytes {5, 6}
 	AllOpcodes _opcodes; // payload
+	
+	struct Header
+	{
+		COMCMD _cmd; // bytes { {0, 1}, {2, 3}, {4} }
+		DIRCMD _vars; // bytes {5, 6}
+	};
+	
+	Header _header;
+	uint8_t* _data;
 	
 #pragma pack(pop)
 	
@@ -128,12 +140,12 @@ private:
 		// We want a reply if the opcode has reserved space
 		if (localSize > 0 || globalSize > 0)
 		{
-			_cmd.Cmd = DIRECT_COMMAND_REPLY;
+			_header._cmd.Cmd = DIRECT_COMMAND_REPLY;
 		}
 		
-		_vars.Globals = (UBYTE)(0x00FF & globalSize);
-		_vars.Locals = (UBYTE)((0xFF00 & globalSize) >> 8);
-		_vars.Locals |= (UBYTE)(localSize << 2);
+		_header._vars.Globals = (UBYTE)(0x00FF & globalSize);
+		_header._vars.Locals = (UBYTE)((0xFF00 & globalSize) >> 8);
+		_header._vars.Locals |= (UBYTE)(localSize << 2);
 	}
 };
 

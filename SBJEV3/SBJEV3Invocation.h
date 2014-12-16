@@ -47,7 +47,7 @@ public:
 	
 	~Invocation()
 	{
-		//delete[] _data; TODO: When commands support variable sizes, invocation takes ownership.
+		delete[] _data;
 	}
 	
 	unsigned short ID() const
