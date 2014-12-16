@@ -13,14 +13,15 @@ using namespace SBJ::EV3;
 
 Brick::Brick(ConnectionFactory& factory, const DeviceIdentifier& identifier)
 : _identifier(identifier)
+, _stack([](const uint8_t* buffer) { return((const COMRPL*)buffer)->MsgCnt; })
 {
 	_token.reset((
 		new ConnectionToken(factory, identifier,
-		  [this](DeviceIdentifier updatedIdentifier, Connection* connection)
+		  [this](DeviceIdentifier updatedIdentifier, std::unique_ptr<Connection>& connection)
 		  {
 			  _identifier = updatedIdentifier;
-			  _stack.connectionChange(connection);
 			  _connectionType = connection ? connection->type() : Connection::Type::none;
+			  _stack.connectionChange(std::move(connection));
 			  if (connectionEvent) connectionEvent(*this);
 		  })));
 }

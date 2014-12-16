@@ -44,18 +44,18 @@ using namespace SBJ::EV3;
 	[mgr unregisterForLocalNotifications];
 }
 
-- (void) accessoryDidConnect: (id) v
+- (void) accessoryDidConnect: (NSNotification*) notification
 {
-	EAAccessory* accessory = v;
+	EAAccessory* accessory = notification.object;
 	if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
 	{
 		_factory->handleChangeInAccessoryConnection();
 	}
 }
 
-- (void) accessoryDidDisconnect: (id) v
+- (void) accessoryDidDisconnect: (NSNotification*) notification
 {
-	EAAccessory* accessory = v;
+	EAAccessory* accessory = notification.object;
 	if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
 	{
 		_factory->handleChangeInAccessoryConnection();
@@ -99,7 +99,7 @@ void ConnectionFactory::promptBluetooth(DeviceIdentifier identifier, PromptBluet
 			handleChangeInAccessoryConnection();
 		}
 		// User pressed cancel
-		if (error.code == 2)
+		else if (error.code == 2)
 		{
 			if (completion) completion(true);
 		}
@@ -116,11 +116,8 @@ void ConnectionFactory::registerNotification(ConnectionToken* token)
 {
 	_tokens.insert(token);
 	DeviceIdentifier identifier = token->identifier();
-	Connection* testConnection(findConnection(identifier));
-	if (token->makeConnection(identifier, testConnection) == false)
-	{
-		delete testConnection;
-	}
+	std::unique_ptr<Connection> testConnection(findConnection(identifier));
+	token->makeConnection(identifier, testConnection);
 }
 
 void ConnectionFactory::unregisterNotification(ConnectionToken* token)
@@ -133,13 +130,10 @@ void ConnectionFactory::handleChangeInAccessoryConnection()
 	for (auto item = _tokens.begin(); item != _tokens.end(); item++)
 	{
 		DeviceIdentifier identifier = (*item)->identifier();
-		Connection* testConnection(findConnection(identifier));
+		__block std::unique_ptr<Connection> testConnection(findConnection(identifier));
 		dispatch_async(dispatch_get_main_queue(), ^
 		{
-			if ((*item)->makeConnection(identifier, testConnection) == false)
-			{
-				delete testConnection;
-			}
+			(*item)->makeConnection(identifier, testConnection);
 		});
 	}
 }
@@ -156,12 +150,11 @@ std::string fetchSerialFromAccessory(EAAccessory* accessory)
 	return accessory.serialNumber.UTF8String;
 }
 
-Connection* ConnectionFactory::findConnection(DeviceIdentifier& identifier)
+std::unique_ptr<Connection> ConnectionFactory::findConnection(DeviceIdentifier& identifier)
 {
 #if (TARGET_IPHONE_SIMULATOR)
-	// Always connect in simulator
 	identifier.name = "Simulated";
-	return new ConnectionIOS(nullptr);
+	return std::unique_ptr<Connection>(new ConnectionIOS(nullptr));
 #else
 	if (identifier.connect == DeviceIdentifier::ConnectMethod::usbOnly)
 	{
@@ -247,7 +240,7 @@ Connection* ConnectionFactory::findConnection(DeviceIdentifier& identifier)
 		EAAccessory* accessory = accessories[foundIt];
 		identifier.name = foundName;
 		identifier.serial = foundSerial;
-		return new ConnectionIOS(accessory);
+		return std::unique_ptr<Connection>(new ConnectionIOS(accessory));
 	}
 	return nullptr;
 #endif

@@ -43,7 +43,7 @@ public:
 private:
 	std::set<ConnectionToken*> _tokens;
 	
-	Connection* findConnection(DeviceIdentifier& identifier);
+	std::unique_ptr<Connection> findConnection(DeviceIdentifier& identifier);
 	
 };
 

@@ -8,6 +8,7 @@
 
 #include "SBJEV3ConnectionToken.h"
 #include "SBJEV3ConnectionFactory.h"
+#include "SBJEV3Connection.h"
 
 
 using namespace SBJ::EV3;
@@ -33,20 +34,19 @@ void ConnectionToken::promptBluetooth(PromptBluetoothCompleted completion)
 	}
 }
 
-bool ConnectionToken::makeConnection(const DeviceIdentifier& updatedIdentifier, Connection* connection)
+void ConnectionToken::makeConnection(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection)
 {
 	if ((connection != nullptr) != (_connected == true))
 	{
 		// keep our identifier the same but pass along the update
 		_connected = connection != nullptr;
 		if (_action) _action(updatedIdentifier, connection);
-		return true;
 	}
-	return false;
 }
 
 void ConnectionToken::disconnect()
 {
 	_connected = false;
-	if (_action) _action(_identifier, nullptr);
+	std::unique_ptr<Connection> connection;
+	if (_action) _action(_identifier, connection);
 }

@@ -27,24 +27,27 @@ class Connection;
 class InvocationStack
 {
 public:
-	InvocationStack();
+	using ReplyKey = std::function<unsigned short(const uint8_t* buffer)>;
+	
+	InvocationStack(ReplyKey replyKey);
 	
 	~InvocationStack();
 		
-	void connectionChange(Connection* connection);
+	void connectionChange(std::unique_ptr<Connection> connection);
 	
 	void invoke(Invocation& invocation);
 	
 	void remove(unsigned short invocation);
 	
 private:
+	ReplyKey _replyKey;
 	std::unique_ptr<Connection> _connection;
 	std::mutex _mutex;
 	std::map<unsigned short, Invocation> _invocations;
 	
 	void connectionReplied(const uint8_t* buffer, size_t len);
 	
-	void pushInvocation(Invocation& invocation);
+	const Invocation& pushInvocation(Invocation& invocation);
 	void replyInvocation(unsigned short messageId, const uint8_t* buffer, size_t len);
 	void errorInvocation(unsigned short messageId);
 	void removeInvocation(unsigned short messageId);

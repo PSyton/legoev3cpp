@@ -8,15 +8,14 @@
 
 #include "SBJEV3InvocationStack.h"
 #include "SBJEV3Connection.h"
-#include "SBJEV3ByteCodes.h"
 #include <iostream>
 
 using namespace SBJ::EV3;
 
 // TODO: implement a different logging technique
 
-InvocationStack::InvocationStack()
-: _connection(nullptr)
+InvocationStack::InvocationStack(ReplyKey replyKey)
+: _replyKey(replyKey)
 {	
 }
 
@@ -26,9 +25,9 @@ InvocationStack::~InvocationStack()
 
 #pragma mark - public thread-safe
 
-void InvocationStack::connectionChange(Connection* connection)
+void InvocationStack::connectionChange(std::unique_ptr<Connection> connection)
 {
-	_connection.reset(connection);
+	_connection = std::move(connection);
 	if (_connection)
 	{
 		_connection->start([this](const uint8_t* buffer, size_t len)
@@ -40,15 +39,14 @@ void InvocationStack::connectionChange(Connection* connection)
 
 void InvocationStack::invoke(Invocation& invocation)
 {
-	const uint8_t* buffer = invocation.data();
-	size_t size = invocation.size();
+	const Invocation* actual = nullptr;
 	{
 		std::unique_lock<std::mutex> lock(_mutex);
-		pushInvocation(invocation);
+		actual = &(pushInvocation(invocation));
 	}
 	if (_connection)
 	{
-		if (_connection->write(buffer, size) == false)
+		if (_connection->write(actual->data(), actual->size()) == false)
 		{
 			remove(invocation.ID());
 		}
@@ -67,8 +65,7 @@ void InvocationStack::remove(unsigned short messageId)
 
 void InvocationStack::connectionReplied(const uint8_t* buffer, size_t len)
 {
-	COMRPL* header = (COMRPL*)buffer;
-	unsigned short invocationKey = header->MsgCnt;
+	unsigned short invocationKey= _replyKey(buffer);
 	{
 		std::unique_lock<std::mutex> lock(_mutex);
 		replyInvocation(invocationKey, buffer, len);
@@ -77,17 +74,11 @@ void InvocationStack::connectionReplied(const uint8_t* buffer, size_t len)
 
 #pragma mark - private
 
-void InvocationStack::pushInvocation(Invocation& invocation)
+const Invocation& InvocationStack::pushInvocation(Invocation& invocation)
 {
-	if (invocation.wantsReply())
-	{
-		_invocations.insert(std::make_pair(invocation.ID(), std::move(invocation)));
-		std::cout << "Sync " << invocation.ID() << std::endl;
-	}
-	else
-	{
-		std::cout << "Call " << invocation.ID() << std::endl;
-	}
+	_invocations.insert(std::make_pair(invocation.ID(), std::move(invocation)));
+	std::cout << "Call " << invocation.ID() << std::endl;
+	return _invocations.find(invocation.ID())->second;
 }
 
 void InvocationStack::replyInvocation(unsigned short messageId, const uint8_t* buffer, size_t len)

@@ -12,6 +12,7 @@
 
 #include <string>
 #include <functional>
+#include <memory>
 
 namespace SBJ
 {
@@ -21,7 +22,7 @@ namespace EV3
 class ConnectionFactory;
 class Connection;
 
-using ConnectionChanged = std::function<void(DeviceIdentifier updatedIdentifier, Connection* connection)>;
+using ConnectionChanged = std::function<void(DeviceIdentifier updatedIdentifier, std::unique_ptr<Connection>& connection)>;
 using PromptBluetoothCompleted = std::function<void(bool canceled)>;
 
 /*
@@ -45,7 +46,7 @@ public:
 		return _connected;
 	}
 	
-	bool makeConnection(const DeviceIdentifier& updatedIdentifier, Connection* connection);
+	void makeConnection(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection);
 	
 	void promptBluetooth(PromptBluetoothCompleted completion = PromptBluetoothCompleted());
 	

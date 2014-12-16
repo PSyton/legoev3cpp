@@ -65,11 +65,6 @@ public:
 		return _data;
 	}
 	
-	bool wantsReply() const
-	{
-		return _reply ? true : false;
-	}
-	
 	bool reply(const uint8_t* buffer, size_t size)
 	{
 		return _reply(buffer, size);
