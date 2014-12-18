@@ -35,7 +35,7 @@ static RailSwitch* _switches[4];
 {
 	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
 	NSData* data = [defaults objectForKey: [NSString stringWithFormat: @"RailSwitch%d", port]];
-	RailSwitch* obj = [NSKeyedUnarchiver unarchiveObjectWithData: data];
+	RailSwitch* obj = data ? [NSKeyedUnarchiver unarchiveObjectWithData: data] : nil;
 	if (obj == nil)
 	{
 		obj = [[RailSwitch alloc] initWithPort: port];

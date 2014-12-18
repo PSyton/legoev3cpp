@@ -18,7 +18,7 @@
 #include <array>
 #include <limits>
 #include <cassert>
-
+#include <string>
 
 namespace SBJ
 {
@@ -63,7 +63,21 @@ struct LocalConstBytes4
 	using Output = std::array<UBYTE, 5>;
 	static Output convert(Input v) { return {LC4(v)}; }
 };
-
+/*
+template <size_t maxLen = 255>
+struct LocalConstStr
+{
+	using Input = std::string;
+	using Output = std::array<UBYTE, maxLen+2>;
+	static Output convert(Input v)
+	{
+		Output output = { LCS };
+		size_t len = std::min(v.length(), maxLen);
+		::memcpy(&output + 1, v.c_str(), len);
+		return output;
+	}
+};
+*/
 template <typename InputType>
 struct GlobalVarBytes0
 {
@@ -215,7 +229,18 @@ typedef ValueStore<LocalConstBytes2<UWORD>> CUShort;
 typedef ValueStore<LocalConstBytes2<SWORD>> CSShort;
 typedef ValueStore<LocalConstBytes4<ULONG>> CULong;
 typedef ValueStore<LocalConstBytes4<SLONG>> CSLong;
+/*
+template <size_t maxLen = 256>
+struct CString : ValueStore<LocalConstStr<maxLen>>
+{
+	using ValueStore<LocalConstStr<maxLen>>::ValueStore;
 	
+	size_t differential() const
+	{
+		return ::strlen(((const char*)this)+ 2);
+	}
+};
+*/
 typedef ValueStore<GlobalVarBytes0<UBYTE>> GUValue;
 typedef ValueStore<GlobalVarBytes0<SBYTE>> GSValue;
 typedef ValueStore<GlobalVarBytes1<UBYTE>> GUByte;

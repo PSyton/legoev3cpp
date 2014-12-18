@@ -9,6 +9,7 @@
 #pragma once
 
 #include "SBJEV3DirectInstructions.h"
+#include "SBJEV3SystemInstruction.h"
 #include "SBJEV3DirectReply.h"
 
 namespace SBJ
@@ -27,15 +28,14 @@ public:
 	using Results = typename DirectReply<Opcodes...>::Results;
 	
 	DirectCommand(unsigned short messageId, float timeout, Opcodes... opcodes)
-	: _messageId(messageId)
-	, _instructions(messageId, timeout > 0.0, opcodes...)
+	: _instructions(messageId, timeout > 0.0, opcodes...)
 	, _reply(timeout)
 	{
 	}
 	
 	Invocation invocation()
 	{
-		return { _messageId, _instructions.data(), _instructions.size(), _reply.replyResponse() };
+		return _instructions.invocation(_reply.replyResponse());
 	}
 	
 	ReplyStatus status() const
@@ -49,11 +49,42 @@ public:
 	}
 	
 private:
-	unsigned short _messageId;
 	DirectInstructions<Opcodes...> _instructions;
 	DirectReply<Opcodes...> _reply;
 };
-
+/*
+template <typename Opcode>
+class SystemCommand
+{
+public:
+	using Results = typename DirectReply<Opcode>::Results;
+	
+	SystemCommand(unsigned short messageId, float timeout, Opcode opcode)
+	: _instructions(messageId, timeout > 0.0, opcode)
+	, _reply(timeout)
+	{
+	}
+	
+	Invocation invocation()
+	{
+		return _instructions.invocation(_reply.replyResponse());
+	}
+	
+	ReplyStatus status() const
+	{
+		return _reply.status();
+	}
+	
+	const Results& wait()
+	{
+		return _reply.wait();
+	}
+	
+private:
+	SystemInstruction<Opcode> _instructions;
+	DirectReply<Opcode> _reply;
+};
+*/
 
 }
 }

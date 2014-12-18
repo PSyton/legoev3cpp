@@ -62,7 +62,26 @@ struct BasicResult
 		output = static_cast<Output>(*input);
 	};
 };
-
+/*
+template <size_t maxLen>
+struct StringResult
+{
+	using Input = const char;
+	using Output = std::string;
+	
+	constexpr static size_t ResultCount = 1;
+	
+	const static size_t allocatedSize(size_t resultIdx)
+	{
+		return maxLen + 1;
+	}
+	
+	static inline void convert(const Input* input, Output& output)
+	{
+		output = input;
+	};
+};
+*/
 // Contiguous results...
 template<typename InputType, size_t Count, typename OutputType = InputType>
 struct ArrayResult

@@ -36,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		552D22F71A41083000F188A2 /* SBJEV3SystemInstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemInstruction.h; sourceTree = "<group>"; };
 		55A7CB741A3E07130028553C /* Jove's Landing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jove's Landing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55A7CB781A3E07130028553C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55A7CB791A3E07130028553C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -97,6 +98,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		552D221A1A407DBC00F188A2 /* Connection Management */ = {
+			isa = PBXGroup;
+			children = (
+				55A7CBCD1A3E10860028553C /* SBJEV3DeviceIdentifier.h */,
+				55A7CBC71A3E10860028553C /* SBJEV3ConnectionFactory.h */,
+				55A7CBC81A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm */,
+				55A7CBCC1A3E10860028553C /* SBJEV3ConnectionToken.h */,
+				55A7CBCB1A3E10860028553C /* SBJEV3ConnectionToken.cpp */,
+				55A7CBC61A3E10860028553C /* SBJEV3Connection.h */,
+				55A7CBC91A3E10860028553C /* SBJEV3ConnectionIOS.h */,
+				55A7CBCA1A3E10860028553C /* SBJEV3ConnectionIOS.mm */,
+			);
+			name = "Connection Management";
+			sourceTree = "<group>";
+		};
 		55A7CB6B1A3E07130028553C = {
 			isa = PBXGroup;
 			children = (
@@ -167,26 +183,20 @@
 			children = (
 				55A7CBC11A3E10860028553C /* re_dump.c */,
 				55A7CBC21A3E10860028553C /* re_dump.h */,
-				55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */,
 				55A7CBC41A3E10860028553C /* SBJEV3Brick.h */,
+				55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */,
+				552D221A1A407DBC00F188A2 /* Connection Management */,
+				55A7CBD11A3E10860028553C /* SBJEV3Enums.h */,
 				55A7CBC51A3E10860028553C /* SBJEV3ByteCodes.h */,
-				55A7CBC61A3E10860028553C /* SBJEV3Connection.h */,
-				55A7CBC71A3E10860028553C /* SBJEV3ConnectionFactory.h */,
-				55A7CBC81A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm */,
-				55A7CBC91A3E10860028553C /* SBJEV3ConnectionIOS.h */,
-				55A7CBCA1A3E10860028553C /* SBJEV3ConnectionIOS.mm */,
-				55A7CBCB1A3E10860028553C /* SBJEV3ConnectionToken.cpp */,
-				55A7CBCC1A3E10860028553C /* SBJEV3ConnectionToken.h */,
-				55A7CBCD1A3E10860028553C /* SBJEV3DeviceIdentifier.h */,
-				55A7CBCE1A3E10860028553C /* SBJEV3DirectCommand.h */,
+				55A7CBD61A3E10860028553C /* SBJEV3Results.h */,
+				55A7CBD51A3E10860028553C /* SBJEV3Opcodes.h */,
+				552D22F71A41083000F188A2 /* SBJEV3SystemInstruction.h */,
 				55A7CBCF1A3E10860028553C /* SBJEV3DirectInstructions.h */,
 				55A7CBD01A3E10860028553C /* SBJEV3DirectReply.h */,
-				55A7CBD11A3E10860028553C /* SBJEV3Enums.h */,
+				55A7CBCE1A3E10860028553C /* SBJEV3DirectCommand.h */,
 				55A7CBD21A3E10860028553C /* SBJEV3Invocation.h */,
-				55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */,
 				55A7CBD41A3E10860028553C /* SBJEV3InvocationStack.h */,
-				55A7CBD51A3E10860028553C /* SBJEV3Opcodes.h */,
-				55A7CBD61A3E10860028553C /* SBJEV3Results.h */,
+				55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */,
 			);
 			name = SBJEV3;
 			path = ../SBJEV3;

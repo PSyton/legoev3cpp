@@ -22,11 +22,38 @@ namespace EV3
  * defined as constant.
  *
  * TODO: support runtime sized opcodes (null terminated string params)
- * TODO: support use of optional LValues for opcode parameters
+ * TODO: support use of optional LValues and GValues for opcode parameters
  */
 	
 #pragma pack(push, 1)
 
+struct VariableLenOpcode
+{
+	size_t size() const { return sizeof(*this); }
+};
+ 
+template <typename Opcode>
+inline size_t opcodeSize(const Opcode& opcode)
+{
+	return sizeof(Opcode);
+}
+ 
+inline size_t opcodeSize(const VariableLenOpcode& opcode)
+{
+	return opcode.size();
+}
+
+#pragma mark - 
+/*
+struct GetBrickName : VariableLenOpcode
+{
+	constexpr static size_t MaxLength = 255;
+	const UBYTE code = opCOM_GET;
+	const CUValue subcode = GET_BRICKNAME;
+	const CUValue length = MaxLength;
+	using Result = StringResult<MaxLength>;
+};
+*/
 #pragma mark - Flow
 
 struct NoOp

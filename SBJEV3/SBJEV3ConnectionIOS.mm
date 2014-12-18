@@ -11,6 +11,8 @@
 #include "SBJEV3ConnectionIOS.h"
 #include "re_dump.h"
 
+#include <thread>
+
 NSString* const LEGOAccessoryProtocol = @"COM.LEGO.MINDSTORMS.EV3";
 
 using namespace SBJ::EV3;
@@ -21,6 +23,11 @@ using namespace SBJ::EV3;
  */
 
 @interface EV3Accessory : NSObject<NSStreamDelegate>
+{
+	std::mutex _mutex;
+	std::condition_variable _isReady;
+	int _openStreams;
+}
 
 - (id) initWithAccessory: (EAAccessory*) accessory;
 - (void) start: (Connection::Read) read;
@@ -108,12 +115,25 @@ bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
 {
 	_read = read;
 #if (TARGET_IPHONE_SIMULATOR)
+	dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^
+	{
+		{
+			std::unique_lock<std::mutex> lock(_mutex);
+			_openStreams=3;
+		}
+		_isReady.notify_one();
+	});
 #else
 	_thread = [[NSThread alloc] initWithTarget: self selector: @selector(createSession) object: nil];
 	_thread.qualityOfService = NSQualityOfServiceUserInteractive;
 	[_thread start];
+	{
+		std::unique_lock<std::mutex> lock(_mutex);
+		_isReady.wait_for(lock, std::chrono::milliseconds(1000), ^{return _openStreams == 3;});
+	}
 #endif
 }
+
 
 - (void) createSession
 {
@@ -186,15 +206,32 @@ bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
 
 - (void)stream:(NSStream*)theStream handleEvent:(NSStreamEvent)streamEvent
 {
+	bool ready = false;
 	switch (streamEvent)
 	{
 		case NSStreamEventHasSpaceAvailable:
+		{
 		// TODO: implement a logging mechanism
 			//NSLog(@"NSStreamEventHasSpaceAvailable %@", theStream.class.description);
+			NSOutputStream* output = [_session outputStream];
+			if (output == theStream)
+			{
+				std::unique_lock<std::mutex> lock(_mutex);
+				_openStreams++;
+				ready = (_openStreams==3);
+			}
 			break;
+		}
 		case NSStreamEventOpenCompleted:
 			//NSLog(@"NSStreamEventOpenCompleted %@", theStream.class.description);
+		{
+			{
+				std::unique_lock<std::mutex> lock(_mutex);
+				_openStreams++;
+				ready = (_openStreams==3);
+			}
 			break;
+		}
 		case NSStreamEventHasBytesAvailable:
 		{
 			//NSLog(@"NSStreamEventHasBytesAvailable %@", theStream.class.description);
@@ -211,6 +248,10 @@ bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
 		case NSStreamEventEndEncountered:
 			//NSLog(@"NSStreamEventEndEncountered %@", theStream.class.description);
 			break;
+	}
+	if (ready)
+	{
+		_isReady.notify_one();
 	}
 }
 

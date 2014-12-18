@@ -57,7 +57,7 @@ using namespace SBJ::EV3;
 	if (_brick)
 	{
 		_connected.on = _brick->isConnected();
-		_name.detailTextLabel.text = [NSString stringWithUTF8String: _brick->identifier().name.c_str()];
+		_name.detailTextLabel.text = [NSString stringWithUTF8String: _brick->name().c_str()];
 		_serial.detailTextLabel.text = [NSString stringWithUTF8String: _brick->identifier().serial.c_str()];
 		switch (_brick->connectionType())
 		{

@@ -45,7 +45,7 @@ public:
 	void promptForBluetooth(PromptBluetoothCompleted completion);
 	
 	void disconnect();
-		
+
 	const DeviceIdentifier& identifier() const
 	{
 		return _identifier;
@@ -61,6 +61,11 @@ public:
 		return _replyStatus;
 	}
 	
+	std::string name()
+	{
+		return _name;
+	}
+
 	template <typename...  Opcodes>
 	typename DirectCommand<Opcodes...>::Results directCommand(float timeout, Opcodes... opcodes)
 	{
@@ -71,9 +76,21 @@ public:
 		_replyStatus = command.status();
 		return command.wait();
 	}
-
+	/*
+	template <typename  Opcode>
+	typename SystemCommand<Opcode>::Results systemCommand(float timeout, Opcode opcode)
+	{
+		SystemCommand<Opcode> command(_messageCounter, timeout, opcode);
+		_messageCounter++;
+		Invocation invocation(std::move(command.invocation()));
+		InvocationScope invocationScope(_stack, invocation);
+		_replyStatus = command.status();
+		return command.wait();
+	}
+	*/
 private:
 	DeviceIdentifier _identifier;
+	std::string _name;
 	InvocationStack _stack;
 	Connection::Type _connectionType = Connection::Type::none;
 	ReplyStatus _replyStatus = ReplyStatus::none;

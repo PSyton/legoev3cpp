@@ -9,58 +9,51 @@
 #pragma once
 
 #include "SBJEV3Opcodes.h"
+#include "SBJEV3Invocation.h"
 
 #include <tuple>
 #include <cassert>
 #include <stdio.h>
+
 namespace SBJ
 {
 namespace EV3
 {
 
 // TODO: support runtime sized opcodes. The previous NXT opcodes were all fixed size.
-// EV3 opcodes use null termitated strings with variable allocated size. This
-// DirectInstructions design assumed fixed allocation sizes for strings.
+// EV3 opcodes use null terminated strings with variable allocated size. This
+// DirectInstructions implementation assumes fixed allocation sizes for strings.
 	
 /*
  * DirectInstructions creates a buffer of a mini-program that can be sent to the EV3.
  */
- 
+
 template <typename... Opcodes>
 class DirectInstructions
 {
 public:
 	
 	DirectInstructions(unsigned short counter, bool forceReply, Opcodes... opcodes)
-	: _header
+	: _data(nullptr)
+	, _cmd
 	{
-		{
-			sizeof(COMCMD) - sizeof(CMDSIZE) + sizeof(DIRCMD) + sizeof(AllOpcodes),
-			counter,
-			static_cast<UBYTE>(forceReply ? DIRECT_COMMAND_REPLY : DIRECT_COMMAND_NO_REPLY)
-		},
-		{
-			0,
-			0
-		}
+		0,
+		counter,
+		static_cast<UBYTE>(forceReply ? DIRECT_COMMAND_REPLY : DIRECT_COMMAND_NO_REPLY)
+	}
+	, _vars
+	{
+		0,
+		0
 	}
 	, _opcodes(ExtendedOpcode<Opcodes>(opcodes)...)
 	{
-		calculateReplies();
-		
-		_data = new uint8_t[size()];
-		::memcpy(_data, &_header, sizeof(Header));
-		::memcpy(_data + sizeof(Header) , &_opcodes, sizeof(AllOpcodes));
+		calculateStructure();
 	}
 	
-	size_t size() const
+	Invocation invocation(Invocation::Reply reply)
 	{
-		return sizeof(Header) + sizeof(AllOpcodes);
-	}
-	
-	const uint8_t* data() const
-	{
-		return _data;
+		return { _cmd.MsgCnt, _data, sizeof(CMDSIZE) + _cmd.CmdSize, reply};
 	}
 	
 private:
@@ -77,7 +70,7 @@ private:
 		}
 		
 		// Tells the EV3 where in the global space to store the resulting values.
-		size_t setPositions(UBYTE startPosition)
+		size_t setReplyPositions(UBYTE startPosition)
 		{
 			size_t replySize = 0;
 			for (size_t i = 0; i < Opcode::Result::ResultCount; i++)
@@ -95,44 +88,41 @@ private:
 	
 	using AllOpcodes = std::tuple<ExtendedOpcode<Opcodes>...>;
 	
+	uint8_t* _data;
+	COMCMD _cmd; // bytes { {0, 1}, {2, 3}, {4} }
+	DIRCMD _vars; // bytes {5, 6}
 	AllOpcodes _opcodes; // payload
 	
-	struct Header
-	{
-		COMCMD _cmd; // bytes { {0, 1}, {2, 3}, {4} }
-		DIRCMD _vars; // bytes {5, 6}
-	};
-	
-	Header _header;
-	uint8_t* _data;
 	
 #pragma pack(pop)
 	
-	inline void calculateReplies()
+	inline void calculateStructure()
 	{
 		UWORD replySize = 0;
-		calculateReply(replySize, SizeT<0>());
-		setVariables(replySize, 0);
+		size_t opcodeSize = calculateStructure(replySize, SizeT<0>());
+		setVariables(opcodeSize, replySize, 0);
 	}
 	
 	template <size_t N>
-	inline void calculateReply(UWORD& replySize, SizeT<N>)
+	inline size_t calculateStructure(UWORD& replySize, SizeT<N>)
 	{
 		// Set the global space positions for this reply
 		// And increment the global space size
 		auto& opcode = std::get<N>(_opcodes);
-		replySize += opcode.setPositions(replySize);
-		calculateReply(replySize, SizeT<N+1>());
+		replySize += opcode.setReplyPositions(replySize);
+		size_t accumeOpcodeSize = opcodeSize(opcode);
+		return accumeOpcodeSize + calculateStructure(replySize, SizeT<N+1>());
 	}
 	
-	inline void calculateReply(UWORD& replySize, SizeT<std::tuple_size<AllOpcodes>::value>)
+	inline size_t calculateStructure(UWORD& replySize, SizeT<std::tuple_size<AllOpcodes>::value>)
 	{
+		return 0;
 	}
 	
 	// The documentation states that direct command replies are always stored in the global space.
 	// The reply buffer is a snapshot of the global space.
 	// TODO: determine how LValues are used.
-	inline void setVariables(UWORD globalSize, UWORD localSize)
+	inline void setVariables(size_t opcodeSize, UWORD globalSize, UWORD localSize)
 	{
 		assert(globalSize <= MAX_COMMAND_GLOBALS);
 		assert(localSize <= MAX_COMMAND_LOCALS);
@@ -140,12 +130,37 @@ private:
 		// We want a reply if the opcode has reserved space
 		if (localSize > 0 || globalSize > 0)
 		{
-			_header._cmd.Cmd = DIRECT_COMMAND_REPLY;
+			_cmd.Cmd = DIRECT_COMMAND_REPLY;
 		}
 		
-		_header._vars.Globals = (UBYTE)(0x00FF & globalSize);
-		_header._vars.Locals = (UBYTE)((0xFF00 & globalSize) >> 8);
-		_header._vars.Locals |= (UBYTE)(localSize << 2);
+		_cmd.CmdSize = sizeof(COMCMD) - sizeof(CMDSIZE) + sizeof(DIRCMD) + opcodeSize;
+		_vars.Globals = (UBYTE)(0x00FF & globalSize);
+		_vars.Locals = (UBYTE)((0xFF00 & globalSize) >> 8);
+		_vars.Locals |= (UBYTE)(localSize << 2);
+		
+		_data = new uint8_t[sizeof(CMDSIZE) + _cmd.CmdSize];
+		if (opcodeSize == sizeof(AllOpcodes))
+		{
+			::memcpy(_data, &_cmd, sizeof(CMDSIZE) + _cmd.CmdSize);
+		}
+		else
+		{
+			::memcpy(_data, &_cmd, sizeof(COMCMD) + sizeof(DIRCMD));
+			copyOpcode(_data + sizeof(COMCMD) + sizeof(DIRCMD), SizeT<0>());
+		}
+	}
+	
+	template <size_t N>
+	inline void copyOpcode(uint8_t*_data, SizeT<N>)
+	{
+		auto& opcode = std::get<N>(_opcodes);
+		size_t accumeOpcodeSize = opcodeSize(opcode);
+		::memcpy(_data, &opcode, accumeOpcodeSize);
+		copyOpcode(_data + accumeOpcodeSize, SizeT<N+1>());
+	}
+	
+	inline void copyOpcode(uint8_t*_data, SizeT<std::tuple_size<AllOpcodes>::value>)
+	{
 	}
 };
 
