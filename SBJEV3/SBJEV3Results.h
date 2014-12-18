@@ -62,7 +62,7 @@ struct BasicResult
 		output = static_cast<Output>(*input);
 	};
 };
-/*
+
 template <size_t maxLen>
 struct StringResult
 {
@@ -81,7 +81,7 @@ struct StringResult
 		output = input;
 	};
 };
-*/
+
 // Contiguous results...
 template<typename InputType, size_t Count, typename OutputType = InputType>
 struct ArrayResult

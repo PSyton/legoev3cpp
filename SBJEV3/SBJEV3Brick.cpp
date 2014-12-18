@@ -22,7 +22,7 @@ Brick::Brick(ConnectionFactory& factory, const DeviceIdentifier& identifier)
 			  _identifier = updatedIdentifier;
 			  _connectionType = connection ? connection->type() : Connection::Type::none;
 			  _stack.connectionChange(std::move(connection));
-			  //_name = std::get<0>(directCommand(5.0, GetBrickName()));
+			  _name = std::get<0>(directCommand(5.0, GetBrickName()));
 			  if (connectionEvent) connectionEvent(*this);
 		  })));
 }

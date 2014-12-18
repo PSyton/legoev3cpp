@@ -44,16 +44,16 @@ inline size_t opcodeSize(const VariableLenOpcode& opcode)
 }
 
 #pragma mark - 
-/*
-struct GetBrickName : VariableLenOpcode
+
+struct GetBrickName
 {
-	constexpr static size_t MaxLength = 255;
+	constexpr static size_t MaxLength = vmNAMESIZE-1;
 	const UBYTE code = opCOM_GET;
 	const CUValue subcode = GET_BRICKNAME;
 	const CUValue length = MaxLength;
 	using Result = StringResult<MaxLength>;
 };
-*/
+
 #pragma mark - Flow
 
 struct NoOp
