@@ -20,10 +20,6 @@ namespace SBJ
 namespace EV3
 {
 
-// TODO: support runtime sized opcodes. The previous NXT opcodes were all fixed size.
-// EV3 opcodes use null terminated strings with variable allocated size. This
-// DirectInstructions implementation assumes fixed allocation sizes for strings.
-	
 /*
  * DirectInstructions creates a buffer of a mini-program that can be sent to the EV3.
  */

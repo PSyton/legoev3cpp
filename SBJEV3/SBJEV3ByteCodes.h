@@ -201,7 +201,6 @@ struct OutputToInput
  * opcode parameter.
  * TODO: I believe the coversion type selection between LValue and CValue
  *    will have to a be a compile-time option once I figure out how local values work.
- * TODO: Support string values (run-time detemined size)
  */
 	
 #pragma pack(push, 1)
@@ -233,15 +232,16 @@ typedef ValueStore<LocalConstBytes2<SWORD>> CSShort;
 typedef ValueStore<LocalConstBytes4<ULONG>> CULong;
 typedef ValueStore<LocalConstBytes4<SLONG>> CSLong;
 
-// TODO: run-time assertion on minLength
-template <size_t maxLen = 256>
+template <size_t maxLen = 256, size_t minLen = 0>
 struct CString : ValueStore<LocalConstStr<maxLen>>
 {
 	using ValueStore<LocalConstStr<maxLen>>::ValueStore;
 	
 	size_t differential() const
 	{
-		return maxLen - ::strlen((const char*)this) + 1;
+		size_t len = ::strlen((const char*)this);
+		assert(len >= minLen);
+		return maxLen - len + 1;
 	}
 };
 

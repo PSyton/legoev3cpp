@@ -21,7 +21,6 @@ namespace EV3
  * A result type is defined. Any value that must be constant for the opcode to function is
  * defined as constant.
  *
- * TODO: support runtime sized opcodes (null terminated string params)
  * TODO: support use of optional LValues and GValues for opcode parameters
  */
 	
