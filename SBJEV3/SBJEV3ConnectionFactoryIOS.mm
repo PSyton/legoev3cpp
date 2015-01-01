@@ -80,7 +80,7 @@ ConnectionFactory::~ConnectionFactory()
 	_notificationReceiver = nil;
 }
 
-void ConnectionFactory::promptBluetooth(DeviceIdentifier identifier, PromptBluetoothCompleted completion)
+void ConnectionFactory::promptBluetooth(DeviceIdentifier identifier, PromptBluetoothErrored errored)
 {
 #if (TARGET_IPHONE_SIMULATOR)
 	// always connect in simulator
@@ -92,21 +92,24 @@ void ConnectionFactory::promptBluetooth(DeviceIdentifier identifier, PromptBluet
 	EAAccessoryManager* mgr = [EAAccessoryManager sharedAccessoryManager];
 	[mgr showBluetoothAccessoryPickerWithNameFilter: nil completion:^(NSError *error)
 	{
-		// Device already connected but reselected
-		if (error && error.code == 0)
+		// EABluetoothAccessoryPickerErrorDomain
+		if (error)
 		{
-			// Rebroadcast connection event
-			handleChangeInAccessoryConnection();
-		}
-		// User pressed cancel
-		else if (error.code == 2)
-		{
-			if (completion) completion(true);
-		}
-		else
-		{
-			// TODO: expose error
-			if (completion) completion(true);
+			switch (error.code)
+			{
+				case EABluetoothAccessoryPickerAlreadyConnected:
+					handleChangeInAccessoryConnection();
+					break;
+				case EABluetoothAccessoryPickerResultCancelled:
+					if (errored) errored(PromptBluetoothError::canceled);
+					break;
+				case EABluetoothAccessoryPickerResultNotFound:
+					if (errored) errored(PromptBluetoothError::noBluetooth);
+					break;
+				case EABluetoothAccessoryPickerResultFailed:
+					if (errored) errored(PromptBluetoothError::failureToConnect);
+					break;
+			}
 		}
 	}];
 #endif

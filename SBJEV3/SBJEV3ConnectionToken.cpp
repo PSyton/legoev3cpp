@@ -26,11 +26,11 @@ ConnectionToken::~ConnectionToken()
 	_factory.unregisterNotification(this);
 }
 
-void ConnectionToken::promptBluetooth(PromptBluetoothCompleted completion)
+void ConnectionToken::promptBluetooth(PromptBluetoothErrored errored)
 {
 	if (_connected == false)
 	{
-		_factory.promptBluetooth(_identifier, completion);
+		_factory.promptBluetooth(_identifier, errored);
 	}
 }
 

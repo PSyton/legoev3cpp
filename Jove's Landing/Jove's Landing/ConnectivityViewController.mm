@@ -46,9 +46,9 @@ using namespace SBJ::EV3;
 {
 	if (_connected.isOn)
 	{
-		_brick->promptForBluetooth(^(Brick& brick, bool canceled)
+		_brick->promptForBluetooth(^(Brick& brick, PromptBluetoothError error)
 		{
-			if (canceled) [self updateUI];
+			[self updateUI];
 		});
 	}
 	else

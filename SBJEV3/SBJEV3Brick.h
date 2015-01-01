@@ -22,6 +22,7 @@ namespace EV3
 
 class ConnectionFactory;
 class ConnectionToken;
+enum class PromptBluetoothError : int;
 	
 /*
  * The brick is the high-level object that represents an EV3.
@@ -32,7 +33,7 @@ class Brick
 {
 public:
 	using ConnectionChanged = std::function<void(Brick& brick)>;
-	using PromptBluetoothCompleted =  std::function<void(Brick& brick, bool canceled)>;
+	using PromptBluetoothErrored =  std::function<void(Brick& brick, PromptBluetoothError error)>;
 
 	Brick(ConnectionFactory& factory, const DeviceIdentifier& identifier = DeviceIdentifier());
 	
@@ -42,7 +43,7 @@ public:
 	
 	bool isConnected() const;
 	
-	void promptForBluetooth(PromptBluetoothCompleted completion);
+	void promptForBluetooth(PromptBluetoothErrored errored);
 	
 	void disconnect();
 

@@ -32,7 +32,7 @@ public:
 	
 	~ConnectionFactory();
 	
-	void promptBluetooth(DeviceIdentifier identifier = DeviceIdentifier(), PromptBluetoothCompleted completion = PromptBluetoothCompleted());
+	void promptBluetooth(DeviceIdentifier identifier = DeviceIdentifier(), PromptBluetoothErrored errored = PromptBluetoothErrored());
 		
 	void registerNotification(ConnectionToken* token);
 	

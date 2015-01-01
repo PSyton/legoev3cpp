@@ -40,11 +40,11 @@ bool Brick::isConnected() const
 	return _token->isConnected();
 }
 
-void Brick::promptForBluetooth(PromptBluetoothCompleted completion)
+void Brick::promptForBluetooth(PromptBluetoothErrored errored)
 {
-	_token->promptBluetooth([this, completion](bool canceled)
+	_token->promptBluetooth([this, errored](PromptBluetoothError error)
 	{
-		if (completion) completion(*this, canceled);
+		if (errored) errored(*this, error);
 	});
 }
 

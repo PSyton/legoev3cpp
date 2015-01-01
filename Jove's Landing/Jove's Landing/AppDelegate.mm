@@ -53,9 +53,9 @@ using namespace SBJ::EV3;
 
 - (void) reactivate
 {
-	_brick->promptForBluetooth(^(Brick& brick, bool canceled)
+	_brick->promptForBluetooth(^(Brick& brick, PromptBluetoothError error)
 	{
-		if (canceled) [self updateUI];
+		[self updateUI];
 	});
 }
 
