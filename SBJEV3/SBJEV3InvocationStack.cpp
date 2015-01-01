@@ -25,7 +25,7 @@ InvocationStack::~InvocationStack()
 
 #pragma mark - public thread-safe
 
-void InvocationStack::connectionChange(std::unique_ptr<Connection> connection)
+void InvocationStack::connectionChange(std::unique_ptr<Connection>& connection)
 {
 	_connection = std::move(connection);
 	if (_connection)

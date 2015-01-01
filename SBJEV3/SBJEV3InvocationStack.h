@@ -33,7 +33,7 @@ public:
 	
 	~InvocationStack();
 		
-	void connectionChange(std::unique_ptr<Connection> connection);
+	void connectionChange(std::unique_ptr<Connection>& connection);
 	
 	void invoke(Invocation& invocation);
 	

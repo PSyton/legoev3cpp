@@ -28,6 +28,11 @@ using namespace SBJ::EV3;
 {
 	[super viewDidLoad];
 	self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+	
+	UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(renameBrick:)];
+	tap.numberOfTapsRequired = 2;
+	[_name addGestureRecognizer: tap];
+	
 	[self updateUI];
 }
 
@@ -52,12 +57,29 @@ using namespace SBJ::EV3;
 	}
 }
 
+- (void) renameBrick: (UITapGestureRecognizer*) recognizer
+{
+	UIAlertController* alert = [UIAlertController alertControllerWithTitle: @"Name" message: @"Up to 31 Characters" preferredStyle: UIAlertControllerStyleAlert];
+	[alert addAction: [UIAlertAction actionWithTitle: @"OK" style: UIAlertActionStyleDefault handler: ^(UIAlertAction *action)
+	{
+		_brick->setName([[alert.textFields[0] text] UTF8String]);
+		[self updateUI];
+	}]];
+	[alert addAction: [UIAlertAction actionWithTitle: @"Cancel" style: UIAlertActionStyleCancel handler: nil]];
+	[alert addTextFieldWithConfigurationHandler:^(UITextField *textField)
+	{
+		textField.placeholder = [NSString stringWithUTF8String: _brick->name().c_str()];
+	}];
+    [self presentViewController: alert animated: YES completion: nil];
+}
+
 - (void) updateUI
 {
 	if (_brick)
 	{
 		_connected.on = _brick->isConnected();
-		_name.detailTextLabel.text = [NSString stringWithUTF8String: _brick->name().c_str()];
+		// Seriously Apple? Setting the text to empty string makes future setting invalid!
+		_name.detailTextLabel.text = [NSString stringWithUTF8String: (_brick->name() + " ").c_str()];
 		_serial.detailTextLabel.text = [NSString stringWithUTF8String: _brick->identifier().serial.c_str()];
 		switch (_brick->connectionType())
 		{

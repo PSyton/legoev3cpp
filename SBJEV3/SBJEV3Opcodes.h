@@ -31,17 +31,6 @@ struct VariableLenOpcode
 {
 	size_t size() const { return sizeof(*this); }
 };
- 
-template <typename Opcode>
-inline size_t opcodeSize(const Opcode& opcode)
-{
-	return sizeof(Opcode);
-}
- 
-inline size_t opcodeSize(const VariableLenOpcode& opcode)
-{
-	return opcode.size();
-}
 
 #pragma mark - 
 
@@ -52,6 +41,16 @@ struct GetBrickName
 	const CUValue subcode = GET_BRICKNAME;
 	const CUValue length = MaxLength;
 	using Result = StringResult<MaxLength>;
+};
+
+struct SetBrickName : public VariableLenOpcode
+{
+	size_t size() const { return sizeof(*this) - name.differential(); }
+	constexpr static size_t MaxLength = vmNAMESIZE-1;
+	const UBYTE code = opCOM_SET;
+	const CUValue subcode = SET_BRICKNAME;
+	CString<MaxLength> name;
+	using Result = VoidResult;
 };
 
 #pragma mark - Flow

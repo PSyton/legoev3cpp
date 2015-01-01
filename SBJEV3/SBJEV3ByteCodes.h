@@ -63,8 +63,8 @@ struct LocalConstBytes4
 	using Output = std::array<UBYTE, 5>;
 	static Output convert(Input v) { return {LC4(v)}; }
 };
-/*
-template <size_t maxLen = 255>
+
+template <size_t maxLen>
 struct LocalConstStr
 {
 	using Input = std::string;
@@ -73,11 +73,14 @@ struct LocalConstStr
 	{
 		Output output = { LCS };
 		size_t len = std::min(v.length(), maxLen);
-		::memcpy(&output + 1, v.c_str(), len);
+		for (int i = 0; i <= len; i++)
+		{
+			output[i+1] = v[i];
+		}
 		return output;
 	}
 };
-*/
+
 template <typename InputType>
 struct GlobalVarBytes0
 {
@@ -229,7 +232,8 @@ typedef ValueStore<LocalConstBytes2<UWORD>> CUShort;
 typedef ValueStore<LocalConstBytes2<SWORD>> CSShort;
 typedef ValueStore<LocalConstBytes4<ULONG>> CULong;
 typedef ValueStore<LocalConstBytes4<SLONG>> CSLong;
-/*
+
+// TODO: run-time assertion on minLength
 template <size_t maxLen = 256>
 struct CString : ValueStore<LocalConstStr<maxLen>>
 {
@@ -237,10 +241,10 @@ struct CString : ValueStore<LocalConstStr<maxLen>>
 	
 	size_t differential() const
 	{
-		return ::strlen(((const char*)this)+ 2);
+		return maxLen - ::strlen((const char*)this) + 1;
 	}
 };
-*/
+
 typedef ValueStore<GlobalVarBytes0<UBYTE>> GUValue;
 typedef ValueStore<GlobalVarBytes0<SBYTE>> GSValue;
 typedef ValueStore<GlobalVarBytes1<UBYTE>> GUByte;

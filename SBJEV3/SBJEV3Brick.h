@@ -65,10 +65,13 @@ public:
 	{
 		return _name;
 	}
+	
+	void setName(const std::string& name);
 
 	template <typename...  Opcodes>
 	typename DirectCommand<Opcodes...>::Results directCommand(float timeout, Opcodes... opcodes)
 	{
+		_replyStatus = ReplyStatus::none;
 		DirectCommand<Opcodes...> command(_messageCounter, timeout, opcodes...);
 		_messageCounter++;
 		Invocation invocation(std::move(command.invocation()));
@@ -80,6 +83,7 @@ public:
 	template <typename  Opcode>
 	typename SystemCommand<Opcode>::Results systemCommand(float timeout, Opcode opcode)
 	{
+		_replyStatus = ReplyStatus::none;
 		SystemCommand<Opcode> command(_messageCounter, timeout, opcode);
 		_messageCounter++;
 		Invocation invocation(std::move(command.invocation()));
@@ -96,6 +100,8 @@ private:
 	ReplyStatus _replyStatus = ReplyStatus::none;
 	std::unique_ptr<ConnectionToken> _token;
 	unsigned short _messageCounter = 0;
+	
+	void handleConnectionChange(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection);
 };
 	
 }

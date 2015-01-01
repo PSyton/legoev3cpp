@@ -19,16 +19,20 @@ Brick::Brick(ConnectionFactory& factory, const DeviceIdentifier& identifier)
 		new ConnectionToken(factory, identifier,
 		  [this](DeviceIdentifier updatedIdentifier, std::unique_ptr<Connection>& connection)
 		  {
-			  _identifier = updatedIdentifier;
-			  _connectionType = connection ? connection->type() : Connection::Type::none;
-			  _stack.connectionChange(std::move(connection));
-			  _name = std::get<0>(directCommand(5.0, GetBrickName()));
-			  if (connectionEvent) connectionEvent(*this);
+			  handleConnectionChange(updatedIdentifier, connection);
 		  })));
 }
 
 Brick::~Brick()
 {
+}
+
+void Brick::setName(const std::string& name)
+{
+	SetBrickName set;
+	set.name = name;
+	directCommand(5.0, set);
+	_name = name;
 }
 
 bool Brick::isConnected() const
@@ -47,4 +51,13 @@ void Brick::promptForBluetooth(PromptBluetoothCompleted completion)
 void Brick::disconnect()
 {
 	_token->disconnect();
+}
+
+void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection)
+{
+	_identifier = updatedIdentifier;
+	_connectionType = connection ? connection->type() : Connection::Type::none;
+	_stack.connectionChange(connection);
+	_name = std::get<0>(directCommand(5.0, GetBrickName()));
+	if (connectionEvent) connectionEvent(*this);
 }

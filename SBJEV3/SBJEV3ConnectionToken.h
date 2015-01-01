@@ -22,7 +22,7 @@ namespace EV3
 class ConnectionFactory;
 class Connection;
 
-using ConnectionChanged = std::function<void(DeviceIdentifier updatedIdentifier, std::unique_ptr<Connection>& connection)>;
+using ConnectionChanged = std::function<void(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection)>;
 using PromptBluetoothCompleted = std::function<void(bool canceled)>;
 
 /*

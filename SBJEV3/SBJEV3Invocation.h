@@ -15,6 +15,12 @@ namespace SBJ
 namespace EV3
 {
 
+template <typename T>
+using Deleter = std::function<void(T*)>;
+
+template <typename T>
+using custodian_ptr = std::unique_ptr<T, Deleter<T>>;
+
 /*
  * Invocation wraps the inputs, outputs, and message identifier into a single structure
  */
@@ -26,11 +32,11 @@ public:
 	
 	Invocation(
 		unsigned short messageId,
-		const uint8_t* adoptData,
+		custodian_ptr<uint8_t>& data,
 		size_t size,
 		Reply reply)
 	: _messageId(messageId)
-	, _data(adoptData)
+	, _data(std::move(data))
 	, _size(size)
 	, _reply(reply)
 	{
@@ -38,7 +44,7 @@ public:
 	
 	Invocation(Invocation&& rhs)
 	: _messageId(rhs._messageId)
-	, _data(rhs._data)
+	, _data(std::move(rhs._data))
 	, _size(rhs._size)
 	, _reply(rhs._reply)
 	{
@@ -47,7 +53,6 @@ public:
 	
 	~Invocation()
 	{
-		delete[] _data;
 	}
 	
 	unsigned short ID() const
@@ -62,7 +67,7 @@ public:
 	
 	const uint8_t* data() const
 	{
-		return _data;
+		return _data.get();
 	}
 	
 	bool reply(const uint8_t* buffer, size_t size)
@@ -72,7 +77,7 @@ public:
 	
 private:
 	unsigned short _messageId;
-	const uint8_t* _data;
+	custodian_ptr<uint8_t> _data;
 	size_t _size;
 	Reply _reply;
 };
