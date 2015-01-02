@@ -8,14 +8,13 @@
 
 #include "SBJEV3InvocationStack.h"
 #include "SBJEV3Connection.h"
-#include <iostream>
+#include "SBJEV3Log.h"
 
 using namespace SBJ::EV3;
 
-// TODO: implement a different logging technique
-
-InvocationStack::InvocationStack(ReplyKey replyKey)
-: _replyKey(replyKey)
+InvocationStack::InvocationStack(Log& log, ReplyKey replyKey)
+: _log(log)
+, _replyKey(replyKey)
 {	
 }
 
@@ -77,7 +76,7 @@ void InvocationStack::connectionReplied(const uint8_t* buffer, size_t len)
 const Invocation& InvocationStack::pushInvocation(Invocation& invocation)
 {
 	_invocations.insert(std::make_pair(invocation.ID(), std::move(invocation)));
-	std::cout << "Call " << invocation.ID() << std::endl;
+	_log << "Call " << invocation.ID() << std::endl;
 	return _invocations.find(invocation.ID())->second;
 }
 
@@ -87,11 +86,11 @@ void InvocationStack::replyInvocation(unsigned short messageId, const uint8_t* b
 	if (i != _invocations.end())
 	{
 		bool complete = i->second.reply(buffer, len);
-		std::cout << "Reply " << messageId << std::endl;
+		_log << "Reply " << messageId << std::endl;
 		if (complete)
 		{
 			_invocations.erase(i);
-			std::cout << "Complete " << messageId << std::endl;
+			_log << "Complete " << messageId << std::endl;
 		}
 	}
 	else
@@ -107,11 +106,11 @@ void InvocationStack::errorInvocation(unsigned short messageId)
 	{
 		i->second.reply(nullptr, 0);
 		_invocations.erase(i);
-		std::cout << "Error " << messageId << std::endl;
+		_log << "Error " << messageId << std::endl;
 	}
 	else
 	{
-		std::cout << "Unknown " << messageId << std::endl;
+		_log << "Unknown " << messageId << std::endl;
 	}
 }
 
@@ -122,6 +121,6 @@ void InvocationStack::removeInvocation(unsigned short messageId)
 	{
 		i->second.reply(nullptr, 0);
 		_invocations.erase(i);
-		std::cout << "Removed " << messageId << std::endl;
+		_log << "Removed " << messageId << std::endl;
 	}
 }

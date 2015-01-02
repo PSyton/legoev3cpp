@@ -12,8 +12,9 @@
 using namespace SBJ::EV3;
 
 Brick::Brick(ConnectionFactory& factory, const DeviceIdentifier& identifier)
-: _identifier(identifier)
-, _stack([](const uint8_t* buffer) { return((const COMRPL*)buffer)->MsgCnt; })
+: _log(factory.log())
+, _identifier(identifier)
+, _stack(_log, [](const uint8_t* buffer) { return((const COMRPL*)buffer)->MsgCnt; })
 {
 	_token.reset((
 		new ConnectionToken(factory, identifier,

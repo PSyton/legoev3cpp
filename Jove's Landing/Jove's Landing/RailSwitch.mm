@@ -8,6 +8,7 @@
 
 #import "RailSwitch.h"
 #include "SBJEV3Opcodes.h"
+#include "SBJEV3Log.h"
 #include <cmath>
 
 using namespace SBJ::EV3;
@@ -122,7 +123,7 @@ static RailSwitch* _switches[4];
 	_open = !_open;
 	
 	auto results = _brick->directCommand(1.0, read, motor, start);
-	NSLog(@"%d", std::get<0>(results)[0]);
+	_brick->log() << "Sensor: " << std::get<0>(results)[0] << std::endl;
 	
 	[self save];
 }

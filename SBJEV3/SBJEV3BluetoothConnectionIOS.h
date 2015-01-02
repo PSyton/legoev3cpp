@@ -1,5 +1,5 @@
 //
-//  SBJEV3ConnectionIOS.h
+//  SBJEV3BluetoothConnectionIOS.h
 //  LEGO Control
 //
 //  Created by David Giovannini on 12/1/14.
@@ -19,16 +19,18 @@ namespace SBJ
 namespace EV3
 {
 
+class Log;
+
 /*
  * This is the iOS specicific connection class
  */
 
-class ConnectionIOS : public Connection
+class BluetoothConnectionIOS : public Connection
 {
 public:
-	ConnectionIOS(EAAccessory* accessory);
+	BluetoothConnectionIOS(Log& log, EAAccessory* accessory);
 	
-	virtual ~ConnectionIOS();
+	virtual ~BluetoothConnectionIOS();
 	
 	virtual Type type() const;
 	

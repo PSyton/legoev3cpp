@@ -8,8 +8,8 @@
 
 #import <ExternalAccessory/ExternalAccessory.h>
 
-#include "SBJEV3ConnectionIOS.h"
-#include "re_dump.h"
+#include "SBJEV3BluetoothConnectionIOS.h"
+#include "SBJEV3Log.h"
 
 #include <thread>
 
@@ -19,7 +19,7 @@ using namespace SBJ::EV3;
 
 /*
  * Only an objective c class can be a NSStreamDelegate to handle replies
- * The ConnectionIOS acts as a smart pointer to the EV3Accessory
+ * The BluetoothConnectionIOS acts as a smart pointer to the EV3Accessory
  */
 
 @interface EV3Accessory : NSObject<NSStreamDelegate>
@@ -29,26 +29,26 @@ using namespace SBJ::EV3;
 	int _openStreams;
 }
 
-- (id) initWithAccessory: (EAAccessory*) accessory;
+- (id) init: (Log&) log withAccessory: (EAAccessory*) accessory;
 - (void) start: (Connection::Read) read;
 - (bool) write: (const uint8_t*) buffer len: (size_t) len;
 - (void) close;
 
 @end
 
-ConnectionIOS::ConnectionIOS(EAAccessory* accessory)
-: _delegate ([[EV3Accessory alloc] initWithAccessory: accessory])
+BluetoothConnectionIOS::BluetoothConnectionIOS(Log& log, EAAccessory* accessory)
+: _delegate ([[EV3Accessory alloc] init: log withAccessory: accessory])
 {
 }
 
-ConnectionIOS::~ConnectionIOS()
+BluetoothConnectionIOS::~BluetoothConnectionIOS()
 {
 	// Sessions use strong reference delegates - must break circular reference
 	[_delegate close];
 	_delegate = nil;
 }
 
-Connection::Type ConnectionIOS::type() const
+Connection::Type BluetoothConnectionIOS::type() const
 {
 #if (TARGET_IPHONE_SIMULATOR)
 	return Connection::Type::simulator;
@@ -58,12 +58,12 @@ Connection::Type ConnectionIOS::type() const
 }
 
 
-void ConnectionIOS::start(Read read)
+void BluetoothConnectionIOS::start(Read read)
 {
 	[_delegate start: read];
 }
 
-bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
+bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 {
 	return [_delegate write: buffer len: len];
 }
@@ -83,12 +83,14 @@ bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
 	NSRunLoop* _runLoop;
 	NSThread* _thread;
 	Connection::Read _read;
+	Log* _log;
 }
 
-- (id) initWithAccessory: (EAAccessory*) accessory
+- (id) init: (Log&) log withAccessory: (EAAccessory*) accessory;
 {
 	self = [super init];
 	_accessory = accessory;
+	_log = &log;
 	return self;
 }
 
@@ -132,6 +134,7 @@ bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
 		_isReady.wait_for(lock, std::chrono::milliseconds(1000), ^{return _openStreams == 3;});
 	}
 #endif
+	*_log << @"BT Ready" << std::endl;
 }
 
 
@@ -167,7 +170,7 @@ bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
 - (bool) write: (const uint8_t*) buffer len: (size_t) len
 {
 #if (TARGET_IPHONE_SIMULATOR)
-	log_dump(buffer, (int)len, 16);
+	_log->hexDump(buffer, (int)len, 16);
 	return false;
 //	dispatch_async(dispatch_get_global_queue(long identifier, unsigned long flags), ^
 //	{
@@ -211,8 +214,7 @@ bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
 	{
 		case NSStreamEventHasSpaceAvailable:
 		{
-		// TODO: implement a logging mechanism
-			//NSLog(@"NSStreamEventHasSpaceAvailable %@", theStream.class.description);
+			*_log << "BT Space " << theStream.class.description << std::endl;
 			NSOutputStream* output = [_session outputStream];
 			if (output == theStream)
 			{
@@ -223,8 +225,8 @@ bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
 			break;
 		}
 		case NSStreamEventOpenCompleted:
-			//NSLog(@"NSStreamEventOpenCompleted %@", theStream.class.description);
 		{
+			*_log << "BT Open " << theStream.class.description << std::endl;
 			{
 				std::unique_lock<std::mutex> lock(_mutex);
 				_openStreams++;
@@ -234,7 +236,7 @@ bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
 		}
 		case NSStreamEventHasBytesAvailable:
 		{
-			//NSLog(@"NSStreamEventHasBytesAvailable %@", theStream.class.description);
+			*_log << "BT Bytes " << theStream.class.description << std::endl;
 			NSInputStream* input = [_session inputStream];
 			if (input == theStream)
 			{
@@ -243,10 +245,10 @@ bool ConnectionIOS::write(const uint8_t* buffer, size_t len)
 			break;
 		}
 		case NSStreamEventErrorOccurred:
-			//NSLog(@"NSStreamEventErrorOccurred %@", theStream.class.description);
+			*_log << "BT Error " << theStream.class.description << std::endl;
 			break;
 		case NSStreamEventEndEncountered:
-			//NSLog(@"NSStreamEventEndEncountered %@", theStream.class.description);
+			*_log << "BT End " << theStream.class.description << std::endl;
 			break;
 	}
 	if (ready)

@@ -16,6 +16,8 @@ namespace SBJ
 namespace EV3
 {
 
+class Log;
+
 /*
  * ConnectionFactory creates connection events per device identifier registration when a device is connected (BT paired as well)
  * and ready for use. If the disconnect can be detected on the native platform, those events are broadcasted as well.
@@ -28,9 +30,14 @@ class ConnectionFactory
 {
 public:
 
-	ConnectionFactory();
+	ConnectionFactory(Log& log);
 	
 	~ConnectionFactory();
+	
+	Log& log()
+	{
+		return _log;
+	}
 	
 	void promptBluetooth(DeviceIdentifier identifier = DeviceIdentifier(), PromptBluetoothErrored errored = PromptBluetoothErrored());
 		
@@ -42,6 +49,7 @@ public:
 	
 private:
 	std::set<ConnectionToken*> _tokens;
+	Log& _log;
 	
 	std::unique_ptr<Connection> findConnection(DeviceIdentifier& identifier);
 	

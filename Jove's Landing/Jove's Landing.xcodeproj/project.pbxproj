@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5596B7601A56D7070079C403 /* SBJEV3Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */; };
 		55A7CB7A1A3E07130028553C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB791A3E07130028553C /* main.m */; };
 		55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7C1A3E07130028553C /* AppDelegate.mm */; };
 		55A7CB801A3E07130028553C /* ConnectivityViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7F1A3E07130028553C /* ConnectivityViewController.mm */; };
@@ -16,10 +17,9 @@
 		55A7CB8B1A3E07130028553C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A7CB891A3E07130028553C /* LaunchScreen.xib */; };
 		55A7CB971A3E07130028553C /* Jove_s_LandingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB961A3E07130028553C /* Jove_s_LandingTests.m */; };
 		55A7CBBF1A3E08B60028553C /* RailSwitch.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBBE1A3E08B60028553C /* RailSwitch.mm */; };
-		55A7CBD71A3E10860028553C /* re_dump.c in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBC11A3E10860028553C /* re_dump.c */; };
 		55A7CBD81A3E10860028553C /* SBJEV3Brick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */; };
 		55A7CBD91A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBC81A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm */; };
-		55A7CBDA1A3E10860028553C /* SBJEV3ConnectionIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBCA1A3E10860028553C /* SBJEV3ConnectionIOS.mm */; };
+		55A7CBDA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBCA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm */; };
 		55A7CBDB1A3E10860028553C /* SBJEV3ConnectionToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBCB1A3E10860028553C /* SBJEV3ConnectionToken.cpp */; };
 		55A7CBDC1A3E10860028553C /* SBJEV3InvocationStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */; };
 		55A7CBDE1A3E11350028553C /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A7CBDD1A3E11350028553C /* ExternalAccessory.framework */; };
@@ -37,6 +37,8 @@
 
 /* Begin PBXFileReference section */
 		552D22F71A41083000F188A2 /* SBJEV3SystemInstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemInstruction.h; sourceTree = "<group>"; };
+		5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3Log.cpp; sourceTree = "<group>"; };
+		5596B75F1A56D7070079C403 /* SBJEV3Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Log.h; sourceTree = "<group>"; };
 		55A7CB741A3E07130028553C /* Jove's Landing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jove's Landing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55A7CB781A3E07130028553C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55A7CB791A3E07130028553C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -54,16 +56,14 @@
 		55A7CB961A3E07130028553C /* Jove_s_LandingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Jove_s_LandingTests.m; sourceTree = "<group>"; };
 		55A7CBBD1A3E08B60028553C /* RailSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RailSwitch.h; sourceTree = "<group>"; };
 		55A7CBBE1A3E08B60028553C /* RailSwitch.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RailSwitch.mm; sourceTree = "<group>"; };
-		55A7CBC11A3E10860028553C /* re_dump.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = re_dump.c; sourceTree = "<group>"; };
-		55A7CBC21A3E10860028553C /* re_dump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = re_dump.h; sourceTree = "<group>"; };
 		55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3Brick.cpp; sourceTree = "<group>"; };
 		55A7CBC41A3E10860028553C /* SBJEV3Brick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Brick.h; sourceTree = "<group>"; };
 		55A7CBC51A3E10860028553C /* SBJEV3ByteCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ByteCodes.h; sourceTree = "<group>"; };
 		55A7CBC61A3E10860028553C /* SBJEV3Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Connection.h; sourceTree = "<group>"; };
 		55A7CBC71A3E10860028553C /* SBJEV3ConnectionFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionFactory.h; sourceTree = "<group>"; };
 		55A7CBC81A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3ConnectionFactoryIOS.mm; sourceTree = "<group>"; };
-		55A7CBC91A3E10860028553C /* SBJEV3ConnectionIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionIOS.h; sourceTree = "<group>"; };
-		55A7CBCA1A3E10860028553C /* SBJEV3ConnectionIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3ConnectionIOS.mm; sourceTree = "<group>"; };
+		55A7CBC91A3E10860028553C /* SBJEV3BluetoothConnectionIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3BluetoothConnectionIOS.h; sourceTree = "<group>"; };
+		55A7CBCA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3BluetoothConnectionIOS.mm; sourceTree = "<group>"; };
 		55A7CBCB1A3E10860028553C /* SBJEV3ConnectionToken.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3ConnectionToken.cpp; sourceTree = "<group>"; };
 		55A7CBCC1A3E10860028553C /* SBJEV3ConnectionToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionToken.h; sourceTree = "<group>"; };
 		55A7CBCD1A3E10860028553C /* SBJEV3DeviceIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DeviceIdentifier.h; sourceTree = "<group>"; };
@@ -107,8 +107,8 @@
 				55A7CBCC1A3E10860028553C /* SBJEV3ConnectionToken.h */,
 				55A7CBCB1A3E10860028553C /* SBJEV3ConnectionToken.cpp */,
 				55A7CBC61A3E10860028553C /* SBJEV3Connection.h */,
-				55A7CBC91A3E10860028553C /* SBJEV3ConnectionIOS.h */,
-				55A7CBCA1A3E10860028553C /* SBJEV3ConnectionIOS.mm */,
+				55A7CBC91A3E10860028553C /* SBJEV3BluetoothConnectionIOS.h */,
+				55A7CBCA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm */,
 			);
 			name = "Connection Management";
 			sourceTree = "<group>";
@@ -181,10 +181,10 @@
 		55A7CBC01A3E10860028553C /* SBJEV3 */ = {
 			isa = PBXGroup;
 			children = (
-				55A7CBC11A3E10860028553C /* re_dump.c */,
-				55A7CBC21A3E10860028553C /* re_dump.h */,
 				55A7CBC41A3E10860028553C /* SBJEV3Brick.h */,
 				55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */,
+				5596B75F1A56D7070079C403 /* SBJEV3Log.h */,
+				5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */,
 				552D221A1A407DBC00F188A2 /* Connection Management */,
 				55A7CBD11A3E10860028553C /* SBJEV3Enums.h */,
 				55A7CBC51A3E10860028553C /* SBJEV3ByteCodes.h */,
@@ -303,16 +303,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				55A7CB831A3E07130028553C /* RailSwitchViewController.mm in Sources */,
+				5596B7601A56D7070079C403 /* SBJEV3Log.cpp in Sources */,
 				55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */,
 				55A7CB801A3E07130028553C /* ConnectivityViewController.mm in Sources */,
 				55A7CBBF1A3E08B60028553C /* RailSwitch.mm in Sources */,
 				55A7CBDB1A3E10860028553C /* SBJEV3ConnectionToken.cpp in Sources */,
-				55A7CBD71A3E10860028553C /* re_dump.c in Sources */,
 				55A7CBDC1A3E10860028553C /* SBJEV3InvocationStack.cpp in Sources */,
 				55A7CBD91A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm in Sources */,
 				55A7CBD81A3E10860028553C /* SBJEV3Brick.cpp in Sources */,
 				55A7CB7A1A3E07130028553C /* main.m in Sources */,
-				55A7CBDA1A3E10860028553C /* SBJEV3ConnectionIOS.mm in Sources */,
+				55A7CBDA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,7 +392,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = "../../ev3sources/lms2012/**";
+				USER_HEADER_SEARCH_PATHS = "../../ev3sources-xtended/ev3sources/lms2012/**";
 			};
 			name = Debug;
 		};
@@ -427,7 +427,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = "../../ev3sources/lms2012/**";
+				USER_HEADER_SEARCH_PATHS = "../../ev3sources-xtended/ev3sources/lms2012/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

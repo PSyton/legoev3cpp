@@ -18,6 +18,7 @@ namespace SBJ
 namespace EV3
 {
 	
+class Log;
 class Connection;
 
 /*
@@ -29,7 +30,7 @@ class InvocationStack
 public:
 	using ReplyKey = std::function<unsigned short(const uint8_t* buffer)>;
 	
-	InvocationStack(ReplyKey replyKey);
+	InvocationStack(Log& log, ReplyKey replyKey);
 	
 	~InvocationStack();
 		
@@ -40,6 +41,7 @@ public:
 	void remove(unsigned short invocation);
 	
 private:
+	Log& _log;
 	ReplyKey _replyKey;
 	std::unique_ptr<Connection> _connection;
 	std::mutex _mutex;

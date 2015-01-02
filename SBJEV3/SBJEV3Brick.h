@@ -67,6 +67,11 @@ public:
 		return _name;
 	}
 	
+	Log& log()
+	{
+		return _log;
+	}
+	
 	void setName(const std::string& name);
 
 	template <typename...  Opcodes>
@@ -94,6 +99,7 @@ public:
 	}
 	*/
 private:
+	Log& _log;
 	DeviceIdentifier _identifier;
 	std::string _name;
 	InvocationStack _stack;

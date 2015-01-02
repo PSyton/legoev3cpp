@@ -10,6 +10,7 @@
 
 #include "SBJEV3ConnectionFactory.h"
 #include "SBJEV3Brick.h"
+#include "SBJEV3Log.h"
 #import "RailSwitch.h"
 
 #import "ConnectivityViewController.h"
@@ -17,9 +18,11 @@
 
 using namespace SBJ::EV3;
 
+Log mylog(std::cout);
+
 @interface AppDelegate ()
 {
-	ConnectionFactory _factory;
+	std::unique_ptr<ConnectionFactory> _factory;
 	std::unique_ptr<Brick> _brick;
 	__weak ConnectivityViewController* _connectivity;
 	__weak RailSwitchViewController* _rails;
@@ -33,7 +36,8 @@ using namespace SBJ::EV3;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
 	
-	_brick.reset(new Brick(_factory));
+	_factory.reset(new ConnectionFactory(mylog));
+	_brick.reset(new Brick(*_factory));
 	__weak typeof(self) weakSelf = self;
 	_brick->connectionEvent = ^(Brick& brick)
 	{

@@ -7,7 +7,7 @@
 //
 
 #include "SBJEV3ConnectionFactory.h"
-#include "SBJEV3ConnectionIOS.h"
+#include "SBJEV3BluetoothConnectionIOS.h"
 #import <ExternalAccessory/ExternalAccessory.h>
 
 using namespace SBJ::EV3;
@@ -67,7 +67,8 @@ using namespace SBJ::EV3;
 // We cheet with a global variable here instead of a c++ pimpl.
 static NotificationReceiver* _notificationReceiver = nil;
 
-ConnectionFactory::ConnectionFactory()
+ConnectionFactory::ConnectionFactory(Log& log)
+: _log(log)
 {
 #if (TARGET_IPHONE_SIMULATOR)
 #else
@@ -157,7 +158,7 @@ std::unique_ptr<Connection> ConnectionFactory::findConnection(DeviceIdentifier& 
 {
 #if (TARGET_IPHONE_SIMULATOR)
 	identifier.name = "Simulated";
-	return std::unique_ptr<Connection>(new ConnectionIOS(nullptr));
+	return std::unique_ptr<Connection>(new BluetoothConnectionIOS(_log, nullptr));
 #else
 	if (identifier.connect == DeviceIdentifier::ConnectMethod::usbOnly)
 	{
@@ -243,7 +244,7 @@ std::unique_ptr<Connection> ConnectionFactory::findConnection(DeviceIdentifier& 
 		EAAccessory* accessory = accessories[foundIt];
 		identifier.name = foundName;
 		identifier.serial = foundSerial;
-		return std::unique_ptr<Connection>(new ConnectionIOS(accessory));
+		return std::unique_ptr<Connection>(new BluetoothConnectionIOS(accessory));
 	}
 	return nullptr;
 #endif
