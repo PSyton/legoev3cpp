@@ -26,6 +26,7 @@ namespace EV3
 	
 #pragma pack(push, 1)
 
+// TODO: do we need to support parameter packing if a vraiable sized param is not the tail?
 struct VariableLenOpcode
 {
 	size_t size() const { return sizeof(*this); }

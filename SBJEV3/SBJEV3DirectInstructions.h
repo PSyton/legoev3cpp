@@ -102,6 +102,7 @@ private:
 		size_t opcodeSize = 0;
 		UWORD globalSize = 0;
 		UWORD localSize = 0;
+		bool mustAllocate = false;
 	};
 	
 	template <size_t N>
@@ -110,9 +111,15 @@ private:
 		// Set the global space positions for this reply
 		// And increment the global space size
 		auto& opcode = std::get<N>(_opcodes);
-		size_t actualSize = opcodeSize(opcode);
+		const size_t actualSize = opcodeSize(opcode);
+		constexpr size_t fixedSize = sizeof(std::remove_reference<decltype(opcode)>);
 		accume.opcodeSize += actualSize;
 		accume.globalSize += opcode.setReplyPositions(accume.globalSize, actualSize);
+		// If we have a variable sized opcode that is not the tail opcode...
+		if (N != (std::tuple_size<AllOpcodes>::value>-1) && actualSize != fixedSize)
+		{
+			accume.mustAllocate = true;
+		}
 		calculateStructure(accume, SizeT<N+1>());
 	}
 	
@@ -137,7 +144,7 @@ private:
 	
 	void allocateForVariableSizedOpcodes(const Accumulation& accume)
 	{
-		if (accume.opcodeSize != sizeof(AllOpcodes))
+		if (accume.opcodeSize != sizeof(AllOpcodes)/*accume.mustAllocate*/)
 		{
 			uint8_t* data = new uint8_t[sizeof(CMDSIZE) + _cmd.CmdSize];
 			_data = custodian_ptr<uint8_t>(data, [](uint8_t*v){delete[] v;});

@@ -62,12 +62,12 @@ public:
 		return _replyStatus;
 	}
 	
-	std::string name()
+	const std::string& name() const
 	{
 		return _name;
 	}
 	
-	Log& log()
+	Log& log() const
 	{
 		return _log;
 	}

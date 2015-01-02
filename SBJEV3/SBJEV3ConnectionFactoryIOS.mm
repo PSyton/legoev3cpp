@@ -244,7 +244,7 @@ std::unique_ptr<Connection> ConnectionFactory::findConnection(DeviceIdentifier& 
 		EAAccessory* accessory = accessories[foundIt];
 		identifier.name = foundName;
 		identifier.serial = foundSerial;
-		return std::unique_ptr<Connection>(new BluetoothConnectionIOS(accessory));
+		return std::unique_ptr<Connection>(new BluetoothConnectionIOS(_log, accessory));
 	}
 	return nullptr;
 #endif
