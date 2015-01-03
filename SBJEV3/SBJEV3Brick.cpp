@@ -35,6 +35,12 @@ void Brick::setName(const std::string& name)
 	directCommand(5.0, set);
 	_name = name;
 }
+	
+BatteryInfo Brick::battery()
+{
+	auto result = directCommand(1.0, BatteryV(), BatteryI(), BatteryT(), BatteryL());
+	return { std::get<0>(result), std::get<1>(result), std::get<2>(result), std::get<3>(result) };
+}
 
 bool Brick::isConnected() const
 {

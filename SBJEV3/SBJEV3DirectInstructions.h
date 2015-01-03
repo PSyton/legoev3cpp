@@ -105,6 +105,7 @@ private:
 	custodian_ptr<uint8_t> _data;
 	COMCMD _cmd = {0, 0, 0}; // bytes { {0, 1}, {2, 3}, {4} }
 	DIRCMD _vars = {0, 0}; // bytes {5, 6}
+	//uint8_t _data[sizeof(AllOpcodes)]; - Once we have packing enabled, use this member. We may then be able to make this a non-templated class!
 	AllOpcodes _opcodes; // payload
 	
 #pragma pack(pop)

@@ -26,8 +26,8 @@ enum class ReplyStatus
 	building,
 	success,
 	sendError,
-	argumentError,
-	formatError,
+	malformedError,
+	lengthError,
 };
 	
 /*
@@ -118,7 +118,7 @@ private:
 					COMRPL* header = (COMRPL*)buffer;
 					if (header->Cmd == DIRECT_REPLY_ERROR)
 					{
-						_status = ReplyStatus::argumentError;
+						_status = ReplyStatus::malformedError;
 						ready = true;
 					}
 					else
@@ -134,7 +134,7 @@ private:
 						// Lengths do not match up
 						else
 						{
-							_status = ReplyStatus::formatError;
+							_status = ReplyStatus::lengthError;
 						}
 						ready = true;
 					}

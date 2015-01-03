@@ -23,6 +23,15 @@ namespace EV3
 class ConnectionFactory;
 class ConnectionToken;
 enum class PromptBluetoothError : int;
+
+struct BatteryInfo
+{
+	UBYTE v;
+	UBYTE i;
+	UBYTE t;
+	UBYTE l;
+	UBYTE p() const { return i * v; }
+};
 	
 /*
  * The brick is the high-level object that represents an EV3.
@@ -67,6 +76,8 @@ public:
 		return _name;
 	}
 	
+	BatteryInfo battery();
+	
 	Log& log() const
 	{
 		return _log;
@@ -82,8 +93,9 @@ public:
 		_messageCounter++;
 		Invocation invocation(std::move(command.invocation()));
 		InvocationScope invocationScope(_stack, invocation);
+		auto results = command.wait();
 		_replyStatus = command.status();
-		return command.wait();
+		return results;
 	}
 	/*
 	template <typename  Opcode>

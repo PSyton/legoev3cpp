@@ -17,6 +17,7 @@ using namespace SBJ::EV3;
 	IBOutlet UISwitch* _connected;
 	IBOutlet UITableViewCell* _name;
 	IBOutlet UITableViewCell* _serial;
+	IBOutlet UITableViewCell* _battery;
 	IBOutlet UIImageView* _connectType;
 }
 
@@ -39,7 +40,10 @@ using namespace SBJ::EV3;
 - (void) setBrick: (SBJ::EV3::Brick*) brick
 {
 	_brick = brick;
-	[self updateUI];
+	if (self.isViewLoaded)
+	{
+		[self updateUI];
+	}
 }
 
 - (IBAction) reconnect:(id)sender
@@ -59,18 +63,21 @@ using namespace SBJ::EV3;
 
 - (void) renameBrick: (UITapGestureRecognizer*) recognizer
 {
-	UIAlertController* alert = [UIAlertController alertControllerWithTitle: @"Name" message: @"Up to 31 Characters" preferredStyle: UIAlertControllerStyleAlert];
-	[alert addAction: [UIAlertAction actionWithTitle: @"OK" style: UIAlertActionStyleDefault handler: ^(UIAlertAction *action)
+	if (_brick && _brick->isConnected())
 	{
-		_brick->setName([[alert.textFields[0] text] UTF8String]);
-		[self updateUI];
-	}]];
-	[alert addAction: [UIAlertAction actionWithTitle: @"Cancel" style: UIAlertActionStyleCancel handler: nil]];
-	[alert addTextFieldWithConfigurationHandler:^(UITextField *textField)
-	{
-		textField.placeholder = [NSString stringWithUTF8String: _brick->name().c_str()];
-	}];
-    [self presentViewController: alert animated: YES completion: nil];
+		UIAlertController* alert = [UIAlertController alertControllerWithTitle: @"Name" message: @"Up to 31 Characters" preferredStyle: UIAlertControllerStyleAlert];
+		[alert addAction: [UIAlertAction actionWithTitle: @"OK" style: UIAlertActionStyleDefault handler: ^(UIAlertAction *action)
+		{
+			_brick->setName([[alert.textFields[0] text] UTF8String]);
+			[self updateUI];
+		}]];
+		[alert addAction: [UIAlertAction actionWithTitle: @"Cancel" style: UIAlertActionStyleCancel handler: nil]];
+		[alert addTextFieldWithConfigurationHandler:^(UITextField *textField)
+		{
+			textField.placeholder = [NSString stringWithUTF8String: _brick->name().c_str()];
+		}];
+		[self presentViewController: alert animated: YES completion: nil];
+	}
 }
 
 - (void) updateUI
@@ -99,6 +106,15 @@ using namespace SBJ::EV3;
 				_connectType.image = [UIImage imageNamed: @"None"];
 				break;
 		}
+		if (_brick->isConnected())
+		{
+			BatteryInfo batter = _brick->battery();
+			_battery.detailTextLabel.text = [NSString stringWithFormat: @"%d %d %d %d", batter.v, batter.i, batter.t, batter.l];
+		}
+		else
+		{
+			_battery.detailTextLabel.text = @" ";
+		}
 	}
 	else
 	{
@@ -106,6 +122,7 @@ using namespace SBJ::EV3;
 		_name.detailTextLabel.text = @"N/A";
 		_serial.detailTextLabel.text = @"N/A";
 		_connectType.image = [UIImage imageNamed: @"None"];
+		_battery.detailTextLabel.text = @"N/A";
 	}
 }
 
