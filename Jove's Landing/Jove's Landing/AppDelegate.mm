@@ -38,7 +38,7 @@ Log mylog(std::cout);
 	
 	_factory.reset(new ConnectionFactory(mylog));
 	_brick.reset(new Brick(*_factory));
-	__weak typeof(self) weakSelf = self;
+	__weak decltype(self) weakSelf = self;
 	_brick->connectionEvent = ^(Brick& brick)
 	{
 		[weakSelf updateUI];

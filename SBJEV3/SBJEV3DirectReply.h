@@ -51,7 +51,7 @@ public:
 	Invocation::Reply replyResponse()
 	{
 		return expectsReply() == false ? Invocation::Reply() :
-			[this](const uint8_t* buffer, size_t size)
+			[this](auto buffer, auto size)
 			{
 				return replied(buffer, size);
 			};

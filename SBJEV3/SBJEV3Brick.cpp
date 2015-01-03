@@ -14,7 +14,7 @@ using namespace SBJ::EV3;
 Brick::Brick(ConnectionFactory& factory, const DeviceIdentifier& identifier)
 : _log(factory.log())
 , _identifier(identifier)
-, _stack(_log, [](const uint8_t* buffer) { return((const COMRPL*)buffer)->MsgCnt; })
+, _stack(_log, [](auto buffer) { return((const COMRPL*)buffer)->MsgCnt; })
 {
 	_token.reset((
 		new ConnectionToken(factory, identifier,
@@ -43,7 +43,7 @@ bool Brick::isConnected() const
 
 void Brick::promptForBluetooth(PromptBluetoothErrored errored)
 {
-	_token->promptBluetooth([this, errored](PromptBluetoothError error)
+	_token->promptBluetooth([this, errored](auto error)
 	{
 		if (errored) errored(*this, error);
 	});

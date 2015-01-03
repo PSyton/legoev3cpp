@@ -29,7 +29,7 @@ void InvocationStack::connectionChange(std::unique_ptr<Connection>& connection)
 	_connection = std::move(connection);
 	if (_connection)
 	{
-		_connection->start([this](const uint8_t* buffer, size_t len)
+		_connection->start([this](auto buffer, auto len)
 		{
 			connectionReplied(buffer, len);
 		});
