@@ -53,7 +53,7 @@ struct SetBrickName : public VariableLenOpcode
 	size_t pack(UBYTE* into) const
 	{
 		const size_t s = sizeof(*this) - name.differential();
-		::memcpy(into, this, s);
+		if (into) ::memcpy(into, this, s);
 		return s;
 	}
 	

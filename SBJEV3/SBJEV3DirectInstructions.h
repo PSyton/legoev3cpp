@@ -24,7 +24,7 @@ namespace EV3
 template<typename Opcode, typename std::enable_if<std::is_base_of<VariableLenOpcode, Opcode>::value == false>::type* = nullptr>
 static size_t packOpcode(const Opcode& opcode, uint8_t* buffer)
 {
-	::memcpy(buffer, &opcode, sizeof(Opcode));
+	if (buffer) ::memcpy(buffer, &opcode, sizeof(Opcode));
 	return sizeof(Opcode);
 	
 }
@@ -37,7 +37,6 @@ static size_t packOpcode(const Opcode& opcode, uint8_t* buffer)
 
 struct OpcodeAccumulation
 {
-	uint8_t* data = nullptr;
 	size_t opcodeSize = 0;
 	UWORD globalSize = 0;
 	UWORD localSize = 0;
@@ -52,12 +51,17 @@ public:
 	{
 	}
 	
-	void accume(OpcodeAccumulation& accume)
+	void accumulate(OpcodeAccumulation& accume)
 	{
 		accume.globalSize += setReplyPositions(accume.globalSize);
-		const size_t extendedSize = pack(accume.data);
-		accume.opcodeSize += extendedSize;
-		accume.data += extendedSize;
+		accume.opcodeSize += (packOpcode(_opcode, nullptr) + sizeof(_pos));
+	}
+	
+	size_t pack(uint8_t* buffer) const
+	{
+		size_t baseSize = packOpcode(_opcode, buffer);
+		::memcpy(buffer + baseSize, _pos, sizeof(_pos));
+		return baseSize + sizeof(_pos);
 	}
 	
 private:
@@ -71,13 +75,6 @@ private:
 			replySize += Opcode::Result::allocatedSize(i);
 		}
 		return replySize;
-	}
-	
-	size_t pack(uint8_t* buffer) const
-	{
-		size_t baseSize = packOpcode(_opcode, buffer);
-		::memcpy(buffer + baseSize, _pos, sizeof(_pos));
-		return baseSize + sizeof(_pos);
 	}
 	
 #pragma pack(push, 1)
@@ -99,9 +96,16 @@ public:
 	{
 		AllOpcodes allOpcodes((ExtendedOpcode<Opcodes>(opcodes))...);
 		OpcodeAccumulation accume;
-		accume.data = _data;
-		calculateStructure(allOpcodes, accume, SizeT<0>());
+		accumulate(allOpcodes, accume, SizeT<0>());
 		setHeader(counter, forceReply, accume);
+		if (accume.opcodeSize == sizeof(AllOpcodes))
+		{
+			::memcpy(_data, &allOpcodes, sizeof(AllOpcodes));
+		}
+		else
+		{
+			pack(allOpcodes, _data, SizeT<0>());
+		}
 	}
 	
 	Invocation invocation(Invocation::Reply reply)
@@ -111,7 +115,6 @@ public:
 	}
 	
 private:
-
 #pragma pack(push, 1)
 	using AllOpcodes = std::tuple<ExtendedOpcode<Opcodes>...>;
 	COMCMD _cmd = {0, 0, 0}; // bytes { {0, 1}, {2, 3}, {4} }
@@ -120,14 +123,26 @@ private:
 #pragma pack(pop)
 	
 	template <size_t N>
-	inline void calculateStructure(AllOpcodes& opcodes, OpcodeAccumulation& accume, SizeT<N>)
+	inline void accumulate(AllOpcodes& opcodes, OpcodeAccumulation& accume, SizeT<N>)
 	{
 		auto& opcode = std::get<N>(opcodes);
-		opcode.accume(accume);
-		calculateStructure(opcodes, accume, SizeT<N+1>());
+		opcode.accumulate(accume);
+		accumulate(opcodes, accume, SizeT<N+1>());
 	}
 	
-	inline void calculateStructure(AllOpcodes& opcodes, OpcodeAccumulation& accume, SizeT<std::tuple_size<AllOpcodes>::value>)
+	inline void accumulate(AllOpcodes& opcodes, OpcodeAccumulation& accume, SizeT<std::tuple_size<AllOpcodes>::value>)
+	{
+	}
+	
+	template <size_t N>
+	inline void pack(AllOpcodes& opcodes, uint8_t* buffer, SizeT<N>)
+	{
+		auto& opcode = std::get<N>(opcodes);
+		buffer += opcode.pack(buffer);
+		pack(opcodes, buffer, SizeT<N+1>());
+	}
+	
+	inline void pack(AllOpcodes& opcodes, uint8_t* buffer, SizeT<std::tuple_size<AllOpcodes>::value>)
 	{
 	}
 	
