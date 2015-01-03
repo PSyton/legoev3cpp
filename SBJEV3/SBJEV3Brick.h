@@ -12,6 +12,7 @@
 #include "SBJEV3DirectCommand.h"
 #include "SBJEV3Connection.h"
 #include "SBJEV3DeviceIdentifier.h"
+//#include "SBJEV3Log.h"
 
 #include <memory>
 
@@ -95,6 +96,7 @@ public:
 		InvocationScope invocationScope(_stack, invocation);
 		auto results = command.wait();
 		_replyStatus = command.status();
+		//_log << "Status " << (int)_replyStatus << std::endl;
 		return results;
 	}
 	/*
@@ -106,8 +108,9 @@ public:
 		_messageCounter++;
 		Invocation invocation(std::move(command.invocation()));
 		InvocationScope invocationScope(_stack, invocation);
+		auto results = command.wait();
 		_replyStatus = command.status();
-		return command.wait();
+		return results;
 	}
 	*/
 private:

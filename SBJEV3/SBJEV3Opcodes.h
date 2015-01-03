@@ -22,23 +22,19 @@ namespace EV3
  * defined as constant.
  *
  * If an opcode is variable sized then derive from VariableLenOpcode and implement the
- * VariableLenOpcode method.
+ * pack method.
  *
  * TODO: support use of optional LValues and GValues for opcode parameters
  */
 	
 #pragma pack(push, 1)
 
-// TODO: Do we need to support parameter packing if a vraiable sized param is not the tail?
-//       If pack is implemented we will be able to remove the heap allocation from direct instructions.
 struct VariableLenOpcode
 {
-	size_t size() const { return sizeof(*this); }
-/*	size_t pack(UBYTE* into) const
+	size_t pack(UBYTE* into) const
 	{
-		if (into) ::memcpy(into, this, sizeof(*this));
-		return sizeof(*this);
-	}*/
+		assert(false);
+	}
 };
 
 #pragma mark - 
@@ -54,7 +50,13 @@ struct GetBrickName
 
 struct SetBrickName : public VariableLenOpcode
 {
-	size_t size() const { return sizeof(*this) - name.differential(); }
+	size_t pack(UBYTE* into) const
+	{
+		const size_t s = sizeof(*this) - name.differential();
+		::memcpy(into, this, s);
+		return s;
+	}
+	
 	constexpr static size_t MaxLength = vmNAMESIZE-1;
 	const UBYTE code = opCOM_SET;
 	const CUValue subcode = SET_BRICKNAME;

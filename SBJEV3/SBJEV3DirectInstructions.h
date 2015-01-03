@@ -21,56 +21,71 @@ namespace SBJ
 namespace EV3
 {
 
-#pragma pack(push, 1)
+template<typename Opcode, typename std::enable_if<std::is_base_of<VariableLenOpcode, Opcode>::value == false>::type* = nullptr>
+static size_t packOpcode(const Opcode& opcode, uint8_t* buffer)
+{
+	::memcpy(buffer, &opcode, sizeof(Opcode));
+	return sizeof(Opcode);
+	
+}
+
+template<typename Opcode, typename std::enable_if<std::is_base_of<VariableLenOpcode, Opcode>::value == true>::type* = nullptr>
+static size_t packOpcode(const Opcode& opcode, uint8_t* buffer)
+{
+	return opcode.pack(buffer);
+}
+
+struct OpcodeAccumulation
+{
+	uint8_t* data = nullptr;
+	size_t opcodeSize = 0;
+	UWORD globalSize = 0;
+	UWORD localSize = 0;
+};
 	
 template <typename Opcode>
-class ExtendedOpcode : public Opcode
+class ExtendedOpcode
 {
 public:
 	ExtendedOpcode(const Opcode& opcode)
-	: Opcode(opcode)
+	: _opcode(opcode)
 	{
 	}
 	
+	void accume(OpcodeAccumulation& accume)
+	{
+		accume.globalSize += setReplyPositions(accume.globalSize);
+		const size_t extendedSize = pack(accume.data);
+		accume.opcodeSize += extendedSize;
+		accume.data += extendedSize;
+	}
+	
+private:
 	// Tells the EV3 where in the global space to store the resulting values.
-	size_t setReplyPositions(UBYTE startPosition, size_t actualSize)
+	size_t setReplyPositions(UBYTE startPosition)
 	{
 		size_t replySize = 0;
-		GUValue* pos = (GUValue*)this + actualSize - Opcode::Result::ResultCount;
 		for (size_t i = 0; i < Opcode::Result::ResultCount; i++)
 		{
-			pos[i] = startPosition + replySize;
+			_pos[i] = startPosition + replySize;
 			replySize += Opcode::Result::allocatedSize(i);
 		}
 		return replySize;
 	}
 	
-private:
+	size_t pack(uint8_t* buffer) const
+	{
+		size_t baseSize = packOpcode(_opcode, buffer);
+		::memcpy(buffer + baseSize, _pos, sizeof(_pos));
+		return baseSize + sizeof(_pos);
+	}
+	
+#pragma pack(push, 1)
+	Opcode _opcode;
 	// TODO: This may have to have an LValue as well
 	GUValue _pos[Opcode::Result::ResultCount];
-};
-	
 #pragma pack(pop)
-	
-struct OpcodeAccumulation
-{
-	size_t opcodeSize = 0;
-	UWORD globalSize = 0;
-	UWORD localSize = 0;
-	bool mustAllocate = false;
 };
-
-template<class Opcode, typename std::enable_if<std::is_base_of<VariableLenOpcode, Opcode>::value == false>::type* = nullptr>
-static size_t opcodeSize(const Opcode& opcode)
-{
-	return sizeof(Opcode);
-}
-
-template<class Opcode, typename std::enable_if<std::is_base_of<VariableLenOpcode, Opcode>::value == true>::type* = nullptr>
-static size_t opcodeSize(const Opcode& opcode)
-{
-	return opcode.size() + Opcode::Result::ResultCount;
-}
 
 /*
  * DirectInstructions creates a buffer of a mini-program that can be sent to the EV3.
@@ -80,58 +95,39 @@ template <typename... Opcodes>
 class DirectInstructions
 {
 public:
-	
 	DirectInstructions(unsigned short counter, bool forceReply, Opcodes... opcodes)
-	: _data((uint8_t*)&_cmd, [](uint8_t*v){})
-	, _opcodes(ExtendedOpcode<Opcodes>(opcodes)...)
 	{
+		AllOpcodes allOpcodes((ExtendedOpcode<Opcodes>(opcodes))...);
 		OpcodeAccumulation accume;
-		calculateStructure(accume, SizeT<0>());
+		accume.data = _data;
+		calculateStructure(allOpcodes, accume, SizeT<0>());
 		setHeader(counter, forceReply, accume);
-		allocateForVariableSizedOpcodes(accume);
 	}
 	
 	Invocation invocation(Invocation::Reply reply)
 	{
-		return { _cmd.MsgCnt, _data, sizeof(CMDSIZE) + _cmd.CmdSize, reply};
+		custodian_ptr<uint8_t> data((uint8_t*)&_cmd, [](uint8_t*v){});
+		return { _cmd.MsgCnt, data, sizeof(CMDSIZE) + _cmd.CmdSize, reply };
 	}
 	
 private:
 
 #pragma pack(push, 1)
-
 	using AllOpcodes = std::tuple<ExtendedOpcode<Opcodes>...>;
-
-	custodian_ptr<uint8_t> _data;
 	COMCMD _cmd = {0, 0, 0}; // bytes { {0, 1}, {2, 3}, {4} }
 	DIRCMD _vars = {0, 0}; // bytes {5, 6}
-	//uint8_t _data[sizeof(AllOpcodes)]; - Once we have packing enabled, use this member. We may then be able to make this a non-templated class!
-	AllOpcodes _opcodes; // payload
-	
+	uint8_t _data[sizeof(AllOpcodes)];
 #pragma pack(pop)
 	
 	template <size_t N>
-	inline void calculateStructure(OpcodeAccumulation& accume, SizeT<N>)
+	inline void calculateStructure(AllOpcodes& opcodes, OpcodeAccumulation& accume, SizeT<N>)
 	{
-		auto& opcode = std::get<N>(_opcodes);
-		
-		// Accume opcode sizes
-		const size_t actualSize = opcodeSize(opcode);
-		accume.opcodeSize += actualSize;
-		
-		// Determine if allocation is necessary
-		if (actualSize != sizeof(decltype(opcode)) && N < (std::tuple_size<AllOpcodes>::value-1))
-		{
-			accume.mustAllocate = true;
-		}
-		
-		// Accume Global Size
-		accume.globalSize += opcode.setReplyPositions(accume.globalSize, actualSize);
-		
-		calculateStructure(accume, SizeT<N+1>());
+		auto& opcode = std::get<N>(opcodes);
+		opcode.accume(accume);
+		calculateStructure(opcodes, accume, SizeT<N+1>());
 	}
 	
-	inline void calculateStructure(OpcodeAccumulation& accume, SizeT<std::tuple_size<AllOpcodes>::value>)
+	inline void calculateStructure(AllOpcodes& opcodes, OpcodeAccumulation& accume, SizeT<std::tuple_size<AllOpcodes>::value>)
 	{
 	}
 	
@@ -148,30 +144,6 @@ private:
 		_vars.Globals = (UBYTE)(0x00FF & accume.globalSize);
 		_vars.Locals = (UBYTE)((0xFF00 & accume.globalSize) >> 8);
 		_vars.Locals |= (UBYTE)(accume.localSize << 2);
-	}
-	
-	void allocateForVariableSizedOpcodes(const OpcodeAccumulation& accume)
-	{
-		if (accume.mustAllocate)
-		{
-			uint8_t* data = new uint8_t[sizeof(CMDSIZE) + _cmd.CmdSize];
-			_data = custodian_ptr<uint8_t>(data, [](uint8_t*v){delete[] v;});
-			::memcpy(data, &_cmd, sizeof(COMCMD) + sizeof(DIRCMD));
-			copyOpcode(data + sizeof(COMCMD) + sizeof(DIRCMD), SizeT<0>());
-		}
-	}
-	
-	template <size_t N>
-	inline void copyOpcode(uint8_t* data, SizeT<N>)
-	{
-		auto& opcode = std::get<N>(_opcodes);
-		size_t actualSize = opcodeSize(opcode);
-		::memcpy(data, &opcode, actualSize);
-		copyOpcode(data + actualSize, SizeT<N+1>());
-	}
-	
-	inline void copyOpcode(uint8_t* data, SizeT<std::tuple_size<AllOpcodes>::value>)
-	{
 	}
 };
 

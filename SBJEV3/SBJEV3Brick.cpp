@@ -65,6 +65,13 @@ void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, st
 	_identifier = updatedIdentifier;
 	_connectionType = connection ? connection->type() : Connection::Type::none;
 	_stack.connectionChange(connection);
-	_name = std::get<0>(directCommand(5.0, GetBrickName()));
+	if (_connectionType != Connection::Type::none)
+	{
+		_name = std::get<0>(directCommand(5.0, GetBrickName()));
+	}
+	else
+	{
+		_name.clear();
+	}
 	if (connectionEvent) connectionEvent(*this);
 }
