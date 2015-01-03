@@ -8,6 +8,6 @@ The following are on the TODO list...
 * Implement all opcode structures.
 * System commands.
 
-This project is dependent on the ev3 sources with the minor header changes made in the dsjove fork (pull request has been made).
+This project is dependent on the ev3 sources with the minor header changes made in the dsjove fork (pull request has been made). I have a fork of both ev3 source trees with the changes.
 
 The "Jove's Landing" sample app demonstrates usage. "AppDelegate.mm" shows how to create the link to the EV3. "RailSwitch.mm" shows how to send a command to EV3.
