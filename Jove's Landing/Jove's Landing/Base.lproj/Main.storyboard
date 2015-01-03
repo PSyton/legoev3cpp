@@ -112,25 +112,32 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="jDt-Pd-KfN" detailTextLabel="NG3-Yi-5n4" style="IBUITableViewCellStyleValue1" id="PuV-b7-9uh">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="135-Zp-Fge">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PuV-b7-9uh" id="are-w3-9Fm">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="135-Zp-Fge" id="ytE-Ve-emN">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Battery" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jDt-Pd-KfN">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qPz-ai-mvo">
+                                                    <rect key="frame" x="15" y="12" width="53" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NG3-Yi-5n4">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="idy-Av-hlg">
+                                                    <rect key="frame" x="435" y="21" width="150" height="2"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="150" id="ceO-5N-Kvc"/>
+                                                        <constraint firstAttribute="height" constant="2" id="n0B-A3-FmK"/>
+                                                    </constraints>
+                                                </progressView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="idy-Av-hlg" secondAttribute="trailing" constant="7" id="8kv-hM-n2g"/>
+                                                <constraint firstAttribute="centerY" secondItem="qPz-ai-mvo" secondAttribute="centerY" id="KCO-lw-Xba"/>
+                                                <constraint firstAttribute="centerY" secondItem="idy-Av-hlg" secondAttribute="centerY" constant="-0.5" id="P4q-fB-9qm"/>
+                                                <constraint firstItem="qPz-ai-mvo" firstAttribute="leading" secondItem="ytE-Ve-emN" secondAttribute="leadingMargin" constant="7" id="cSq-EZ-vz9"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -143,7 +150,7 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Connect" id="Wt2-p5-exO"/>
                     <connections>
-                        <outlet property="_battery" destination="PuV-b7-9uh" id="MyA-Gf-nr5"/>
+                        <outlet property="_battery" destination="idy-Av-hlg" id="aji-dS-qx9"/>
                         <outlet property="_connectType" destination="a2p-jV-zyY" id="OT2-F6-zau"/>
                         <outlet property="_connected" destination="6VZ-yr-hIr" id="Yzh-ya-Hto"/>
                         <outlet property="_name" destination="UWP-yB-4B5" id="86W-0Z-Izh"/>

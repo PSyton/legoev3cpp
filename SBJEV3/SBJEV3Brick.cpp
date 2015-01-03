@@ -36,9 +36,9 @@ void Brick::setName(const std::string& name)
 	_name = name;
 }
 	
-BatteryInfo Brick::battery()
+Brick::Battery Brick::battery()
 {
-	auto result = directCommand(1.0, BatteryV(), BatteryI(), BatteryT(), BatteryL());
+	auto result = directCommand(1.0, BatteryVoltage(), BatteryCurrent(), BatteryTempuratureRise(), BatteryLevel());
 	return { std::get<0>(result), std::get<1>(result), std::get<2>(result), std::get<3>(result) };
 }
 
@@ -67,11 +67,23 @@ void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, st
 	_stack.connectionChange(connection);
 	if (_connectionType != Connection::Type::none)
 	{
-		_name = std::get<0>(directCommand(5.0, GetBrickName()));
+		auto result = directCommand(5.0,
+			GetBrickName()/*,
+			HardwareVersion(),
+			FirmwareVersion(),
+			FirmwareBuild(),
+			OSVersion(),
+			OSBuild(),
+			FullVersion()*/
+			);
+		_name = std::get<0>(result);
+		//_version = { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<4>(result), std::get<5>(result), std::get<6>(result) };
+		
 	}
 	else
 	{
 		_name.clear();
+		_version.clear();
 	}
 	if (connectionEvent) connectionEvent(*this);
 }

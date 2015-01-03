@@ -24,15 +24,6 @@ namespace EV3
 class ConnectionFactory;
 class ConnectionToken;
 enum class PromptBluetoothError : int;
-
-struct BatteryInfo
-{
-	UBYTE v;
-	UBYTE i;
-	UBYTE t;
-	UBYTE l;
-	UBYTE p() const { return i * v; }
-};
 	
 /*
  * The brick is the high-level object that represents an EV3.
@@ -42,6 +33,35 @@ struct BatteryInfo
 class Brick
 {
 public:
+	struct Battery
+	{
+		float voltage;
+		float current;
+		float tempuratureRise;
+		uint8_t level;
+		float power() const { return current * voltage; }
+	};
+	
+	struct Version
+	{
+		std::string hardwareVersion;
+		std::string firmwareVersion;
+		std::string firmwareBuild;
+		std::string oSVersion;
+		std::string oSBuild;
+		std::string fullVersion;
+		
+		void clear()
+		{
+			hardwareVersion.clear();
+			firmwareVersion.clear();
+			firmwareBuild.clear();
+			oSVersion.clear();
+			oSBuild.clear();
+			fullVersion.clear();
+		}
+	};
+
 	using ConnectionChanged = std::function<void(Brick& brick)>;
 	using PromptBluetoothErrored =  std::function<void(Brick& brick, PromptBluetoothError error)>;
 
@@ -77,7 +97,7 @@ public:
 		return _name;
 	}
 	
-	BatteryInfo battery();
+	Battery battery();
 	
 	Log& log() const
 	{
@@ -117,6 +137,7 @@ private:
 	Log& _log;
 	DeviceIdentifier _identifier;
 	std::string _name;
+	Version _version;
 	InvocationStack _stack;
 	Connection::Type _connectionType = Connection::Type::none;
 	ReplyStatus _replyStatus = ReplyStatus::none;

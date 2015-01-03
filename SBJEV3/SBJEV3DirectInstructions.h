@@ -66,12 +66,13 @@ public:
 	
 private:
 	// Tells the EV3 where in the global space to store the resulting values.
-	size_t setReplyPositions(UBYTE startPosition)
+	size_t setReplyPositions(size_t startPosition)
 	{
 		size_t replySize = 0;
 		for (size_t i = 0; i < Opcode::Result::ResultCount; i++)
 		{
-			_pos[i] = startPosition + replySize;
+			size_t globalAddress = startPosition + replySize;
+			_pos[i] = globalAddress;
 			replySize += Opcode::Result::allocatedSize(i);
 		}
 		return replySize;

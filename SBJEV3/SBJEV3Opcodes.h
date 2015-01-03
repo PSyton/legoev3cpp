@@ -63,40 +63,95 @@ struct SetBrickName : public VariableLenOpcode
 	CString<MaxLength> name;
 	using Result = VoidResult;
 };
-
+/*
 struct Shutdown
 {
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_SHUTDOWN;
 };
+*/
 
-// TODO: figure out these work...
-struct BatteryV
+struct BatteryVoltage
 {
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_VBATT;
-	using Result = BasicResult<UBYTE>;
+	using Result = BasicResult<FLOAT>;
 };
 
-struct BatteryI
+struct BatteryCurrent
 {
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_IBATT;
-	using Result = BasicResult<UBYTE>;
+	using Result = BasicResult<FLOAT>;
 };
 
-struct BatteryT
+struct BatteryTempuratureRise
 {
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_TBATT;
-	using Result = BasicResult<UBYTE>;
+	using Result = BasicResult<FLOAT>;
 };
 
-struct BatteryL
+struct BatteryLevel
 {
+	static constexpr UBYTE MaxValue = 100;
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_LBATT;
 	using Result = BasicResult<UBYTE>;
+};
+
+struct HardwareVersion
+{
+	constexpr static size_t MaxLength = vmNAMESIZE-1;
+	const UBYTE code = opUI_READ;
+	const CUValue subcode =  GET_HW_VERS;
+	const CUValue length = MaxLength;
+	using Result = StringResult<MaxLength>;
+};
+
+struct FirmwareVersion
+{
+	constexpr static size_t MaxLength = vmNAMESIZE-1;
+	const UBYTE code = opUI_READ;
+	const CUValue subcode =  GET_FW_VERS;
+	const CUValue length = MaxLength;
+	using Result = StringResult<MaxLength>;
+};
+
+struct FirmwareBuild
+{
+	constexpr static size_t MaxLength = vmNAMESIZE-1;
+	const UBYTE code = opUI_READ;
+	const CUValue subcode =  GET_FW_BUILD;
+	const CUValue length = MaxLength;
+	using Result = StringResult<MaxLength>;
+};
+
+struct OSVersion
+{
+	constexpr static size_t MaxLength = vmNAMESIZE-1;
+	const UBYTE code = opUI_READ;
+	const CUValue subcode =  GET_OS_VERS;
+	const CUValue length = MaxLength;
+	using Result = StringResult<MaxLength>;
+};
+
+struct OSBuild
+{
+	constexpr static size_t MaxLength = vmNAMESIZE-1;
+	const UBYTE code = opUI_READ;
+	const CUValue subcode =  GET_OS_BUILD;
+	const CUValue length = MaxLength;
+	using Result = StringResult<MaxLength>;
+};
+
+struct FullVersion
+{
+	constexpr static size_t MaxLength = vmNAMESIZE-1;
+	const UBYTE code = opUI_READ;
+	const CUValue subcode =  GET_VERSION;
+	const CUValue length = MaxLength;
+	using Result = StringResult<MaxLength>;
 };
 
 #pragma mark - Flow

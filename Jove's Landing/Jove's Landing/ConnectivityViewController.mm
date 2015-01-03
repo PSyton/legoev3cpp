@@ -17,7 +17,7 @@ using namespace SBJ::EV3;
 	IBOutlet UISwitch* _connected;
 	IBOutlet UITableViewCell* _name;
 	IBOutlet UITableViewCell* _serial;
-	IBOutlet UITableViewCell* _battery;
+	IBOutlet UIProgressView* _battery;
 	IBOutlet UIImageView* _connectType;
 }
 
@@ -68,8 +68,11 @@ using namespace SBJ::EV3;
 		UIAlertController* alert = [UIAlertController alertControllerWithTitle: @"Name" message: @"Up to 31 Characters" preferredStyle: UIAlertControllerStyleAlert];
 		[alert addAction: [UIAlertAction actionWithTitle: @"OK" style: UIAlertActionStyleDefault handler: ^(UIAlertAction *action)
 		{
-			_brick->setName([[alert.textFields[0] text] UTF8String]);
-			[self updateUI];
+			if ([[alert.textFields[0] text] length])
+			{
+				_brick->setName([[alert.textFields[0] text] UTF8String]);
+				[self updateUI];
+			}
 		}]];
 		[alert addAction: [UIAlertAction actionWithTitle: @"Cancel" style: UIAlertActionStyleCancel handler: nil]];
 		[alert addTextFieldWithConfigurationHandler:^(UITextField *textField)
@@ -108,12 +111,12 @@ using namespace SBJ::EV3;
 		}
 		if (_brick->isConnected())
 		{
-			BatteryInfo batter = _brick->battery();
-			_battery.detailTextLabel.text = [NSString stringWithFormat: @"%d %d %d %d", batter.v, batter.i, batter.t, batter.l];
+			Brick::Battery battery = _brick->battery();
+			_battery.progress = (float)battery.level / 100.0;
 		}
 		else
 		{
-			_battery.detailTextLabel.text = @" ";
+			_battery.progress = 0.0;
 		}
 	}
 	else
@@ -122,7 +125,7 @@ using namespace SBJ::EV3;
 		_name.detailTextLabel.text = @"N/A";
 		_serial.detailTextLabel.text = @"N/A";
 		_connectType.image = [UIImage imageNamed: @"None"];
-		_battery.detailTextLabel.text = @"N/A";
+		_battery.progress = 0.0;
 	}
 }
 
