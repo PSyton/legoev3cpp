@@ -15,6 +15,8 @@
 
 NSString* const LEGOAccessoryProtocol = @"COM.LEGO.MINDSTORMS.EV3";
 
+static const std::string LogDomian = "Bluetooth";
+
 using namespace SBJ::EV3;
 
 /*
@@ -134,7 +136,7 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 		_isReady.wait_for(lock, std::chrono::milliseconds(1000), ^{return _openStreams == 3;});
 	}
 #endif
-	*_log << @"BT Ready" << std::endl;
+	_log->write(LogDomian, "Ready");
 }
 
 
@@ -214,7 +216,7 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 	{
 		case NSStreamEventHasSpaceAvailable:
 		{
-			*_log << "BT Space " << theStream.class.description << std::endl;
+			_log->write(LogDomian, theStream.class.description, " - Space ");
 			NSOutputStream* output = [_session outputStream];
 			if (output == theStream)
 			{
@@ -226,7 +228,7 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 		}
 		case NSStreamEventOpenCompleted:
 		{
-			*_log << "BT Open " << theStream.class.description << std::endl;
+			_log->write(LogDomian, theStream.class.description, " - Open ");
 			{
 				std::unique_lock<std::mutex> lock(_mutex);
 				_openStreams++;
@@ -236,7 +238,7 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 		}
 		case NSStreamEventHasBytesAvailable:
 		{
-			*_log << "BT Bytes " << theStream.class.description << std::endl;
+			_log->write(LogDomian, theStream.class.description, " - Bytes ");
 			NSInputStream* input = [_session inputStream];
 			if (input == theStream)
 			{
@@ -245,10 +247,10 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 			break;
 		}
 		case NSStreamEventErrorOccurred:
-			*_log << "BT Error " << theStream.class.description << std::endl;
+			_log->write(LogDomian, theStream.class.description, " - Error ");
 			break;
 		case NSStreamEventEndEncountered:
-			*_log << "BT End " << theStream.class.description << std::endl;
+			_log->write(LogDomian, theStream.class.description, " - End ");
 			break;
 	}
 	if (ready)

@@ -157,9 +157,6 @@ struct TachoSpeed
 		o = *input;
 	};
 };
-
-// Convenience definition
-template < size_t > struct SizeT { };
 	
 }
 }

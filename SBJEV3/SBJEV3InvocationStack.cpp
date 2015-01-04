@@ -12,6 +12,8 @@
 
 using namespace SBJ::EV3;
 
+static const std::string LogDomian = "Invocation";
+
 InvocationStack::InvocationStack(Log& log, ReplyKey replyKey)
 : _log(log)
 , _replyKey(replyKey)
@@ -76,7 +78,7 @@ void InvocationStack::connectionReplied(const uint8_t* buffer, size_t len)
 const Invocation& InvocationStack::pushInvocation(Invocation& invocation)
 {
 	_invocations.insert(std::make_pair(invocation.ID(), std::move(invocation)));
-	_log << "Call " << invocation.ID() << std::endl;
+	_log.write(LogDomian, "Call ", invocation.ID());
 	return _invocations.find(invocation.ID())->second;
 }
 
@@ -85,13 +87,9 @@ void InvocationStack::replyInvocation(unsigned short messageId, const uint8_t* b
 	auto i = _invocations.find(messageId);
 	if (i != _invocations.end())
 	{
-		bool complete = i->second.reply(buffer, len);
-		_log << "Reply " << messageId << std::endl;
-		if (complete)
-		{
-			_invocations.erase(i);
-			_log << "Complete " << messageId << std::endl;
-		}
+		ReplyStatus complete = i->second.reply(buffer, len);
+		_log.write(LogDomian, "Reply ", messageId, " - ", (int)complete);
+		_invocations.erase(i);
 	}
 	else
 	{
@@ -106,11 +104,11 @@ void InvocationStack::errorInvocation(unsigned short messageId)
 	{
 		i->second.reply(nullptr, 0);
 		_invocations.erase(i);
-		_log << "Error " << messageId << std::endl;
+		_log.write(LogDomian, "Error ", messageId);
 	}
 	else
 	{
-		_log << "Unknown " << messageId << std::endl;
+		_log.write(LogDomian, "Unknown ", messageId);
 	}
 }
 
@@ -121,6 +119,6 @@ void InvocationStack::removeInvocation(unsigned short messageId)
 	{
 		i->second.reply(nullptr, 0);
 		_invocations.erase(i);
-		_log << "Removed " << messageId << std::endl;
+		_log.write(LogDomian, "Timeout ", messageId);
 	}
 }

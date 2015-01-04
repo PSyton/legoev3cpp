@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <type_traits>
+
 namespace SBJ
 {
 namespace EV3
@@ -40,6 +42,9 @@ enum class Polarity
 	opposite = 0,
 	forward = 1
 };
+
+template <size_t s>
+using size_type = std::integral_constant<size_t, s>;
 
 }
 }

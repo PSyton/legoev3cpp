@@ -19,16 +19,6 @@ namespace SBJ
 {
 namespace EV3
 {
-
-enum class ReplyStatus
-{
-	none,
-	building,
-	success,
-	sendError,
-	malformedError,
-	lengthError,
-};
 	
 /*
  * DirectReply receives a buffer response and extracts the requested results from the opcodes.
@@ -94,15 +84,13 @@ private:
 	Results _results;
 	ReplyStatus _status;
 	
-	bool replied(const uint8_t* buffer, size_t len)
+	ReplyStatus replied(const uint8_t* buffer, size_t len)
 	{
-		bool ready;
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
 			// strange edge case
 			if (_status > ReplyStatus::building)
 			{
-				ready = true;
 			}
 			else
 			{
@@ -110,7 +98,6 @@ private:
 				if (buffer == nullptr || len == 0)
 				{
 					_status = ReplyStatus::sendError;
-					ready = true;
 				}
 				else
 				{
@@ -119,7 +106,6 @@ private:
 					if (header->Cmd == DIRECT_REPLY_ERROR)
 					{
 						_status = ReplyStatus::malformedError;
-						ready = true;
 					}
 					else
 					{
@@ -127,7 +113,7 @@ private:
 						_status = ReplyStatus::building;
 						const size_t payloadLen = len - sizeof(COMRPL);
 						const uint8_t* payload = buffer + sizeof(COMRPL);
-						if (itemizedCopy(SizeT<0>(), payload, payloadLen))
+						if (itemizedCopy(size_type<0>(), payload, payloadLen))
 						{
 							_status = ReplyStatus::success;
 						}
@@ -136,20 +122,16 @@ private:
 						{
 							_status = ReplyStatus::lengthError;
 						}
-						ready = true;
 					}
 				}
 			}
 		}
-		if (ready)
-		{
-			_waitOn.notify_one();
-		}
-		return ready;
+		_waitOn.notify_one();
+		return _status;
 	}
 
 	template <size_t N>
-	inline bool itemizedCopy(SizeT<N>, const uint8_t* buffer, size_t maxLen)
+	inline bool itemizedCopy(size_type<N>, const uint8_t* buffer, size_t maxLen)
 	{
 		auto& converter = std::get<N>(_converters);
 		using ConverterRef = decltype(converter);
@@ -171,10 +153,10 @@ private:
 		auto& result = std::get<N>(_results);
 		converter.convert((InputType*)buffer, result);
 		
-		return itemizedCopy(SizeT<N+1>(), buffer + size, maxLen - size);
+		return itemizedCopy(size_type<N+1>(), buffer + size, maxLen - size);
 	}
 	
-	inline bool itemizedCopy(SizeT<std::tuple_size<Results>::value>, const uint8_t* buffer, size_t maxLen)
+	inline bool itemizedCopy(size_type<std::tuple_size<Results>::value>, const uint8_t* buffer, size_t maxLen)
 	{
 		return true;
 	}

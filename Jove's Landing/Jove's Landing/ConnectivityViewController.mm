@@ -116,7 +116,7 @@ using namespace SBJ::EV3;
 		if (_brick->isConnected())
 		{
 			Brick::Battery battery = _brick->battery();
-			_battery.progress = (float)battery.level / 100.0;
+			_battery.progress = battery.indicator();
 		}
 		else
 		{

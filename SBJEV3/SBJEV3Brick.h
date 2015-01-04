@@ -39,7 +39,10 @@ public:
 		float current;
 		float tempuratureRise;
 		uint8_t level;
-		float power() const { return current * voltage; }
+		
+		float indicator() const { return (float)level / 100.0; }
+		float power() const { return voltage * current; }
+		float resistence() const { return voltage / current; }
 	};
 	
 	struct Version
@@ -87,11 +90,6 @@ public:
 		return _connectionType;
 	}
 	
-	ReplyStatus replyStatus() const
-	{
-		return _replyStatus;
-	}
-	
 	const std::string& name() const
 	{
 		return _name;
@@ -109,28 +107,21 @@ public:
 	template <typename...  Opcodes>
 	typename DirectCommand<Opcodes...>::Results directCommand(float timeout, Opcodes... opcodes)
 	{
-		_replyStatus = ReplyStatus::none;
 		DirectCommand<Opcodes...> command(_messageCounter, timeout, opcodes...);
 		_messageCounter++;
 		Invocation invocation(std::move(command.invocation()));
 		InvocationScope invocationScope(_stack, invocation);
-		auto results = command.wait();
-		_replyStatus = command.status();
-		//_log << "Status " << (int)_replyStatus << std::endl;
-		return results;
+		return command.wait();
 	}
 	/*
 	template <typename  Opcode>
 	typename SystemCommand<Opcode>::Results systemCommand(float timeout, Opcode opcode)
 	{
-		_replyStatus = ReplyStatus::none;
 		SystemCommand<Opcode> command(_messageCounter, timeout, opcode);
 		_messageCounter++;
 		Invocation invocation(std::move(command.invocation()));
 		InvocationScope invocationScope(_stack, invocation);
-		auto results = command.wait();
-		_replyStatus = command.status();
-		return results;
+		return command.wait();
 	}
 	*/
 private:
@@ -140,7 +131,6 @@ private:
 	Version _version;
 	InvocationStack _stack;
 	Connection::Type _connectionType = Connection::Type::none;
-	ReplyStatus _replyStatus = ReplyStatus::none;
 	std::unique_ptr<ConnectionToken> _token;
 	unsigned short _messageCounter = 0;
 	

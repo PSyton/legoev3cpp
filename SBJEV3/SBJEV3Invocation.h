@@ -15,6 +15,16 @@ namespace SBJ
 namespace EV3
 {
 
+enum class ReplyStatus
+{
+	none,
+	building,
+	success,
+	sendError,
+	malformedError,
+	lengthError,
+};
+
 template <typename T>
 using Deleter = std::function<void(T*)>;
 
@@ -28,7 +38,7 @@ using custodian_ptr = std::unique_ptr<T, Deleter<T>>;
 class Invocation
 {
 public:
-	using Reply = std::function<bool(const uint8_t* buffer, size_t size)>;
+	using Reply = std::function<ReplyStatus(const uint8_t* buffer, size_t size)>;
 	
 	Invocation(
 		unsigned short messageId,
@@ -70,9 +80,10 @@ public:
 		return _data.get();
 	}
 	
-	bool reply(const uint8_t* buffer, size_t size)
+	ReplyStatus reply(const uint8_t* buffer, size_t size)
 	{
-		return _reply(buffer, size);
+		_replyStatus = _reply(buffer, size);
+		return _replyStatus;
 	}
 	
 private:
@@ -80,6 +91,7 @@ private:
 	custodian_ptr<uint8_t> _data;
 	size_t _size;
 	Reply _reply;
+	ReplyStatus _replyStatus = ReplyStatus::none;
 };
 
 }

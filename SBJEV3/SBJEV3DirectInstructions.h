@@ -97,7 +97,7 @@ public:
 	{
 		AllOpcodes allOpcodes((ExtendedOpcode<Opcodes>(opcodes))...);
 		OpcodeAccumulation accume;
-		accumulate(allOpcodes, accume, SizeT<0>());
+		accumulate(allOpcodes, accume, size_type<0>());
 		setHeader(counter, forceReply, accume);
 		if (accume.opcodeSize == sizeof(AllOpcodes))
 		{
@@ -105,7 +105,7 @@ public:
 		}
 		else
 		{
-			pack(allOpcodes, _data, SizeT<0>());
+			pack(allOpcodes, _data, size_type<0>());
 		}
 	}
 	
@@ -124,26 +124,26 @@ private:
 #pragma pack(pop)
 	
 	template <size_t N>
-	inline void accumulate(AllOpcodes& opcodes, OpcodeAccumulation& accume, SizeT<N>)
+	inline void accumulate(AllOpcodes& opcodes, OpcodeAccumulation& accume, size_type<N>)
 	{
 		auto& opcode = std::get<N>(opcodes);
 		opcode.accumulate(accume);
-		accumulate(opcodes, accume, SizeT<N+1>());
+		accumulate(opcodes, accume, size_type<N+1>());
 	}
 	
-	inline void accumulate(AllOpcodes& opcodes, OpcodeAccumulation& accume, SizeT<std::tuple_size<AllOpcodes>::value>)
+	inline void accumulate(AllOpcodes& opcodes, OpcodeAccumulation& accume, size_type<std::tuple_size<AllOpcodes>::value>)
 	{
 	}
 	
 	template <size_t N>
-	inline void pack(AllOpcodes& opcodes, uint8_t* buffer, SizeT<N>)
+	inline void pack(AllOpcodes& opcodes, uint8_t* buffer, size_type<N>)
 	{
 		auto& opcode = std::get<N>(opcodes);
 		buffer += opcode.pack(buffer);
-		pack(opcodes, buffer, SizeT<N+1>());
+		pack(opcodes, buffer, size_type<N+1>());
 	}
 	
-	inline void pack(AllOpcodes& opcodes, uint8_t* buffer, SizeT<std::tuple_size<AllOpcodes>::value>)
+	inline void pack(AllOpcodes& opcodes, uint8_t* buffer, size_type<std::tuple_size<AllOpcodes>::value>)
 	{
 	}
 	

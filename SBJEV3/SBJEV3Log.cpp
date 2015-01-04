@@ -60,6 +60,9 @@ void Log::hexDump(const void* addr,int len, int linelen)
 
 void Log::hexDump(const char* fmt, const void* addr, int len, int linelen)
 {
+	if (!_enabled) return;
+	std::unique_lock<std::mutex> lock(_mutex);
+	
 	if (len > linelen*32)
 	{
 		len = linelen*32;

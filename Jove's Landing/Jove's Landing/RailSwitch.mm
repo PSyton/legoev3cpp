@@ -123,7 +123,7 @@ static RailSwitch* _switches[4];
 	_open = !_open;
 	
 	auto results = _brick->directCommand(1.0, read, motor, start);
-	_brick->log() << "Sensor: " << std::get<0>(results)[0] << std::endl;
+	_brick->log().write("Sensor", std::get<0>(results)[0]);
 	
 	[self save];
 }
