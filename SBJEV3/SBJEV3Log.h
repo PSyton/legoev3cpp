@@ -78,15 +78,12 @@ public:
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
 			prefix(domain).output(items...);
-			_stream << std::endl;
 		}
 		return *this;
 	}
 	
 	void hexDump(const void* addr,int len, int linelen);
 	
-	void hexDump(const char* fmt, const void* addr, int len, int linelen);
-
 private:
 #ifdef DEBUG
 	static constexpr bool _enabled = true;

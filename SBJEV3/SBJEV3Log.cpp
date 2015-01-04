@@ -8,76 +8,107 @@
 
 #include "SBJEV3Log.h"
 
-// Baed on https://github.com/18446744073709551615/reDroid
-
 using namespace SBJ::EV3;
 
-static inline char hdigit(unsigned long n)
+template <typename T>
+static inline char hdigit(T n)
 {
-	return "0123456789abcdef"[n & 0xf];
+	return "0123456789abcdef"[n & 0xF];
 }
 
-static const char* dumpline(char* dest, int linelen, const char* src, const char* srcend)
+static inline char toChar(uint8_t v)
+{
+	return v >= ' ' && v < 0x7f ? v : '`';
+}
+
+template <typename T>
+char* hdstr(T t, char* dest)
+{
+	constexpr size_t nibbleCount = sizeof(T) * 2;
+	
+	for (size_t i = 0; i < nibbleCount; i++)
+	{
+		unsigned long long value = (unsigned long long)(t);
+		unsigned long long nibble = (unsigned long long)value >> ((nibbleCount - 1 - i) * 4) & 0xf;
+		*dest = hdigit(nibble);
+		dest++;
+	}
+	return dest;
+}
+
+static const uint8_t* dumpline(char* dest, int linelen, const uint8_t* src, const uint8_t* srcend)
 {
 	if (src >= srcend)
 	{
-		return 0;
+		return nullptr;
 	}
-	unsigned long s = (unsigned long)src;
 	
-	for (int i = 0; i < 8; i++)
+	dest = hdstr(src, dest);
+	*dest = ' ';
+	dest++;
+	
 	{
-		dest[i] = hdigit(s>>(28-i*4));
+		constexpr int byteCount = sizeof(uint8_t*);
+		const uint8_t* iter = src;
+		int i = 0;
+		for (; i < linelen; i++)
+		{
+			if (iter >= srcend)
+			{
+				break;
+			}
+			dest = hdstr(*iter, dest);
+			*dest = (((i + byteCount + 1) % byteCount != 0)) ? ':' : ' ';
+			dest++;
+			iter++;
+		}
+		for (; i < linelen; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				*dest = ' ';
+				dest++;
+			}
+		}
 	}
-	
-	dest[8] = ' ';
-	dest += 9;
-	
-	int i = 0;
-	for (; i < linelen / 4; i++)
 	{
-		if (src+i < srcend)
+		const uint8_t* iter = src;
+		int i = 0;
+		for (; i < linelen; i++)
 		{
-			dest[i*3] = hdigit(src[i]>>4);
-			dest[i*3+1] = hdigit(src[i]);
-			dest[i*3+2] = ((i+1+(unsigned long)src)&3)?':':' ';
-			dest[linelen/4*3+i] = src[i] >= ' ' && src[i] < 0x7f ? src[i] : '`';
+			if (iter == srcend) break;
+			*dest = toChar(*iter);
+			dest++;
+			iter++;
 		}
-		else
+		for (; i < linelen; i++)
 		{
-			dest[i*3] = dest[i*3+1] = dest[i*3+2] = dest[linelen/4*3+i] = ' ';
+			*dest = ' ';
+			dest++;
 		}
+		src = iter;
 	}
-	dest[linelen] = 0;
-	return src + i;
+	*dest = 0;
+	return src;
 }
 
-
-void Log::hexDump(const void* addr,int len, int linelen)
-{
-	hexDump("%s\n", addr,len, linelen);
-}
-
-void Log::hexDump(const char* fmt, const void* addr, int len, int linelen)
+void Log::hexDump(const void* addr, int len, int linelen)
 {
 	if (!_enabled) return;
 	std::unique_lock<std::mutex> lock(_mutex);
 	
-	if (len > linelen*32)
+	_stream << std::endl;
+	
+	const size_t bufferLen = (sizeof(uint8_t*) * 2) + 1 + (linelen * 3) + linelen + 1;
+	
+	char line[bufferLen];
+	const uint8_t* start = (const uint8_t*)addr;
+	const uint8_t* cur = start;
+	
+	while((cur = dumpline(line, linelen, cur, start+len)))
 	{
-		len = linelen*32;
+		_stream << line << std::endl;
 	}
 	
-	linelen *= 4;
-	static char _buf[4096];
-	char* buf = _buf;//(char*)alloca(linelen+1); // alloca() causes the initialization to fail!!!!
-	buf[linelen]=0;
-	const char*start = (char*)addr;
-	const char*cur = start;
-	while(!!(cur = dumpline(buf,linelen,cur,start+len)))
-	{
-		char line[1024];
-		sprintf(line, fmt, buf);
-		_stream << line;
-	}
+	_stream << std::endl;
 }

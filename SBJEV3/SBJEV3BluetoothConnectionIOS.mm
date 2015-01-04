@@ -183,6 +183,7 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 #else
 	if (_session == nil) return false;
 	// Post the package onto the background run loop
+	_log->hexDump(buffer, (int)len, 16);
 	SendPackage* package = [[SendPackage alloc] init];
 	package.data = [NSData dataWithBytes: buffer length: len];
 	[self performSelector: @selector(sendData:) onThread: _thread withObject: package waitUntilDone: YES modes: @[NSDefaultRunLoopMode]];
