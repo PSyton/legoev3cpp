@@ -10,7 +10,6 @@
 
 #include <iostream>
 #include <type_traits>
-#include <tuple>
 #include <thread>
 
 template<typename T, typename V = bool>
@@ -36,38 +35,6 @@ namespace SBJ
 {
 namespace EV3
 {
-
-/*
- * In order to resolve doOne ambiguity, they must reside in a class templated with Items
- */
-
-template <typename...  Items>
-class CompoundStream
-{
-public:
-	using Tuple = std::tuple<Items...>;
-	
-	CompoundStream(std::ostream& stream, Items... items)
-	: _stream(stream)
-	{
-		const Tuple tuple(items...);
-		doOne(tuple, std::integral_constant<size_t, 0>());
-	}
-
-private:
-    std::ostream& _stream;
-	
-	template <size_t N>
-	inline void doOne(const Tuple& items, std::integral_constant<size_t, N>)
-	{
-		_stream << std::get<N>(items);
-		doOne(items, std::integral_constant<size_t, N+1>());
-	}
-	
-	inline void doOne(const Tuple& items, std::integral_constant<size_t, std::tuple_size<Tuple>::value>)
-	{
-	}
-};
 
 /*
  * TODO:
@@ -110,8 +77,7 @@ public:
 		if (_enabled)
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
-			prefix(domain);
-			CompoundStream<Items...>(_stream, items...);
+			prefix(domain).output(items...);
 			_stream << std::endl;
 		}
 		return *this;
@@ -133,6 +99,19 @@ private:
 	inline Log& prefix(const std::string& domain)
 	{
 		_stream << domain << ": ";
+		return *this;
+	}
+	
+	template <typename T, typename ...P>
+	inline Log& output(T t, P ...p)
+	{
+		_stream << t;
+		return output(p...);
+	}
+
+	inline Log&  output()
+	{
+		_stream << std::endl;
 		return *this;
 	}
 };
