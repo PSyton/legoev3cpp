@@ -22,14 +22,13 @@ static inline char toChar(uint8_t v)
 }
 
 template <typename T>
-char* hdstr(T t, char* dest)
+static char* hdstr(T t, char* dest)
 {
 	constexpr size_t nibbleCount = sizeof(T) * 2;
-	
 	for (size_t i = 0; i < nibbleCount; i++)
 	{
 		unsigned long long value = (unsigned long long)(t);
-		unsigned long long nibble = (unsigned long long)value >> ((nibbleCount - 1 - i) * 4) & 0xf;
+		unsigned long long nibble = (unsigned long long)value >> ((nibbleCount - 1 - i) * 4);
 		*dest = hdigit(nibble);
 		dest++;
 	}

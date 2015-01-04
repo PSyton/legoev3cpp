@@ -36,11 +36,6 @@ namespace SBJ
 namespace EV3
 {
 
-/*
- * TODO:
- *   - More hex dump code cleanup
- */
-
 class Log
 {
 public:
