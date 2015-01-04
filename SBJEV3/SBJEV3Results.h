@@ -104,6 +104,32 @@ struct ArrayResult
 		}
 	};
 };
+
+struct TypeMode
+{
+#pragma pack(push, 1)
+	struct InputType
+	{
+		UBYTE type;
+		UBYTE mode;
+	};
+#pragma pack(pop)
+	
+	using Input = InputType;
+	using Output = Input;
+	
+	constexpr static size_t ResultCount = 2;
+	
+	const static size_t allocatedSize(size_t resultIdx)
+	{
+		return sizeof(UBYTE);
+	}
+	
+	static inline void convert(const Input* input, Output& o)
+	{
+		o = *input;
+	};
+};
 	
 // This is an example of an opcode with two results
 struct TachoSpeed

@@ -33,7 +33,11 @@ using namespace SBJ::EV3;
 	UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(renameBrick:)];
 	tap.numberOfTapsRequired = 2;
 	[_name addGestureRecognizer: tap];
-	
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	[self updateUI];
 }
 

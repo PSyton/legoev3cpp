@@ -5,7 +5,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Connect-->
+        <!--EV3-->
         <scene sceneID="eoe-QS-5r6">
             <objects>
                 <tableViewController storyboardIdentifier="ConnectivityViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jrb-Wm-Z5x" customClass="ConnectivityViewController" sceneMemberID="viewController">
@@ -148,7 +148,7 @@
                             <outlet property="delegate" destination="jrb-Wm-Z5x" id="oIQ-RX-3a8"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Connect" id="Wt2-p5-exO"/>
+                    <tabBarItem key="tabBarItem" title="EV3" image="EV3TabItem" id="Wt2-p5-exO"/>
                     <connections>
                         <outlet property="_battery" destination="idy-Av-hlg" id="aji-dS-qx9"/>
                         <outlet property="_connectType" destination="a2p-jV-zyY" id="OT2-F6-zau"/>
@@ -178,7 +178,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gJ9-WY-YTs">
-                                                    <rect key="frame" x="528" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="switchToggled:" destination="SPt-oB-I3V" eventType="valueChanged" id="A7o-QV-xec"/>
                                                     </connections>
@@ -192,7 +192,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="centerY" secondItem="gJ9-WY-YTs" secondAttribute="centerY" constant="0.25" id="18s-4G-rqA"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="gJ9-WY-YTs" secondAttribute="trailing" constant="15" id="SrB-fG-lrw"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="gJ9-WY-YTs" secondAttribute="trailing" constant="7" id="SrB-fG-lrw"/>
                                                 <constraint firstAttribute="centerY" secondItem="vxi-Uw-bf5" secondAttribute="centerY" constant="0.25" id="hB2-Oq-AB7"/>
                                                 <constraint firstItem="vxi-Uw-bf5" firstAttribute="leading" secondItem="zq5-gi-pxG" secondAttribute="leadingMargin" constant="7" id="pIw-D3-nmk"/>
                                             </constraints>
@@ -208,7 +208,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kgr-9D-S3m">
-                                                    <rect key="frame" x="528" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="switchToggled:" destination="SPt-oB-I3V" eventType="valueChanged" id="F4j-ua-GGZ"/>
                                                     </connections>
@@ -221,7 +221,7 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Kgr-9D-S3m" secondAttribute="trailing" constant="15" id="8Q3-Lc-EdM"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Kgr-9D-S3m" secondAttribute="trailing" constant="7" id="8Q3-Lc-EdM"/>
                                                 <constraint firstAttribute="centerY" secondItem="Kgr-9D-S3m" secondAttribute="centerY" constant="0.25" id="gzt-Kj-gd8"/>
                                                 <constraint firstAttribute="centerY" secondItem="ITT-f7-v3x" secondAttribute="centerY" constant="0.25" id="jO3-Lv-O3I"/>
                                                 <constraint firstItem="ITT-f7-v3x" firstAttribute="leading" secondItem="Gto-aW-bD7" secondAttribute="leadingMargin" constant="7" id="y2l-by-TMQ"/>
@@ -238,7 +238,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fzx-L6-bhb">
-                                                    <rect key="frame" x="528" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="switchToggled:" destination="SPt-oB-I3V" eventType="valueChanged" id="rob-xf-UwX"/>
                                                     </connections>
@@ -253,7 +253,7 @@
                                             <constraints>
                                                 <constraint firstItem="7SJ-BS-Qbd" firstAttribute="leading" secondItem="41o-vF-lpP" secondAttribute="leadingMargin" constant="7" id="Hor-s4-k5H"/>
                                                 <constraint firstAttribute="centerY" secondItem="7SJ-BS-Qbd" secondAttribute="centerY" constant="0.25" id="I91-Zw-N9m"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="Fzx-L6-bhb" secondAttribute="trailing" constant="15" id="T3Y-Sk-m7R"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Fzx-L6-bhb" secondAttribute="trailing" constant="7" id="T3Y-Sk-m7R"/>
                                                 <constraint firstAttribute="centerY" secondItem="Fzx-L6-bhb" secondAttribute="centerY" id="dQE-s3-zfq"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -268,7 +268,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" tag="8" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ruR-jN-r3i">
-                                                    <rect key="frame" x="528" y="6" width="51" height="31"/>
+                                                    <rect key="frame" x="536" y="6" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="switchToggled:" destination="SPt-oB-I3V" eventType="valueChanged" id="pnO-hY-qAm"/>
                                                     </connections>
@@ -282,7 +282,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="centerY" secondItem="ruR-jN-r3i" secondAttribute="centerY" constant="0.25" id="Shc-hh-HWo"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="ruR-jN-r3i" secondAttribute="trailing" constant="15" id="aTi-jk-MyH"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ruR-jN-r3i" secondAttribute="trailing" constant="7" id="aTi-jk-MyH"/>
                                                 <constraint firstItem="D9E-Rl-mRO" firstAttribute="leading" secondItem="iSi-sd-chT" secondAttribute="leadingMargin" constant="6" id="czY-3N-yYJ"/>
                                                 <constraint firstAttribute="centerY" secondItem="D9E-Rl-mRO" secondAttribute="centerY" constant="0.25" id="hbA-6O-ysn"/>
                                             </constraints>
@@ -300,7 +300,7 @@
                             <outlet property="delegate" destination="SPt-oB-I3V" id="aYF-Tu-NTH"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Rails" id="gmh-Uh-34K"/>
+                    <tabBarItem key="tabBarItem" title="Rails" image="RailTabItem" id="gmh-Uh-34K"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qGi-th-j6b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -326,4 +326,8 @@
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="EV3TabItem" width="22" height="22"/>
+        <image name="RailTabItem" width="22" height="22"/>
+    </resources>
 </document>

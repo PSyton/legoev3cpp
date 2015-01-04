@@ -63,13 +63,6 @@ struct SetBrickName : public VariableLenOpcode
 	CString<MaxLength> name;
 	using Result = VoidResult;
 };
-/*
-struct Shutdown
-{
-	const UBYTE code = opUI_READ;
-	const CUValue subcode =  GET_SHUTDOWN;
-};
-*/
 
 struct BatteryVoltage
 {
@@ -212,10 +205,28 @@ struct SoundReady
 	
 #pragma mark - Output
 
+// TODO: appears not implemented in ev3 sources!
+struct GetOutputType
+{
+	const UBYTE code = opOUTPUT_GET_TYPE;
+	CLayer layer;
+	COutputPort port = OutputPort::A;
+	using Result = BasicResult<UBYTE>;
+};
+
+struct SetOutputType
+{
+	const UBYTE code = opOUTPUT_SET_TYPE;
+	CLayer layer;
+	COutputPort port = OutputPort::A;
+	CUValue type = TYPE_TACHO;
+	using Result = VoidResult;
+};
+
 struct OutputPower
 {
 	const UBYTE code = opOUTPUT_POWER;
-	CUValue brick;
+	CLayer layer;
 	COutputPort port = OutputPort::A;
 	CSpeed power;
 	using Result = VoidResult;
@@ -224,7 +235,7 @@ struct OutputPower
 struct OutputStart
 {
 	const UBYTE code = opOUTPUT_START;
-	CUValue brick;
+	CLayer layer;
 	COutputPort port = OutputPort::A;
 	using Result = VoidResult;
 };
@@ -232,7 +243,7 @@ struct OutputStart
 struct OutputTimeSpeed
 {
 	const UBYTE code = opOUTPUT_TIME_SPEED;
-	CUValue brick;
+	CLayer layer;
 	COutputPort port = OutputPort::A;
 	CSpeed speed;
 	CULong rampUpTime;
@@ -245,7 +256,7 @@ struct OutputTimeSpeed
 struct OutputTimePower
 {
 	const UBYTE code = opOUTPUT_TIME_POWER;
-	CUValue brick;
+	CLayer layer;
 	COutputPort port = OutputPort::A;
 	CSpeed power;
 	CULong rampUpTime;
@@ -258,7 +269,7 @@ struct OutputTimePower
 struct OutputStepPower
 {
 	const UBYTE code = opOUTPUT_STEP_POWER;
-	CUValue brick;
+	CLayer layer;
 	COutputPort port = OutputPort::A;
 	CSpeed power;
 	CULong rampUpSteps;
@@ -271,7 +282,7 @@ struct OutputStepPower
 struct OutputStepSpeed
 {
 	const UBYTE code = opOUTPUT_STEP_SPEED;
-	CUValue brick;
+	CLayer layer;
 	COutputPort port = OutputPort::A;
 	CSpeed speed;
 	CULong rampUpSteps;
@@ -284,27 +295,35 @@ struct OutputStepSpeed
 struct OutputPolarity
 {
 	const UBYTE code = opOUTPUT_POLARITY;
-	CUValue brick;
+	CLayer layer;
 	COutputPort port = OutputPort::A;
 	CPolarity polarity;
 	using Result = VoidResult;
 };
 	
 #pragma mark - Input
+	
+struct GetInputType
+{
+	const UBYTE code = opINPUT_DEVICE;
+	const CUValue subcode =  GET_TYPEMODE;
+	CLayer layer;
+	CInputPort port = OutputPort::A;
+	using Result = TypeMode;
+};
 
 // TODO:
-// - Mode and type enums
-// - Determine if mode determines result type (different opcodes with const mode)
+// - What is mode? Type enum appears incomplete
 
 template <UBYTE NumValues = 1>
 struct ReadValues
 {
 	const UBYTE code = opINPUT_DEVICE;
 	const CUValue subcode =  READY_SI;
-	CUValue brick;
+	CLayer layer;
 	CInputPort port = OutputPort::A;
-	CUValue type;
-	CUValue mode;
+	CUValue type = TYPE_KEEP;
+	CMode mode = MODE_KEEP;
 	const CUValue numValues = NumValues;
 	using Result = ArrayResult<ULONG, NumValues>;
 };

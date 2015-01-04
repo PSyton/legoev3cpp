@@ -264,6 +264,8 @@ typedef ValueStore<LocalVarBytes4<ULONG>> LULong;
 typedef ValueStore<LocalVarBytes4<SLONG>> LSLong;
 	
 typedef ValueStore<LocalConstBytes1<SBYTE>, RangeCheck<SBYTE, -100, +100>> CSpeed;
+typedef ValueStore<LocalConstBytes1<SBYTE>, RangeCheck<SBYTE, -1, +17>> CMode;
+typedef ValueStore<LocalConstBytes1<UBYTE>, RangeCheck<UBYTE, 0, 3>> CLayer;
 typedef ValueStore<LocalConstBytes0<UBYTE>, StaticCast<OutputPort, UBYTE>> COutputPort;
 typedef ValueStore<LocalConstBytes0<UBYTE>, StaticCast<Polarity, UBYTE>> CPolarity;
 typedef ValueStore<LocalConstBytes0<UBYTE>, BoolToByte> CBool;
