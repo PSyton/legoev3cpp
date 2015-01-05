@@ -8,6 +8,8 @@
 
 #include "SBJEV3Log.h"
 
+#include <cctype>
+
 using namespace SBJ::EV3;
 
 template <typename T>
@@ -18,7 +20,7 @@ static inline char hdigit(T n)
 
 static inline char toChar(uint8_t v)
 {
-	return v >= ' ' && v < 0x7f ? v : '`';
+	return std::isprint(v) ? v : '`';
 }
 
 template <typename T>
@@ -95,10 +97,8 @@ void Log::hexDump(const void* addr, size_t len, size_t linelen)
 {
 	if (!_enabled) return;
 	std::unique_lock<std::mutex> lock(_mutex);
-	
-	_stream << std::endl;
-	
-	_stream << "Length: " << len << std::endl;
+
+	_stream << "  Length: " << len << std::endl;
 	
 	const size_t bufferLen = (sizeof(uint8_t*) * 2) + 1 + (linelen * 3) + linelen + 1;
 	
@@ -108,8 +108,6 @@ void Log::hexDump(const void* addr, size_t len, size_t linelen)
 	
 	while((cur = dumpline(line, linelen, cur, start+len)))
 	{
-		_stream << line << std::endl;
+		_stream << "  " << line << std::endl;
 	}
-	
-	_stream << std::endl;
 }

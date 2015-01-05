@@ -14,7 +14,6 @@
 #include <tuple>
 #include <cassert>
 #include <type_traits>
-#include <stdio.h>
 
 namespace SBJ
 {
@@ -72,8 +71,9 @@ private:
 		for (size_t i = 0; i < Opcode::Result::ResultCount; i++)
 		{
 			size_t globalAddress = startPosition + replySize;
-			_pos[i] = globalAddress;
-			replySize += Opcode::Result::allocatedSize(i);
+			_pos[i] = (UWORD)globalAddress;
+			size_t allocatedSize = Opcode::Result::allocatedSize(i);
+			replySize += allocatedSize;
 		}
 		return replySize;
 	}
@@ -81,7 +81,7 @@ private:
 #pragma pack(push, 1)
 	Opcode _opcode;
 	// TODO: This may have to have an LValue as well
-	GUValue _pos[Opcode::Result::ResultCount];
+	GUShort _pos[Opcode::Result::ResultCount];
 #pragma pack(pop)
 };
 

@@ -64,19 +64,21 @@ struct LocalConstBytes4
 	static Output convert(Input v) { return {LC4(v)}; }
 };
 
-template <size_t maxLen>
+template <size_t MaxSize>
 struct LocalConstStr
 {
 	using Input = std::string;
-	using Output = std::array<UBYTE, maxLen+2>;
+	using Output = std::array<UBYTE, MaxSize+1>;
 	static Output convert(Input v)
 	{
 		Output output = { LCS };
-		size_t len = std::min(v.length(), maxLen);
-		for (int i = 0; i <= len; i++)
+		size_t len = std::min(v.length(), MaxSize-1);
+		int i = 0;
+		for (; i <= len; i++)
 		{
 			output[i+1] = v[i];
 		}
+		output[i] = 0;
 		return output;
 	}
 };
@@ -232,16 +234,16 @@ typedef ValueStore<LocalConstBytes2<SWORD>> CSShort;
 typedef ValueStore<LocalConstBytes4<ULONG>> CULong;
 typedef ValueStore<LocalConstBytes4<SLONG>> CSLong;
 
-template <size_t maxLen = 256, size_t minLen = 0>
-struct CString : ValueStore<LocalConstStr<maxLen>>
+template <size_t MaxSize = 256, size_t minLen = 0>
+struct CString : ValueStore<LocalConstStr<MaxSize>>
 {
-	using ValueStore<LocalConstStr<maxLen>>::ValueStore;
+	using ValueStore<LocalConstStr<MaxSize>>::ValueStore;
 	
 	size_t differential() const
 	{
 		size_t len = ::strlen((const char*)this);
 		assert(len >= minLen);
-		return maxLen - len + 1;
+		return MaxSize - len;
 	}
 };
 

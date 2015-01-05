@@ -172,7 +172,6 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 - (bool) write: (const uint8_t*) buffer len: (size_t) len
 {
 #if (TARGET_IPHONE_SIMULATOR)
-	_log->hexDump(buffer, (int)len, 16);
 	return false;
 //	dispatch_async(dispatch_get_global_queue(long identifier, unsigned long flags), ^
 //	{
@@ -183,7 +182,6 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 #else
 	if (_session == nil) return false;
 	// Post the package onto the background run loop
-	_log->hexDump(buffer, (int)len, 16);
 	SendPackage* package = [[SendPackage alloc] init];
 	package.data = [NSData dataWithBytes: buffer length: len];
 	[self performSelector: @selector(sendData:) onThread: _thread withObject: package waitUntilDone: YES modes: @[NSDefaultRunLoopMode]];
@@ -217,7 +215,7 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 	{
 		case NSStreamEventHasSpaceAvailable:
 		{
-			_log->write(LogDomian, theStream.class.description, " - Space ");
+			//_log->write(LogDomian, theStream.class.description, " - Space ");
 			NSOutputStream* output = [_session outputStream];
 			if (output == theStream)
 			{
@@ -229,7 +227,7 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 		}
 		case NSStreamEventOpenCompleted:
 		{
-			_log->write(LogDomian, theStream.class.description, " - Open ");
+			//_log->write(LogDomian, theStream.class.description, " - Open ");
 			{
 				std::unique_lock<std::mutex> lock(_mutex);
 				_openStreams++;
@@ -239,7 +237,7 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 		}
 		case NSStreamEventHasBytesAvailable:
 		{
-			_log->write(LogDomian, theStream.class.description, " - Bytes ");
+			//_log->write(LogDomian, theStream.class.description, " - Bytes ");
 			NSInputStream* input = [_session inputStream];
 			if (input == theStream)
 			{
@@ -248,10 +246,10 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 			break;
 		}
 		case NSStreamEventErrorOccurred:
-			_log->write(LogDomian, theStream.class.description, " - Error ");
+			//_log->write(LogDomian, theStream.class.description, " - Error ");
 			break;
 		case NSStreamEventEndEncountered:
-			_log->write(LogDomian, theStream.class.description, " - End ");
+			//_log->write(LogDomian, theStream.class.description, " - End ");
 			break;
 	}
 	if (ready)
@@ -279,9 +277,7 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 		reading += bytesRead;
 	}
 	uint8_t bytesRead = sizeof(buffer)-bytesNotRead;
-	
-	_log->hexDump(buffer, (int)bytesRead, 16);
-	
+
 	if (_read) _read(buffer, bytesRead);
 }
 

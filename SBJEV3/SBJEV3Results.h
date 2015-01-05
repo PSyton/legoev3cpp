@@ -38,7 +38,7 @@ struct VoidResult
 	constexpr static size_t ResultCount = 0;
 	
 	// Provide the required allocated size for each non-contiguous result
-	const static size_t allocatedSize(size_t resultIdx) { return 0; };
+	constexpr static size_t allocatedSize(size_t resultIdx) { return 0; };
 	
 	// Convert the value
 	static inline void convert(const Input*, Output&) { };
@@ -52,7 +52,7 @@ struct BasicResult
 	
 	constexpr static size_t ResultCount = 1;
 	
-	const static size_t allocatedSize(size_t resultIdx)
+	constexpr static size_t allocatedSize(size_t resultIdx)
 	{
 		return sizeof(Input);
 	}
@@ -63,7 +63,7 @@ struct BasicResult
 	};
 };
 
-template <size_t maxLen>
+template <size_t MaxSize>
 struct StringResult
 {
 	using Input = const char;
@@ -71,9 +71,9 @@ struct StringResult
 	
 	constexpr static size_t ResultCount = 1;
 	
-	const static size_t allocatedSize(size_t resultIdx)
+	constexpr static size_t allocatedSize(size_t resultIdx)
 	{
-		return maxLen + 1;
+		return MaxSize;
 	}
 	
 	static inline void convert(const Input* input, Output& output)
@@ -91,7 +91,7 @@ struct ArrayResult
 	
 	constexpr static size_t ResultCount = 1;
 	
-	const static size_t allocatedSize(size_t resultIdx)
+	constexpr static size_t allocatedSize(size_t resultIdx)
 	{
 		return Count * sizeof(Input);
 	}

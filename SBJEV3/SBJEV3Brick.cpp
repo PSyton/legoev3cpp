@@ -68,17 +68,16 @@ void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, st
 	if (_connectionType != Connection::Type::none)
 	{
 		auto result = directCommand(5.0,
-			GetBrickName()/*,
-			HardwareVersion(),
-			FirmwareVersion(),
-			FirmwareBuild(),
-			OSVersion(),
-			OSBuild(),
-			FullVersion()*/
+			GetBrickName(),
+			HardwareVersion()//,
+			//FirmwareVersion(),
+			//FirmwareBuild(),
+			//OSVersion(),
+			//OSBuild(),
+			//FullVersion()
 			);
 		_name = std::get<0>(result);
 		//_version = { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<4>(result), std::get<5>(result), std::get<6>(result) };
-		
 	}
 	else
 	{
