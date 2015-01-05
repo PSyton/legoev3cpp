@@ -77,7 +77,7 @@ public:
 		return *this;
 	}
 	
-	void hexDump(const void* addr,int len, int linelen);
+	void hexDump(const void* addr, size_t len, size_t linelen);
 	
 private:
 #ifdef DEBUG

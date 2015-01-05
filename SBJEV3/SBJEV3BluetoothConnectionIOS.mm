@@ -279,6 +279,9 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 		reading += bytesRead;
 	}
 	uint8_t bytesRead = sizeof(buffer)-bytesNotRead;
+	
+	_log->hexDump(buffer, (int)bytesRead, 16);
+	
 	if (_read) _read(buffer, bytesRead);
 }
 

@@ -35,7 +35,7 @@ static char* hdstr(T t, char* dest)
 	return dest;
 }
 
-static const uint8_t* dumpline(char* dest, int linelen, const uint8_t* src, const uint8_t* srcend)
+static const uint8_t* dumpline(char* dest, size_t linelen, const uint8_t* src, const uint8_t* srcend)
 {
 	if (src >= srcend)
 	{
@@ -91,12 +91,14 @@ static const uint8_t* dumpline(char* dest, int linelen, const uint8_t* src, cons
 	return src;
 }
 
-void Log::hexDump(const void* addr, int len, int linelen)
+void Log::hexDump(const void* addr, size_t len, size_t linelen)
 {
 	if (!_enabled) return;
 	std::unique_lock<std::mutex> lock(_mutex);
 	
 	_stream << std::endl;
+	
+	_stream << "Length: " << len << std::endl;
 	
 	const size_t bufferLen = (sizeof(uint8_t*) * 2) + 1 + (linelen * 3) + linelen + 1;
 	
