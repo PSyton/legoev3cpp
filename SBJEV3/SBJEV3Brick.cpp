@@ -67,17 +67,19 @@ void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, st
 	_stack.connectionChange(connection);
 	if (_connectionType != Connection::Type::none)
 	{
+		// TODO: why timeouts? const length in opcodes could be -1, max lengths maybe incorrect size
 		auto result = directCommand(5.0,
 			GetBrickName(),
-			HardwareVersion()//,
-			//FirmwareVersion(),
-			//FirmwareBuild(),
-			//OSVersion(),
-			//OSBuild(),
-			//FullVersion()
+			HardwareVersion(),
+			//FirmwareVersion(), // timeout
+			FirmwareBuild(),
+			//OSVersion(), // timeout
+			//OSBuild(), // timeout
+			FullVersion()
 			);
 		_name = std::get<0>(result);
-		//_version = { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<4>(result), std::get<5>(result), std::get<6>(result) };
+		// TODO: serial number
+		_version = { std::get<1>(result), /*std::get<2>(result)*/"", std::get<2>(result), /*std::get<4>(result)*/"", /*std::get<5>(result)*/"", std::get<3>(result) };
 	}
 	else
 	{
