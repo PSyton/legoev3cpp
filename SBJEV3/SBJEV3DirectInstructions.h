@@ -25,7 +25,6 @@ static size_t packOpcode(const Opcode& opcode, uint8_t* buffer)
 {
 	if (buffer) ::memcpy(buffer, &opcode, sizeof(Opcode));
 	return sizeof(Opcode);
-	
 }
 
 template<typename Opcode, typename std::enable_if<std::is_base_of<VariableLenOpcode, Opcode>::value == true>::type* = nullptr>
@@ -156,7 +155,7 @@ private:
 		
 		_cmd.CmdSize = sizeof(COMCMD) - sizeof(CMDSIZE) + sizeof(DIRCMD) + accume.opcodeSize;
 		_cmd.MsgCnt = counter;
-		_cmd.Cmd = (forceReply || accume.globalSize > 0) ? DIRECT_COMMAND_REPLY : DIRECT_COMMAND_NO_REPLY;
+		_cmd.Cmd = (forceReply or accume.globalSize > 0) ? DIRECT_COMMAND_REPLY : DIRECT_COMMAND_NO_REPLY;
 		_vars.Globals = (UBYTE)(0x00FF & accume.globalSize);
 		_vars.Locals = (UBYTE)((0xFF00 & accume.globalSize) >> 8);
 		_vars.Locals |= (UBYTE)(accume.localSize << 2);

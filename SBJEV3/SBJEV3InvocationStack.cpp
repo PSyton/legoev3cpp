@@ -78,7 +78,7 @@ void InvocationStack::connectionReplied(const uint8_t* buffer, size_t len)
 const Invocation& InvocationStack::pushInvocation(Invocation& invocation)
 {
 	_log.write(LogDomian, "Call ", invocation.ID());
-	_log.hexDump(invocation.data(), invocation.size(), 16);
+	_log.hexDump(invocation.data(), invocation.size());
 	_invocations.insert(std::make_pair(invocation.ID(), std::move(invocation)));
 	return _invocations.find(invocation.ID())->second;
 }
@@ -86,32 +86,14 @@ const Invocation& InvocationStack::pushInvocation(Invocation& invocation)
 void InvocationStack::replyInvocation(unsigned short messageId, const uint8_t* buffer, size_t len)
 {
 	auto i = _invocations.find(messageId);
+	ReplyStatus status = ReplyStatus::unknownMsg;
 	if (i != _invocations.end())
 	{
-		ReplyStatus complete = i->second.reply(buffer, len);
-		_log.write(LogDomian, "Reply ", messageId, " - ", (int)complete);
-		_log.hexDump(buffer, len, 16);
+		status = i->second.reply(buffer, len);
 		_invocations.erase(i);
 	}
-	else
-	{
-		errorInvocation(messageId);
-	}
-}
-
-void InvocationStack::errorInvocation(unsigned short messageId)
-{
-	auto i = _invocations.find(messageId);
-	if (i != _invocations.end())
-	{
-		i->second.reply(nullptr, 0);
-		_invocations.erase(i);
-		_log.write(LogDomian, "Error ", messageId);
-	}
-	else
-	{
-		_log.write(LogDomian, "Unknown ", messageId);
-	}
+	_log.write(LogDomian, "Reply ", messageId, " - ", ReplyStatusStr(status));
+	_log.hexDump(buffer, len);
 }
 
 void InvocationStack::removeInvocation(unsigned short messageId)

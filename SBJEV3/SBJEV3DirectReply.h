@@ -95,7 +95,7 @@ private:
 			else
 			{
 				// set if the send fails
-				if (buffer == nullptr || len == 0)
+				if (buffer == nullptr or len == 0)
 				{
 					_status = ReplyStatus::sendError;
 				}

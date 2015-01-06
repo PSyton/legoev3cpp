@@ -67,7 +67,7 @@ using namespace SBJ::EV3;
 
 - (void) renameBrick: (UITapGestureRecognizer*) recognizer
 {
-	if (_brick && _brick->isConnected())
+	if (_brick and _brick->isConnected())
 	{
 		UIAlertController* alert = [UIAlertController alertControllerWithTitle: @"Name" message: @"Up to 31 Characters" preferredStyle: UIAlertControllerStyleAlert];
 		[alert addAction: [UIAlertAction actionWithTitle: @"OK" style: UIAlertActionStyleDefault handler: ^(UIAlertAction *action)

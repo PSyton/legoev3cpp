@@ -171,22 +171,11 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 
 - (bool) write: (const uint8_t*) buffer len: (size_t) len
 {
-#if (TARGET_IPHONE_SIMULATOR)
-	return false;
-//	dispatch_async(dispatch_get_global_queue(long identifier, unsigned long flags), ^
-//	{
-//		TODO: come up with a decent simulated reply
-//		if (_read) _read(buffer, bytesRead);
-//	});
-//  return true;
-#else
 	if (_session == nil) return false;
-	// Post the package onto the background run loop
 	SendPackage* package = [[SendPackage alloc] init];
 	package.data = [NSData dataWithBytes: buffer length: len];
 	[self performSelector: @selector(sendData:) onThread: _thread withObject: package waitUntilDone: YES modes: @[NSDefaultRunLoopMode]];
 	return package.sent;
-#endif
 }
 
 - (void) sendData: (SendPackage*) package
@@ -195,7 +184,7 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 	const uint8_t* writing = (uint8_t*)package.data.bytes;
 	size_t bytesToWrite = package.data.length;
 	
-	while (bytesToWrite > 0 && [stream hasSpaceAvailable])
+	while (bytesToWrite > 0 and [stream hasSpaceAvailable])
 	{
 		NSInteger bytesWritten = [stream write: writing maxLength: bytesToWrite];
 		if (bytesWritten == -1)

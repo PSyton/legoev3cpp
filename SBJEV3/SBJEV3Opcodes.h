@@ -29,6 +29,7 @@ namespace EV3
 	
 #pragma pack(push, 1)
 
+// Until detectable custom attributes or template concepts - we use a parent class to tag classes as packable
 struct VariableLenOpcode
 {
 	size_t pack(UBYTE* into) const

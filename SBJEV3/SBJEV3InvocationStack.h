@@ -51,7 +51,6 @@ private:
 	
 	const Invocation& pushInvocation(Invocation& invocation);
 	void replyInvocation(unsigned short messageId, const uint8_t* buffer, size_t len);
-	void errorInvocation(unsigned short messageId);
 	void removeInvocation(unsigned short messageId);
 };
 

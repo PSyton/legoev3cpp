@@ -9,6 +9,7 @@
 #pragma once
 
 #include <functional>
+#include <string>
 
 namespace SBJ
 {
@@ -17,13 +18,20 @@ namespace EV3
 
 enum class ReplyStatus
 {
-	none,
+	none = 0,
 	building,
 	success,
 	sendError,
 	malformedError,
 	lengthError,
+	unknownMsg
 };
+
+inline std::string ReplyStatusStr(ReplyStatus r)
+{
+	const static std::string s[] = {"none", "building", "success", "sendError", "malformedError", "lengthError", "unknownMsg"};
+	return s[static_cast<int>(r)];
+}
 
 template <typename T>
 using Deleter = std::function<void(T*)>;
