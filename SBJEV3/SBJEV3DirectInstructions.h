@@ -19,13 +19,6 @@ namespace SBJ
 {
 namespace EV3
 {
-
-struct DirectOpcodeAccumulation
-{
-	size_t opcodeSize = 0;
-	UWORD globalSize = 0;
-	UWORD localSize = 0;
-};
 	
 template <typename Opcode>
 class ExtendedDirectOpcode
@@ -36,7 +29,7 @@ public:
 	{
 	}
 	
-	void accumulate(DirectOpcodeAccumulation& accume)
+	void accumulate(OpcodeAccumulation& accume)
 	{
 		accume.globalSize += setReplyPositions(accume.globalSize);
 		accume.opcodeSize += (packOpcode(_opcode, nullptr) + sizeof(_pos));
@@ -82,7 +75,7 @@ public:
 	DirectInstructions(unsigned short counter, bool forceReply, Opcodes... opcodes)
 	{
 		AllOpcodes allOpcodes((ExtendedDirectOpcode<Opcodes>(opcodes))...);
-		DirectOpcodeAccumulation accume;
+		OpcodeAccumulation accume;
 		accumulate(allOpcodes, accume, size_type<0>());
 		setHeader(counter, forceReply, accume);
 		if (accume.opcodeSize == sizeof(AllOpcodes))
@@ -110,14 +103,14 @@ private:
 #pragma pack(pop)
 	
 	template <size_t N>
-	inline void accumulate(AllOpcodes& opcodes, DirectOpcodeAccumulation& accume, size_type<N>)
+	inline void accumulate(AllOpcodes& opcodes, OpcodeAccumulation& accume, size_type<N>)
 	{
 		auto& opcode = std::get<N>(opcodes);
 		opcode.accumulate(accume);
 		accumulate(opcodes, accume, size_type<N+1>());
 	}
 	
-	inline void accumulate(AllOpcodes& opcodes, DirectOpcodeAccumulation& accume, size_type<std::tuple_size<AllOpcodes>::value>)
+	inline void accumulate(AllOpcodes& opcodes, OpcodeAccumulation& accume, size_type<std::tuple_size<AllOpcodes>::value>)
 	{
 	}
 	
@@ -135,7 +128,7 @@ private:
 	
 	// The reply buffer is a snapshot of the global space.
 	// TODO: determine how LValues are used.
-	inline void setHeader(unsigned short counter, bool forceReply, const DirectOpcodeAccumulation& accume)
+	inline void setHeader(unsigned short counter, bool forceReply, const OpcodeAccumulation& accume)
 	{
 		assert(accume.globalSize <= MAX_COMMAND_GLOBALS);
 		assert(accume.localSize <= MAX_COMMAND_LOCALS);

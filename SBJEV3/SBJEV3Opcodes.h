@@ -38,6 +38,19 @@ struct VariableLenOpcode
 	}
 };
 
+struct OpcodeAccumulation
+{
+	size_t opcodeSize = 0;
+	UWORD globalSize = 0;
+	UWORD localSize = 0;
+};
+
+static inline size_t alignReply(size_t offset)
+{
+	//return (((offset / 4 ) - 1) * 4) + 4;
+	return offset;
+}
+
 #if 1
 
 template<typename Opcode, typename std::enable_if<std::is_base_of<VariableLenOpcode, Opcode>::value == false>::type* = nullptr>
