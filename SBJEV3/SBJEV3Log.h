@@ -15,6 +15,9 @@
 template<typename T, typename V = bool>
 struct is_objc_class : std::false_type { };
 
+template <typename... T>
+static inline void Expand(const T&...) { }
+
 #ifdef __OBJC__
 
 template<typename T>
@@ -72,7 +75,9 @@ public:
 		if (_enabled)
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
-			prefix(domain).output(items...);
+			_stream << domain << ": ";
+			Expand(_stream << items...);
+			_stream << std::endl;
 		}
 		return *this;
 	}
@@ -87,25 +92,6 @@ private:
 #endif
 	mutable std::mutex _mutex;
     std::ostream& _stream;
-	
-	inline Log& prefix(const std::string& domain)
-	{
-		_stream << domain << ": ";
-		return *this;
-	}
-	
-	template <typename T, typename ...P>
-	inline Log& output(T t, P ...p)
-	{
-		_stream << t;
-		return output(p...);
-	}
-
-	inline Log&  output()
-	{
-		_stream << std::endl;
-		return *this;
-	}
 };
 
 }
