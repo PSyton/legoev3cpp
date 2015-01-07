@@ -74,9 +74,12 @@
 		55A7CBD21A3E10860028553C /* SBJEV3Invocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Invocation.h; sourceTree = "<group>"; };
 		55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3InvocationStack.cpp; sourceTree = "<group>"; };
 		55A7CBD41A3E10860028553C /* SBJEV3InvocationStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3InvocationStack.h; sourceTree = "<group>"; };
-		55A7CBD51A3E10860028553C /* SBJEV3Opcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Opcodes.h; sourceTree = "<group>"; };
+		55A7CBD51A3E10860028553C /* SBJEV3DirectOpcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectOpcodes.h; sourceTree = "<group>"; };
 		55A7CBD61A3E10860028553C /* SBJEV3Results.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Results.h; sourceTree = "<group>"; };
 		55A7CBDD1A3E11350028553C /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		55ADBE001A5D6E9F00A608DC /* SBJEV3SystemOpcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemOpcodes.h; sourceTree = "<group>"; };
+		55ADBE021A5D713800A608DC /* SBJEV3Opcodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3Opcodes.h; sourceTree = "<group>"; };
+		55ADBE041A5D720B00A608DC /* SBJEV3SystemCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemCommand.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,11 +192,14 @@
 				55A7CBD11A3E10860028553C /* SBJEV3Enums.h */,
 				55A7CBC51A3E10860028553C /* SBJEV3ByteCodes.h */,
 				55A7CBD61A3E10860028553C /* SBJEV3Results.h */,
-				55A7CBD51A3E10860028553C /* SBJEV3Opcodes.h */,
+				55ADBE021A5D713800A608DC /* SBJEV3Opcodes.h */,
+				55A7CBD51A3E10860028553C /* SBJEV3DirectOpcodes.h */,
+				55ADBE001A5D6E9F00A608DC /* SBJEV3SystemOpcodes.h */,
 				552D22F71A41083000F188A2 /* SBJEV3SystemInstruction.h */,
 				55A7CBCF1A3E10860028553C /* SBJEV3DirectInstructions.h */,
 				55A7CBD01A3E10860028553C /* SBJEV3DirectReply.h */,
 				55A7CBCE1A3E10860028553C /* SBJEV3DirectCommand.h */,
+				55ADBE041A5D720B00A608DC /* SBJEV3SystemCommand.h */,
 				55A7CBD21A3E10860028553C /* SBJEV3Invocation.h */,
 				55A7CBD41A3E10860028553C /* SBJEV3InvocationStack.h */,
 				55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */,

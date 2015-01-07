@@ -7,7 +7,7 @@
 //
 
 #import "RailSwitch.h"
-#include "SBJEV3Opcodes.h"
+#include "SBJEV3DirectOpcodes.h"
 #include "SBJEV3Log.h"
 #include <cmath>
 

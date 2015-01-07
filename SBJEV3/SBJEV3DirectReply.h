@@ -23,6 +23,9 @@ namespace EV3
 /*
  * DirectReply receives a buffer response and extracts the requested results from the opcodes.
  * The reponse buffer is a snapshot of the global space for the mini-program.
+ *
+ * TODO: do items have to be byte(4) aligned?
+ * TODO try to extend to use for system commands
  */
  
 template <typename... Opcodes>
@@ -103,7 +106,7 @@ private:
 				{
 					// Malformed opcode(s) reported from the EV3
 					COMRPL* header = (COMRPL*)buffer;
-					if (header->Cmd == DIRECT_REPLY_ERROR)
+					if (header->Cmd == DIRECT_REPLY_ERROR or header->Cmd == SYSTEM_REPLY_ERROR)
 					{
 						_status = ReplyStatus::malformedError;
 					}
@@ -142,7 +145,7 @@ private:
 		// Calculate full allocation size and check for boundary condition
 		for(size_t i = 0; i < converter.ResultCount; i++)
 		{
-			size += converter.allocatedSize(i);
+			size += alignReply(converter.allocatedSize(i));
 			if (size > maxLen)
 			{
 				return false;

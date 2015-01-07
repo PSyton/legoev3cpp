@@ -17,6 +17,12 @@ namespace SBJ
 namespace EV3
 {
 
+static inline size_t alignReply(size_t offset)
+{
+	//return (((offset / 4 ) - 1) * 4) + 4;
+	return offset;
+}
+
 /*
  * The Result structures do not require any storage space.
  * They define types and starategies used for defining how the EV3

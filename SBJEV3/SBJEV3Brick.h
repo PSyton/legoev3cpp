@@ -10,9 +10,9 @@
 
 #include "SBJEV3InvocationStack.h"
 #include "SBJEV3DirectCommand.h"
+#include "SBJEV3SystemCommand.h"
 #include "SBJEV3Connection.h"
 #include "SBJEV3DeviceIdentifier.h"
-//#include "SBJEV3Log.h"
 
 #include <memory>
 
