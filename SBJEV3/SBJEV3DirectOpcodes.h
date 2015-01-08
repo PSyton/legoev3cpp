@@ -15,6 +15,8 @@ namespace SBJ
 namespace EV3
 {
 
+#pragma pack(push, 1)
+
 #pragma mark - 
 
 struct GetBrickName
@@ -143,7 +145,7 @@ struct Jump
 {
 	const UBYTE code = opJR;
 	using Result = VoidResult;
-	CSValue offset;
+	CSShort offset;
 };
 
 #pragma mark - UI

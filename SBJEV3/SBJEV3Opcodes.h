@@ -26,8 +26,6 @@ namespace EV3
  *
  * TODO: support use of optional LValues and GValues for opcode parameters
  */
-	
-#pragma pack(push, 1)
 
 // Until detectable custom attributes or template concepts - we use a parent class to tag classes as packable
 struct VariableLenOpcode

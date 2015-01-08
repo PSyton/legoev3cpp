@@ -162,7 +162,17 @@ struct RangeCheck
 {
 	using Input = InputType;
 	using Output = OutputType;
-	inline static InputType convert(InputType v) { return (v < Min ? Min : v > Max ? Max : v); }
+	inline static OutputType convert(InputType v) { return (v < Min ? Min : v > Max ? Max : v); }
+};
+
+template <typename InputType, typename OutputType = InputType,
+			OutputType Min = std::numeric_limits<OutputType>::min(),
+			OutputType Max = std::numeric_limits<OutputType>::max()>
+struct OverflowCheck
+{
+	using Input = InputType;
+	using Output = OutputType;
+	inline static OutputType convert(InputType v) { assert(v >= Min and v <= Max); return static_cast<Output>(v); }
 };
 
 struct BoolToByte
