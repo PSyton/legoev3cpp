@@ -33,44 +33,32 @@ void InvocationStack::connectionChange(std::unique_ptr<Connection>& connection)
 	{
 		_connection->start([this](auto buffer, auto len)
 		{
-			connectionReplied(buffer, len);
+			unsigned short invocationKey = _replyKey(buffer);
+			replyInvocation(invocationKey, buffer, len);
 		});
 	}
 }
 
 void InvocationStack::invoke(Invocation& invocation)
 {
-	const Invocation* actual = nullptr;
-	{
-		std::unique_lock<std::mutex> lock(_mutex);
-		actual = &(pushInvocation(invocation));
-	}
+	static uint8_t SendErrorReply[] = {};
+	const Invocation& actual = pushInvocation(invocation);
 	if (_connection)
 	{
-		if (_connection->write(actual->data(), actual->size()) == false)
+		if (_connection->write(actual.data(), actual.size()) == false)
 		{
-			remove(invocation.ID());
+			replyInvocation(invocation.ID(), SendErrorReply, sizeof(SendErrorReply));
 		}
 	}
 	else
 	{
-		remove(invocation.ID());
+		replyInvocation(invocation.ID(), SendErrorReply, sizeof(SendErrorReply));
 	}
 }
 
 void InvocationStack::remove(unsigned short messageId)
 {
-	std::unique_lock<std::mutex> lock(_mutex);
-	removeInvocation(messageId);
-}
-
-void InvocationStack::connectionReplied(const uint8_t* buffer, size_t len)
-{
-	unsigned short invocationKey= _replyKey(buffer);
-	{
-		std::unique_lock<std::mutex> lock(_mutex);
-		replyInvocation(invocationKey, buffer, len);
-	}
+	replyInvocation(messageId, nullptr, 0);
 }
 
 #pragma mark - private
@@ -79,30 +67,41 @@ const Invocation& InvocationStack::pushInvocation(Invocation& invocation)
 {
 	_log.write(LogDomian, "Call ", invocation.ID());
 	_log.hexDump(invocation.data(), invocation.size());
-	_invocations.insert(std::make_pair(invocation.ID(), std::move(invocation)));
-	return _invocations.find(invocation.ID())->second;
+	{
+		std::unique_lock<std::mutex> lock(_mutex);
+		_invocations.insert(std::make_pair(invocation.ID(), std::move(invocation)));
+		return _invocations.find(invocation.ID())->second;
+	}
 }
 
 void InvocationStack::replyInvocation(unsigned short messageId, const uint8_t* buffer, size_t len)
 {
-	auto i = _invocations.find(messageId);
-	ReplyStatus status = ReplyStatus::unknownMsg;
-	if (i != _invocations.end())
+	Invocation* actual = nullptr;
 	{
-		status = i->second.reply(buffer, len);
-		_invocations.erase(i);
+		std::unique_lock<std::mutex> lock(_mutex);
+		auto i = _invocations.find(messageId);
+		if (i != _invocations.end())
+		{
+			actual = &i->second;
+			_invocations.erase(i);
+		}
 	}
-	_log.write(LogDomian, "Reply ", messageId, " - ", ReplyStatusStr(status));
-	_log.hexDump(buffer, len);
-}
-
-void InvocationStack::removeInvocation(unsigned short messageId)
-{
-	auto i = _invocations.find(messageId);
-	if (i != _invocations.end())
+	// We have a response, send error, or timeout
+	if (actual != nullptr)
 	{
-		i->second.reply(nullptr, 0);
-		_invocations.erase(i);
-		_log.write(LogDomian, "Timeout ", messageId);
+		ReplyStatus status = actual->reply(buffer, len);
+		_log.write(LogDomian, "Reply ", messageId, " - ", ReplyStatusStr(status));
+		_log.hexDump(buffer, len);
+	}
+	// We do not have a record of the invocation
+	else
+	{
+		// EV3 sent us an unknown reply
+		if (buffer != nullptr)
+		{
+			_log.write(LogDomian, "Reply ", messageId, " - ", ReplyStatusStr(ReplyStatus::unknownMsg));
+			_log.hexDump(buffer, len);
+		}
+		// else Invocation Scope ensuring timeout is handled where replyInvocation was previously called
 	}
 }

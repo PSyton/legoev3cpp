@@ -237,7 +237,29 @@ private:
 
 typedef unsigned long long ULONGLONG;
 typedef signed long long SLONGLONG;
-
+/*
+template <size_t MaxSize, size_t MinLen = 0>
+struct SystemStr
+{
+	SystemStr(const std::string& v)
+	{
+		size_t len = std::min(v.length(), MaxSize-1);
+		for (int i; i <= len; i++)
+		{
+			_data[i] = v[i];
+		}
+	}
+	
+	size_t differential() const
+	{
+		size_t len = ::strlen((const char*)this);
+		assert(len >= MinLen);
+		return MaxSize - len;
+	}
+private:
+	std::array<char, MaxSize> _data;
+};
+*/
 typedef ValueStore<LocalConstBytes0<UBYTE>, OverflowCheck<UBYTE, UBYTE, 0, 32>> CUValue;
 typedef ValueStore<LocalConstBytes1<UBYTE>, OverflowCheck<UWORD, UBYTE>> CUByte;
 typedef ValueStore<LocalConstBytes1<SBYTE>, OverflowCheck<SWORD, SBYTE>> CSByte;
@@ -246,7 +268,7 @@ typedef ValueStore<LocalConstBytes2<SWORD>, OverflowCheck<SLONG, SWORD>> CSShort
 typedef ValueStore<LocalConstBytes4<ULONG>, OverflowCheck<ULONGLONG, ULONG>> CULong;
 typedef ValueStore<LocalConstBytes4<SLONG>, OverflowCheck<SLONGLONG, SLONG>> CSLong;
 
-template <size_t MaxSize = 256, size_t minLen = 0>
+template <size_t MaxSize = 256, size_t MinLen = 0>
 struct CString : ValueStore<LocalConstStr<MaxSize>>
 {
 	using ValueStore<LocalConstStr<MaxSize>>::ValueStore;
@@ -254,7 +276,7 @@ struct CString : ValueStore<LocalConstStr<MaxSize>>
 	size_t differential() const
 	{
 		size_t len = ::strlen((const char*)this);
-		assert(len >= minLen);
+		assert(len > MinLen); // account for LCS
 		return MaxSize - len;
 	}
 };

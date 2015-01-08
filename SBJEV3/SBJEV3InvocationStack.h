@@ -46,12 +46,9 @@ private:
 	std::unique_ptr<Connection> _connection;
 	std::mutex _mutex;
 	std::map<unsigned short, Invocation> _invocations;
-	
-	void connectionReplied(const uint8_t* buffer, size_t len);
-	
+		
 	const Invocation& pushInvocation(Invocation& invocation);
 	void replyInvocation(unsigned short messageId, const uint8_t* buffer, size_t len);
-	void removeInvocation(unsigned short messageId);
 };
 
 

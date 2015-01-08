@@ -97,6 +97,14 @@ void Log::hexDump(const void* addr, size_t len, size_t linelen)
 {
 	if (!_enabled) return;
 	std::unique_lock<std::mutex> lock(_mutex);
+	
+	if (addr == nullptr || len == 0)
+	{
+		char addrStr[17] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		hdstr(addr, addrStr);
+		_stream << "  Length: " << len << " at 0x" << addrStr << std::endl;
+		return;
+	}
 
 	_stream << "  Length: " << len << std::endl;
 	

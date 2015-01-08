@@ -19,17 +19,17 @@ namespace EV3
 enum class ReplyStatus
 {
 	none = 0,
-	building,
 	success,
 	sendError,
+	timeout,
+	unknownMsg,
 	malformedError,
 	lengthError,
-	unknownMsg
 };
 
 inline std::string ReplyStatusStr(ReplyStatus r)
 {
-	const static std::string s[] = {"none", "building", "success", "sendError", "malformedError", "lengthError", "unknownMsg"};
+	const static std::string s[] = {"none", "success", "sendError", "timeout", "unknownMsg", "malformedError", "lengthError" };
 	return s[static_cast<int>(r)];
 }
 
@@ -83,10 +83,15 @@ public:
 		return _data.get();
 	}
 	
+	ReplyStatus status() const
+	{
+		return _status;
+	}
+	
 	ReplyStatus reply(const uint8_t* buffer, size_t size)
 	{
-		_replyStatus = _reply(buffer, size);
-		return _replyStatus;
+		_status = _reply(buffer, size);
+		return _status;
 	}
 	
 private:
@@ -94,7 +99,7 @@ private:
 	custodian_ptr<uint8_t> _data;
 	size_t _size;
 	Reply _reply;
-	ReplyStatus _replyStatus = ReplyStatus::none;
+	ReplyStatus _status = ReplyStatus::none;
 };
 
 }

@@ -37,7 +37,6 @@ public:
 
 	DirectReply(float timeout)
 	: _timeout(timeout)
-	, _status(ReplyStatus::none)
 	{
 	}
 	
@@ -61,19 +60,13 @@ public:
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
 			int time = _timeout * 1000.0;
-			_waitOn.wait_for(lock, std::chrono::milliseconds(time), [this]{return _status > ReplyStatus::building;});
+			_waitOn.wait_for(lock, std::chrono::milliseconds(time), [this]{return _status > ReplyStatus::none;});
 		}
 		else
 		{
 			_status = ReplyStatus::success;
 		}
 		return _results;
-	}
-	
-	ReplyStatus status() const
-	{
-		std::unique_lock<std::mutex> lock(_mutex);
-		return _status;
 	}
 	
 private:
@@ -85,46 +78,34 @@ private:
 	const float _timeout;
 	Converters _converters;
 	Results _results;
-	ReplyStatus _status;
+	ReplyStatus _status = ReplyStatus::none;
 	
 	ReplyStatus replied(const uint8_t* buffer, size_t len)
 	{
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
-			// strange edge case
-			if (_status > ReplyStatus::building)
+			if (len == 0)
 			{
+				_status = buffer != nullptr ? ReplyStatus::sendError : ReplyStatus::timeout;
 			}
 			else
 			{
-				// set if the send fails
-				if (buffer == nullptr or len == 0)
+				COMRPL* header = (COMRPL*)buffer;
+				if (header->Cmd == DIRECT_REPLY_ERROR or header->Cmd == SYSTEM_REPLY_ERROR)
 				{
-					_status = ReplyStatus::sendError;
+					_status = ReplyStatus::malformedError;
 				}
 				else
 				{
-					// Malformed opcode(s) reported from the EV3
-					COMRPL* header = (COMRPL*)buffer;
-					if (header->Cmd == DIRECT_REPLY_ERROR or header->Cmd == SYSTEM_REPLY_ERROR)
+					const size_t payloadLen = len - sizeof(COMRPL);
+					const uint8_t* payload = buffer + sizeof(COMRPL);
+					if (itemizedCopy(size_type<0>(), payload, payloadLen))
 					{
-						_status = ReplyStatus::malformedError;
+						_status = ReplyStatus::success;
 					}
 					else
 					{
-						// Convert the values
-						_status = ReplyStatus::building;
-						const size_t payloadLen = len - sizeof(COMRPL);
-						const uint8_t* payload = buffer + sizeof(COMRPL);
-						if (itemizedCopy(size_type<0>(), payload, payloadLen))
-						{
-							_status = ReplyStatus::success;
-						}
-						// Lengths do not match up
-						else
-						{
-							_status = ReplyStatus::lengthError;
-						}
+						_status = ReplyStatus::lengthError;
 					}
 				}
 			}
