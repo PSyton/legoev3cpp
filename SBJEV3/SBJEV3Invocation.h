@@ -60,14 +60,9 @@ public:
 	{
 	}
 	
-	Invocation(Invocation&& rhs)
-	: _messageId(rhs._messageId)
-	, _data(std::move(rhs._data))
-	, _size(rhs._size)
-	, _reply(rhs._reply)
-	{
-		rhs._data = nullptr;
-	}
+	Invocation(Invocation&& rhs) = default;
+	
+	Invocation& operator = (Invocation&& rhs) = default;
 	
 	~Invocation()
 	{

@@ -235,14 +235,16 @@ private:
 	
 // Types
 
-typedef ValueStore<LocalConstBytes0<UBYTE>> CUValue;
-typedef ValueStore<LocalConstBytes0<SBYTE>> CSValue;
-typedef ValueStore<LocalConstBytes1<UBYTE>> CUByte;
-typedef ValueStore<LocalConstBytes1<SBYTE>> CSByte;
-typedef ValueStore<LocalConstBytes2<UWORD>> CUShort;
-typedef ValueStore<LocalConstBytes2<SWORD>> CSShort;
-typedef ValueStore<LocalConstBytes4<ULONG>> CULong;
-typedef ValueStore<LocalConstBytes4<SLONG>> CSLong;
+typedef unsigned long long ULONGLONG;
+typedef signed long long SLONGLONG;
+
+typedef ValueStore<LocalConstBytes0<UBYTE>, OverflowCheck<UBYTE, UBYTE, 0, 32>> CUValue;
+typedef ValueStore<LocalConstBytes1<UBYTE>, OverflowCheck<UWORD, UBYTE>> CUByte;
+typedef ValueStore<LocalConstBytes1<SBYTE>, OverflowCheck<SWORD, SBYTE>> CSByte;
+typedef ValueStore<LocalConstBytes2<UWORD>, OverflowCheck<ULONG, UWORD>> CUShort;
+typedef ValueStore<LocalConstBytes2<SWORD>, OverflowCheck<SLONG, SWORD>> CSShort;
+typedef ValueStore<LocalConstBytes4<ULONG>, OverflowCheck<ULONGLONG, ULONG>> CULong;
+typedef ValueStore<LocalConstBytes4<SLONG>, OverflowCheck<SLONGLONG, SLONG>> CSLong;
 
 template <size_t MaxSize = 256, size_t minLen = 0>
 struct CString : ValueStore<LocalConstStr<MaxSize>>
@@ -257,27 +259,25 @@ struct CString : ValueStore<LocalConstStr<MaxSize>>
 	}
 };
 
-typedef ValueStore<GlobalVarBytes0<UBYTE>> GUValue;
-typedef ValueStore<GlobalVarBytes0<SBYTE>> GSValue;
-typedef ValueStore<GlobalVarBytes1<UBYTE>> GUByte;
-typedef ValueStore<GlobalVarBytes1<SBYTE>> GSByte;
-typedef ValueStore<GlobalVarBytes2<UWORD>> GUShort;
-typedef ValueStore<GlobalVarBytes2<SWORD>> GSShort;
-typedef ValueStore<GlobalVarBytes4<ULONG>> GULong;
-typedef ValueStore<GlobalVarBytes4<SLONG>> GSLong;
+typedef ValueStore<GlobalVarBytes0<UBYTE>, OverflowCheck<UBYTE, UBYTE, 0x00, 0x32>> GUValue;
+typedef ValueStore<GlobalVarBytes1<UBYTE>, OverflowCheck<UWORD, UBYTE>> GUByte;
+typedef ValueStore<GlobalVarBytes1<SBYTE>, OverflowCheck<SWORD, SBYTE>> GSByte;
+typedef ValueStore<GlobalVarBytes2<UWORD>, OverflowCheck<ULONG, UWORD>> GUShort;
+typedef ValueStore<GlobalVarBytes2<SWORD>, OverflowCheck<SLONG, SWORD>> GSShort;
+typedef ValueStore<GlobalVarBytes4<ULONG>, OverflowCheck<ULONGLONG, ULONG>> GULong;
+typedef ValueStore<GlobalVarBytes4<SLONG>, OverflowCheck<SLONGLONG, SLONG>> GSLong;
 	
-typedef ValueStore<LocalVarBytes0<UBYTE>> LUValue;
-typedef ValueStore<LocalVarBytes0<SBYTE>> LSValue;
-typedef ValueStore<LocalVarBytes1<UBYTE>> LUByte;
-typedef ValueStore<LocalVarBytes1<SBYTE>> LSByte;
-typedef ValueStore<LocalVarBytes2<UWORD>> LUShort;
-typedef ValueStore<LocalVarBytes2<SWORD>> LSShort;
-typedef ValueStore<LocalVarBytes4<ULONG>> LULong;
-typedef ValueStore<LocalVarBytes4<SLONG>> LSLong;
+typedef ValueStore<LocalVarBytes0<UBYTE>, OverflowCheck<UBYTE, UBYTE, 0x00, 0x32>> LUValue;
+typedef ValueStore<LocalVarBytes1<UBYTE>, OverflowCheck<UWORD, UBYTE>> LUByte;
+typedef ValueStore<LocalVarBytes1<SBYTE>, OverflowCheck<SWORD, SBYTE>> LSByte;
+typedef ValueStore<LocalVarBytes2<UWORD>, OverflowCheck<ULONG, UWORD>> LUShort;
+typedef ValueStore<LocalVarBytes2<SWORD>, OverflowCheck<SLONG, SWORD>> LSShort;
+typedef ValueStore<LocalVarBytes4<ULONG>, OverflowCheck<ULONGLONG, ULONG>> LULong;
+typedef ValueStore<LocalVarBytes4<SLONG>, OverflowCheck<SLONGLONG, SLONG>> LSLong;
 	
 typedef ValueStore<LocalConstBytes1<SBYTE>, RangeCheck<SBYTE, -100, +100>> CSpeed;
 typedef ValueStore<LocalConstBytes1<SBYTE>, RangeCheck<SBYTE, -1, +17>> CMode;
-typedef ValueStore<LocalConstBytes1<UBYTE>, RangeCheck<UBYTE, 0, 3>> CLayer;
+typedef ValueStore<LocalConstBytes0<UBYTE>, RangeCheck<UBYTE, 0, 3>> CLayer;
 typedef ValueStore<LocalConstBytes0<UBYTE>, StaticCast<OutputPort, UBYTE>> COutputPort;
 typedef ValueStore<LocalConstBytes0<UBYTE>, StaticCast<Polarity, UBYTE>> CPolarity;
 typedef ValueStore<LocalConstBytes0<UBYTE>, BoolToByte> CBool;

@@ -67,7 +67,11 @@ void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, st
 	_stack.connectionChange(connection);
 	if (_connectionType != Connection::Type::none)
 	{
-		// TODO: why timeouts? const length in opcodes could be -1, max lengths maybe incorrect size, or replies have to be byte(N) aligned
+		// TODO: why timeouts?
+		// - const length in opcodes could be -1
+		// - max lengths maybe incorrect size
+		// - replies have to be byte(N) aligned
+		// - max length constant wrong byte code type
 		auto result = directCommand(5.0,
 			GetBrickName(),
 			HardwareVersion(),
