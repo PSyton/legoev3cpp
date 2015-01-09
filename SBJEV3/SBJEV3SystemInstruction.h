@@ -32,7 +32,7 @@ public:
 	{
 		OpcodeAccumulation accume;
 		accume.opcodeSize = packOpcode(opcode, _data);
-		accume.globalSize = alignReply(Opcode::Reply::allocatedSize(0));
+		accume.globalSize = alignReply(Opcode::Result::allocatedSize(0));
 		setHeader(counter, forceReply, accume);
 	}
 	
@@ -50,9 +50,11 @@ private:
 	
 	inline void setHeader(unsigned short counter, bool forceReply, const OpcodeAccumulation& accume)
 	{
-		_cmd.CmdSize = sizeof(COMCMD) - sizeof(CMDSIZE) + sizeof(DIRCMD) + accume.opcodeSize;
+		_cmd.CmdSize = sizeof(COMCMD) - sizeof(CMDSIZE) + accume.opcodeSize;
 		_cmd.MsgCnt = counter;
 		_cmd.Cmd = (forceReply or accume.globalSize > 0) ? SYSTEM_COMMAND_REPLY : SYSTEM_COMMAND_NO_REPLY;
+		
+		assert(_cmd.CmdSize <= MAX_COMMAND_SIZE);
 	}
 };
 

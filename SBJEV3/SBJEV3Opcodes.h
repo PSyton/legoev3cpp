@@ -25,6 +25,7 @@ namespace EV3
  * pack method.
  *
  * TODO: support use of optional LValues and GValues for opcode parameters
+ * TODO: there are reply alignment rules not followed yet
  */
 
 // Until detectable custom attributes or template concepts - we use a parent class to tag classes as packable
@@ -49,6 +50,8 @@ static inline size_t alignReply(size_t offset)
 	return offset;
 }
 
+#define   MAX_COMMAND_SIZE    65534
+
 #if 1
 
 template<typename Opcode, typename std::enable_if<std::is_base_of<VariableLenOpcode, Opcode>::value == false>::type* = nullptr>
@@ -64,7 +67,7 @@ static inline size_t packOpcode(const Opcode& opcode, uint8_t* buffer)
 	return opcode.pack(buffer);
 }
 
-#else
+#else // pre C++11 equiv
 
 template<bool NeedsPacking = false>
 struct PackOpcodeImpl

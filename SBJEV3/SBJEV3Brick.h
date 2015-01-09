@@ -113,7 +113,7 @@ public:
 		InvocationScope invocationScope(_stack, invocation);
 		return command.wait();
 	}
-	/*
+
 	template <typename  Opcode>
 	typename SystemCommand<Opcode>::Results systemCommand(float timeout, Opcode opcode)
 	{
@@ -123,7 +123,7 @@ public:
 		InvocationScope invocationScope(_stack, invocation);
 		return command.wait();
 	}
-	*/
+
 private:
 	Log& _log;
 	DeviceIdentifier _identifier;

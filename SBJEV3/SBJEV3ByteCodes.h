@@ -237,29 +237,7 @@ private:
 
 typedef unsigned long long ULONGLONG;
 typedef signed long long SLONGLONG;
-/*
-template <size_t MaxSize, size_t MinLen = 0>
-struct SystemStr
-{
-	SystemStr(const std::string& v)
-	{
-		size_t len = std::min(v.length(), MaxSize-1);
-		for (int i; i <= len; i++)
-		{
-			_data[i] = v[i];
-		}
-	}
-	
-	size_t differential() const
-	{
-		size_t len = ::strlen((const char*)this);
-		assert(len >= MinLen);
-		return MaxSize - len;
-	}
-private:
-	std::array<char, MaxSize> _data;
-};
-*/
+
 typedef ValueStore<LocalConstBytes0<UBYTE>, OverflowCheck<UBYTE, UBYTE, 0, 32>> CUValue;
 typedef ValueStore<LocalConstBytes1<UBYTE>, OverflowCheck<UWORD, UBYTE>> CUByte;
 typedef ValueStore<LocalConstBytes1<SBYTE>, OverflowCheck<SWORD, SBYTE>> CSByte;

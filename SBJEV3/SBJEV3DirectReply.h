@@ -91,7 +91,7 @@ private:
 			else
 			{
 				COMRPL* header = (COMRPL*)buffer;
-				if (header->Cmd == DIRECT_REPLY_ERROR or header->Cmd == SYSTEM_REPLY_ERROR)
+				if (header->Cmd == DIRECT_REPLY_ERROR)
 				{
 					_status = ReplyStatus::malformedError;
 				}
@@ -99,7 +99,7 @@ private:
 				{
 					const size_t payloadLen = len - sizeof(COMRPL);
 					const uint8_t* payload = buffer + sizeof(COMRPL);
-					if (itemizedCopy(size_type<0>(), payload, payloadLen))
+					if (itemizedCopy(size_type<0>(), payload, payloadLen, header->Cmd))
 					{
 						_status = ReplyStatus::success;
 					}
@@ -115,7 +115,7 @@ private:
 	}
 
 	template <size_t N>
-	inline bool itemizedCopy(size_type<N>, const uint8_t* buffer, size_t maxLen)
+	inline bool itemizedCopy(size_type<N>, const uint8_t* buffer, size_t maxLen, UBYTE cmdState)
 	{
 		auto& converter = std::get<N>(_converters);
 		using ConverterRef = decltype(converter);
@@ -127,7 +127,8 @@ private:
 		for(size_t i = 0; i < converter.ResultCount; i++)
 		{
 			size += alignReply(converter.allocatedSize(i));
-			if (size > maxLen)
+			// system cmd errors are handled by the result object
+			if (cmdState ==  DIRECT_REPLY && size > maxLen)
 			{
 				return false;
 			}
@@ -137,10 +138,10 @@ private:
 		auto& result = std::get<N>(_results);
 		converter.convert((InputType*)buffer, result);
 		
-		return itemizedCopy(size_type<N+1>(), buffer + size, maxLen - size);
+		return itemizedCopy(size_type<N+1>(), buffer + size, maxLen - size, cmdState);
 	}
 	
-	inline bool itemizedCopy(size_type<std::tuple_size<Results>::value>, const uint8_t* buffer, size_t maxLen)
+	inline bool itemizedCopy(size_type<std::tuple_size<Results>::value>, const uint8_t* buffer, size_t maxLen, UBYTE cmdState)
 	{
 		return true;
 	}

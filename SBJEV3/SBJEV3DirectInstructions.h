@@ -139,6 +139,8 @@ private:
 		_vars.Globals = (UBYTE)(0x00FF & accume.globalSize);
 		_vars.Locals = (UBYTE)((0xFF00 & accume.globalSize) >> 8);
 		_vars.Locals |= (UBYTE)(accume.localSize << 2);
+		
+		assert(_cmd.CmdSize <= MAX_COMMAND_SIZE);
 	}
 };
 
