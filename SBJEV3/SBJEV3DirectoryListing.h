@@ -26,10 +26,9 @@ public:
 		{
 			root  = ROOTDIR + root;
 		}
-		load();
 	}
 	
-	const SysDirResource::Entry& operator [] (size_t i) const
+	const SysDirEntry& operator [] (size_t i) const
 	{
 		return _listing.entries[i];
 	}
@@ -39,8 +38,18 @@ public:
 		return _listing.entries.size();
 	}
 	
-	void load(size_t i)
+	void refresh()
 	{
+		ListFiles listFiles;
+		listFiles.resource = _paths.back();
+		auto t = _brick.systemCommand(2.0, listFiles);
+		_listing = std::get<0>(t);
+	}
+	
+	void change(size_t i)
+	{
+		if (_listing.entries.size() == 0) return;
+		
 		auto e = _listing.entries[i].name;
 		if (e == PARENTDIR)
 		{
@@ -50,21 +59,13 @@ public:
 		{
 			_paths.push_back(_paths.back() + e);
 		}
-		load();
+		refresh();
 	}
 	
 private:
 	Brick& _brick;
 	std::vector<std::string> _paths;
 	SysDirResource _listing;
-	
-	void load()
-	{
-		ListFiles listFiles;
-		listFiles.resource = _paths.back();
-		auto t = _brick.systemCommand(2.0, listFiles);
-		_listing = std::get<0>(t);
-	}
 };
 
 }

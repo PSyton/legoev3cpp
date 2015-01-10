@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		55781F6D1A6175BE00BD0ABB /* SBJEV3DirectoryListing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55781F6B1A6175BE00BD0ABB /* SBJEV3DirectoryListing.cpp */; };
 		5596B7601A56D7070079C403 /* SBJEV3Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */; };
 		55A7CB7A1A3E07130028553C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB791A3E07130028553C /* main.m */; };
 		55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7C1A3E07130028553C /* AppDelegate.mm */; };
@@ -41,7 +40,6 @@
 		552D22F71A41083000F188A2 /* SBJEV3SystemInstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemInstruction.h; sourceTree = "<group>"; };
 		55781F661A61719200BD0ABB /* SBJEV3DirectResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectResults.h; sourceTree = "<group>"; };
 		55781F691A61720400BD0ABB /* SBJEV3SystemResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemResults.h; sourceTree = "<group>"; };
-		55781F6B1A6175BE00BD0ABB /* SBJEV3DirectoryListing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3DirectoryListing.cpp; sourceTree = "<group>"; };
 		55781F6C1A6175BE00BD0ABB /* SBJEV3DirectoryListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectoryListing.h; sourceTree = "<group>"; };
 		5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3Log.cpp; sourceTree = "<group>"; };
 		5596B75F1A56D7070079C403 /* SBJEV3Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Log.h; sourceTree = "<group>"; };
@@ -236,7 +234,6 @@
 				5596B75F1A56D7070079C403 /* SBJEV3Log.h */,
 				5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */,
 				55781F6C1A6175BE00BD0ABB /* SBJEV3DirectoryListing.h */,
-				55781F6B1A6175BE00BD0ABB /* SBJEV3DirectoryListing.cpp */,
 				552D221A1A407DBC00F188A2 /* Connection Management */,
 				55781F6A1A61726400BD0ABB /* Commands */,
 				55781F671A61719A00BD0ABB /* Direct Commands */,
@@ -358,7 +355,6 @@
 				55A7CBD81A3E10860028553C /* SBJEV3Brick.cpp in Sources */,
 				55A7CB7A1A3E07130028553C /* main.m in Sources */,
 				55A7CBDA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm in Sources */,
-				55781F6D1A6175BE00BD0ABB /* SBJEV3DirectoryListing.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

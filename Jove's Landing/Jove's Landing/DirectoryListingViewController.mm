@@ -24,6 +24,7 @@ using namespace SBJ::EV3;
 	_listing = new DirectoryListing(*brick);
 	if (self.isViewLoaded)
 	{
+		_listing->refresh();
 		[self.tableView reloadData];
 	}
 }
@@ -32,6 +33,16 @@ using namespace SBJ::EV3;
 {
     [super viewDidLoad];
 	self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	if (_listing)
+	{
+		_listing->refresh();
+		[self.tableView reloadData];
+	}
 }
 
 #pragma mark - Table view data source
@@ -53,11 +64,11 @@ using namespace SBJ::EV3;
 	auto entry = (*_listing)[indexPath.row];
 	if (entry.isDirectory())
 	{
-		cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	else
 	{
-		cell.accessoryType = UITableViewCellAccessoryNone;
+		cell.accessoryType = UITableViewCellAccessoryDetailButton;
 	}
     
     cell.textLabel.text = [NSString stringWithUTF8String: entry.simpleName().c_str()];
@@ -65,10 +76,17 @@ using namespace SBJ::EV3;
     return cell;
 }
 
-- (void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	_listing->load(indexPath.row);
-	[self.tableView reloadData];
+	auto entry = (*_listing)[indexPath.row];
+	if (entry.isDirectory())
+	{
+		_listing->change(indexPath.row);
+		[self.tableView reloadData];
+	}
+	else
+	{
+	}
 }
 
 @end

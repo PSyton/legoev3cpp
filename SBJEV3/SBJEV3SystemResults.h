@@ -36,24 +36,52 @@ struct SysChunkResource : public SysResource
 };
 #pragma pack(pop)
 
+
+struct SysDirEntry
+{
+	SysDirEntry(const std::string& line)
+	: hash(Hash(line))
+	, size(line.back() == '/' ? 0 : ::atoi(line.c_str()+34))
+	, name(line.back() == '/' ? line : line.substr(42))
+	{
+	}
+		
+	std::array<UBYTE, 16> hash = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	ULONG size = 0;
+	std::string name = "";
+	
+	bool isDirectory() const { return name.back() == '/'; }
+	std::string simpleName() const
+	{
+		if (isDirectory())
+		{
+			return std::string(name).erase(name.size()-1);
+		}
+		return name;
+	}
+	
+private:
+	static inline std::array<UBYTE, 16> Hash(const std::string& line)
+	{
+		std::array<UBYTE, 16> hash = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		if (line.back() != '/')
+		{
+			for (int i = 0; i < 16; i+=1)
+			{
+				char c1 = line[i*2];
+				char c2 = line[line[i*2+1]];
+				UBYTE msn = std::isalpha(c1) ? 'A' - c1 : '0' - c1;
+				UBYTE lsn = std::isalpha(c2) ? 'A' - c2 : '0' - c2;
+				hash[i] = (msn << 4) | lsn;
+			}
+		}
+		return hash;
+	}
+};
+
 struct SysDirResource : public SysResource
 {
-	struct Entry
-	{
-		UBYTE hash[16];
-		ULONG size;
-		std::string name;
-		bool isDirectory() const { return name.back() == '/'; }
-		std::string simpleName() const
-		{
-			if (isDirectory())
-			{
-				return std::string(name).erase(name.size()-1);
-			}
-			return name;
-		}
-	};
-	std::vector<Entry> entries;
+	std::vector<SysDirEntry> entries;
 	
 	void populate(const char* data, size_t len)
 	{
@@ -67,7 +95,7 @@ struct SysDirResource : public SysResource
 				{
 					line[j] = 0;
 					j = 0;
-					Entry e = {{}, 0, line};
+					SysDirEntry e(line);
 					entries.push_back(e);
 					break;
 				}
