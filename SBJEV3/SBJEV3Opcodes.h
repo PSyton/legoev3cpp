@@ -25,10 +25,9 @@ namespace EV3
  * pack method.
  *
  * TODO: support use of optional LValues and GValues for opcode parameters
- * TODO: there are reply alignment rules not followed yet
  */
 
-// Until detectable custom attributes or template concepts - we use a parent class to tag classes as packable
+// Until detectable custom attributes or template concepts (c++17++) - we use a parent class to tag classes as packable
 struct VariableLenOpcode
 {
 	size_t pack(UBYTE* into) const

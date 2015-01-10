@@ -15,6 +15,7 @@
 
 #import "ConnectivityViewController.h"
 #import "RailSwitchViewController.h"
+#import "DirectoryListingViewController.h"
 
 using namespace SBJ::EV3;
 
@@ -26,6 +27,7 @@ Log mylog(std::cout);
 	std::unique_ptr<Brick> _brick;
 	__weak ConnectivityViewController* _connectivity;
 	__weak RailSwitchViewController* _rails;
+	__weak DirectoryListingViewController* _dirListing;
 	
 }
 @end
@@ -48,9 +50,11 @@ Log mylog(std::cout);
 	UITabBarController* controller = (UITabBarController*)self.window.rootViewController;
 	_connectivity = controller.viewControllers[0];
 	_rails = controller.viewControllers[1];
+	_dirListing = controller.viewControllers[2];
 	
 	[_connectivity setBrick: _brick.get()];
 	[_rails setBrick: _brick.get()];
+	[_dirListing setBrick: _brick.get()];
 	
 	return YES;
 }

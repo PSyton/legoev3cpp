@@ -22,7 +22,7 @@ class Log;
 class Connection;
 
 /*
- * InvocationStack sends an invocation and matches it to a response buffer
+ * InvocationStack sends an invocation and matches it to a response function
  */
 	
 class InvocationStack

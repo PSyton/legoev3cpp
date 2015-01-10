@@ -9,7 +9,7 @@
 #pragma once
 
 #include "SBJEV3DirectInstructions.h"
-#include "SBJEV3DirectReply.h"
+#include "SBJEV3InvocationReply.h"
 
 namespace SBJ
 {
@@ -17,14 +17,14 @@ namespace EV3
 {
 
 /*
- * DirectCommand merges DirectInstructions with a DirectReply to create an Invocation
+ * DirectCommand merges DirectInstructions with a InvocationReply to create an Invocation
  */
  
 template <typename... Opcodes>
 class DirectCommand
 {
 public:
-	using Results = typename DirectReply<Opcodes...>::Results;
+	using Results = typename InvocationReply<Opcodes...>::Results;
 	
 	DirectCommand(unsigned short messageId, float timeout, Opcodes... opcodes)
 	: _instructions(messageId, timeout > 0.0, opcodes...)
@@ -49,7 +49,7 @@ public:
 	
 private:
 	DirectInstructions<Opcodes...> _instructions;
-	DirectReply<Opcodes...> _reply;
+	InvocationReply<Opcodes...> _reply;
 };
 
 }

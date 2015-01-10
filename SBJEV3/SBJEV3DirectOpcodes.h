@@ -9,6 +9,7 @@
 #pragma once
 
 #include "SBJEV3Opcodes.h"
+#include "SBJEV3DirectResults.h"
 
 namespace SBJ
 {

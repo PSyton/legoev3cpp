@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55781F6D1A6175BE00BD0ABB /* SBJEV3DirectoryListing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55781F6B1A6175BE00BD0ABB /* SBJEV3DirectoryListing.cpp */; };
 		5596B7601A56D7070079C403 /* SBJEV3Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */; };
 		55A7CB7A1A3E07130028553C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB791A3E07130028553C /* main.m */; };
 		55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7C1A3E07130028553C /* AppDelegate.mm */; };
@@ -23,6 +24,7 @@
 		55A7CBDB1A3E10860028553C /* SBJEV3ConnectionToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBCB1A3E10860028553C /* SBJEV3ConnectionToken.cpp */; };
 		55A7CBDC1A3E10860028553C /* SBJEV3InvocationStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */; };
 		55A7CBDE1A3E11350028553C /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A7CBDD1A3E11350028553C /* ExternalAccessory.framework */; };
+		55B04B9A1A607F41006265AB /* DirectoryListingViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55B04B991A607F41006265AB /* DirectoryListingViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +39,10 @@
 
 /* Begin PBXFileReference section */
 		552D22F71A41083000F188A2 /* SBJEV3SystemInstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemInstruction.h; sourceTree = "<group>"; };
+		55781F661A61719200BD0ABB /* SBJEV3DirectResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectResults.h; sourceTree = "<group>"; };
+		55781F691A61720400BD0ABB /* SBJEV3SystemResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemResults.h; sourceTree = "<group>"; };
+		55781F6B1A6175BE00BD0ABB /* SBJEV3DirectoryListing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3DirectoryListing.cpp; sourceTree = "<group>"; };
+		55781F6C1A6175BE00BD0ABB /* SBJEV3DirectoryListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectoryListing.h; sourceTree = "<group>"; };
 		5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3Log.cpp; sourceTree = "<group>"; };
 		5596B75F1A56D7070079C403 /* SBJEV3Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Log.h; sourceTree = "<group>"; };
 		55A7CB741A3E07130028553C /* Jove's Landing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jove's Landing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,7 +75,7 @@
 		55A7CBCD1A3E10860028553C /* SBJEV3DeviceIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DeviceIdentifier.h; sourceTree = "<group>"; };
 		55A7CBCE1A3E10860028553C /* SBJEV3DirectCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectCommand.h; sourceTree = "<group>"; };
 		55A7CBCF1A3E10860028553C /* SBJEV3DirectInstructions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectInstructions.h; sourceTree = "<group>"; };
-		55A7CBD01A3E10860028553C /* SBJEV3DirectReply.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectReply.h; sourceTree = "<group>"; };
+		55A7CBD01A3E10860028553C /* SBJEV3InvocationReply.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3InvocationReply.h; sourceTree = "<group>"; };
 		55A7CBD11A3E10860028553C /* SBJEV3Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Enums.h; sourceTree = "<group>"; };
 		55A7CBD21A3E10860028553C /* SBJEV3Invocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Invocation.h; sourceTree = "<group>"; };
 		55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3InvocationStack.cpp; sourceTree = "<group>"; };
@@ -80,6 +86,8 @@
 		55ADBE001A5D6E9F00A608DC /* SBJEV3SystemOpcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemOpcodes.h; sourceTree = "<group>"; };
 		55ADBE021A5D713800A608DC /* SBJEV3Opcodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3Opcodes.h; sourceTree = "<group>"; };
 		55ADBE041A5D720B00A608DC /* SBJEV3SystemCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemCommand.h; sourceTree = "<group>"; };
+		55B04B981A607F41006265AB /* DirectoryListingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryListingViewController.h; sourceTree = "<group>"; };
+		55B04B991A607F41006265AB /* DirectoryListingViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DirectoryListingViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +124,43 @@
 			name = "Connection Management";
 			sourceTree = "<group>";
 		};
+		55781F671A61719A00BD0ABB /* Direct Commands */ = {
+			isa = PBXGroup;
+			children = (
+				55781F661A61719200BD0ABB /* SBJEV3DirectResults.h */,
+				55A7CBD51A3E10860028553C /* SBJEV3DirectOpcodes.h */,
+				55A7CBCF1A3E10860028553C /* SBJEV3DirectInstructions.h */,
+				55A7CBCE1A3E10860028553C /* SBJEV3DirectCommand.h */,
+			);
+			name = "Direct Commands";
+			sourceTree = "<group>";
+		};
+		55781F681A6171BF00BD0ABB /* System Commands */ = {
+			isa = PBXGroup;
+			children = (
+				55781F691A61720400BD0ABB /* SBJEV3SystemResults.h */,
+				55ADBE001A5D6E9F00A608DC /* SBJEV3SystemOpcodes.h */,
+				552D22F71A41083000F188A2 /* SBJEV3SystemInstruction.h */,
+				55ADBE041A5D720B00A608DC /* SBJEV3SystemCommand.h */,
+			);
+			name = "System Commands";
+			sourceTree = "<group>";
+		};
+		55781F6A1A61726400BD0ABB /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+				55A7CBD11A3E10860028553C /* SBJEV3Enums.h */,
+				55A7CBC51A3E10860028553C /* SBJEV3ByteCodes.h */,
+				55A7CBD61A3E10860028553C /* SBJEV3Results.h */,
+				55ADBE021A5D713800A608DC /* SBJEV3Opcodes.h */,
+				55A7CBD21A3E10860028553C /* SBJEV3Invocation.h */,
+				55A7CBD41A3E10860028553C /* SBJEV3InvocationStack.h */,
+				55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */,
+				55A7CBD01A3E10860028553C /* SBJEV3InvocationReply.h */,
+			);
+			name = Commands;
+			sourceTree = "<group>";
+		};
 		55A7CB6B1A3E07130028553C = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +187,8 @@
 				55A7CB7C1A3E07130028553C /* AppDelegate.mm */,
 				55A7CB7E1A3E07130028553C /* ConnectivityViewController.h */,
 				55A7CB7F1A3E07130028553C /* ConnectivityViewController.mm */,
+				55B04B981A607F41006265AB /* DirectoryListingViewController.h */,
+				55B04B991A607F41006265AB /* DirectoryListingViewController.mm */,
 				55A7CB811A3E07130028553C /* RailSwitchViewController.h */,
 				55A7CB821A3E07130028553C /* RailSwitchViewController.mm */,
 				55A7CBBD1A3E08B60028553C /* RailSwitch.h */,
@@ -188,21 +235,12 @@
 				55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */,
 				5596B75F1A56D7070079C403 /* SBJEV3Log.h */,
 				5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */,
+				55781F6C1A6175BE00BD0ABB /* SBJEV3DirectoryListing.h */,
+				55781F6B1A6175BE00BD0ABB /* SBJEV3DirectoryListing.cpp */,
 				552D221A1A407DBC00F188A2 /* Connection Management */,
-				55A7CBD11A3E10860028553C /* SBJEV3Enums.h */,
-				55A7CBC51A3E10860028553C /* SBJEV3ByteCodes.h */,
-				55A7CBD61A3E10860028553C /* SBJEV3Results.h */,
-				55ADBE021A5D713800A608DC /* SBJEV3Opcodes.h */,
-				55A7CBD51A3E10860028553C /* SBJEV3DirectOpcodes.h */,
-				55ADBE001A5D6E9F00A608DC /* SBJEV3SystemOpcodes.h */,
-				552D22F71A41083000F188A2 /* SBJEV3SystemInstruction.h */,
-				55A7CBCF1A3E10860028553C /* SBJEV3DirectInstructions.h */,
-				55A7CBD01A3E10860028553C /* SBJEV3DirectReply.h */,
-				55A7CBCE1A3E10860028553C /* SBJEV3DirectCommand.h */,
-				55ADBE041A5D720B00A608DC /* SBJEV3SystemCommand.h */,
-				55A7CBD21A3E10860028553C /* SBJEV3Invocation.h */,
-				55A7CBD41A3E10860028553C /* SBJEV3InvocationStack.h */,
-				55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */,
+				55781F6A1A61726400BD0ABB /* Commands */,
+				55781F671A61719A00BD0ABB /* Direct Commands */,
+				55781F681A6171BF00BD0ABB /* System Commands */,
 			);
 			name = SBJEV3;
 			path = ../SBJEV3;
@@ -312,6 +350,7 @@
 				5596B7601A56D7070079C403 /* SBJEV3Log.cpp in Sources */,
 				55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */,
 				55A7CB801A3E07130028553C /* ConnectivityViewController.mm in Sources */,
+				55B04B9A1A607F41006265AB /* DirectoryListingViewController.mm in Sources */,
 				55A7CBBF1A3E08B60028553C /* RailSwitch.mm in Sources */,
 				55A7CBDB1A3E10860028553C /* SBJEV3ConnectionToken.cpp in Sources */,
 				55A7CBDC1A3E10860028553C /* SBJEV3InvocationStack.cpp in Sources */,
@@ -319,6 +358,7 @@
 				55A7CBD81A3E10860028553C /* SBJEV3Brick.cpp in Sources */,
 				55A7CB7A1A3E07130028553C /* main.m in Sources */,
 				55A7CBDA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm in Sources */,
+				55781F6D1A6175BE00BD0ABB /* SBJEV3DirectoryListing.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

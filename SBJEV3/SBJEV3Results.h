@@ -21,9 +21,6 @@ namespace EV3
  * The Result structures do not require any storage space.
  * They define types and starategies used for defining how the EV3
  * produces a reply and how the reply items are converted to high level types.
- *
- * TODO: ResultCount and allocatedSize will likely have to be expanded to
- * help define local variable space.
  */
 
 struct VoidResult
@@ -41,7 +38,7 @@ struct VoidResult
 	constexpr static size_t allocatedSize(size_t resultIdx) { return 0; };
 	
 	// Convert the value
-	static inline void convert(const Input*, Output&) { };
+	static inline void convert(const Input*, Output&, size_t) { };
 };
 
 template<typename InputType, typename OutputType = InputType>
@@ -57,7 +54,7 @@ struct BasicResult
 		return sizeof(Input);
 	}
 	
-	static inline void convert(const Input* input, Output& output)
+	static inline void convert(const Input* input, Output& output, size_t)
 	{
 		output = static_cast<Output>(*input);
 	};
@@ -76,7 +73,7 @@ struct StringResult
 		return MaxSize;
 	}
 	
-	static inline void convert(const Input* input, Output& output)
+	static inline void convert(const Input* input, Output& output, size_t)
 	{
 		output = input;
 	};
@@ -96,65 +93,12 @@ struct ArrayResult
 		return Count * sizeof(Input);
 	}
 	
-	static inline void convert(const Input* input, Output& output)
+	static inline void convert(const Input* input, Output& output, size_t)
 	{
 		for (size_t i = 0; i < Count; i++)
 		{
 			output[i] = static_cast<OutputType>(input[i]);
 		}
-	};
-};
-
-struct TypeMode
-{
-#pragma pack(push, 1)
-	struct InputType
-	{
-		UBYTE type;
-		UBYTE mode;
-	};
-#pragma pack(pop)
-	
-	using Input = InputType;
-	using Output = Input;
-	
-	constexpr static size_t ResultCount = 2;
-	
-	const static size_t allocatedSize(size_t resultIdx)
-	{
-		return sizeof(UBYTE);
-	}
-	
-	static inline void convert(const Input* input, Output& o)
-	{
-		o = *input;
-	};
-};
-	
-// This is an example of an opcode with two results
-struct TachoSpeed
-{
-#pragma pack(push, 1)
-	struct InputType
-	{
-		UWORD speed;
-		UWORD count;
-	};
-#pragma pack(pop)
-	
-	using Input = InputType;
-	using Output = Input;
-	
-	constexpr static size_t ResultCount = 2;
-	
-	const static size_t allocatedSize(size_t resultIdx)
-	{
-		return sizeof(UWORD);
-	}
-	
-	static inline void convert(const Input* input, Output& o)
-	{
-		o = *input;
 	};
 };
 	

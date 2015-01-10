@@ -254,7 +254,8 @@ struct CString : ValueStore<LocalConstStr<MaxSize>>
 	size_t differential() const
 	{
 		size_t len = ::strlen((const char*)this);
-		assert(len > MinLen); // account for LCS
+		// account for LCS
+		assert(len > MinLen);
 		return MaxSize - len;
 	}
 };

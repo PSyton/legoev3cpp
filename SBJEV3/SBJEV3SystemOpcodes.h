@@ -9,12 +9,15 @@
 #pragma once
 
 #include "SBJEV3Opcodes.h"
+#include "SBJEV3SystemResults.h"
 
 namespace SBJ
 {
 namespace EV3
 {
 
+#define CURRENTDIR std::string("./")
+#define PARENTDIR std::string("../")
 #define ROOTDIR std::string("/home/root/lms2012/")
 #define TOOLDIR std::string("/home/root/lms2012/tools/")
 #define SYSDIR std::string("/home/root/lms2012/sys/")
@@ -22,10 +25,14 @@ namespace EV3
 #define APPDIR std::string("/home/root/lms2012/apps/")
 #define PROJDIR std::string("/home/root/lms2012/prjs/")
 
+// TODO: Implement the 15 System Opcodes
+
+#pragma pack(push, 1)
+
 template <size_t MaxSize, size_t MinLen = 0>
-struct SystemStr
+struct SysString
 {
-	SystemStr(const std::string& v = "")
+	SysString(const std::string& v = "")
 	{
 		size_t len = std::min(v.length(), MaxSize-1);
 		for (int i = 0; i <= len; i++)
@@ -34,7 +41,7 @@ struct SystemStr
 		}
 	}
 	
-	SystemStr& operator = (const std::string& v)
+	SysString& operator = (const std::string& v)
 	{
 		size_t len = std::min(v.length(), MaxSize-1);
 		for (int i = 0; i <= len; i++)
@@ -53,41 +60,8 @@ struct SystemStr
 private:
 	std::array<char, MaxSize> _data;
 };
-	
-#pragma pack(push, 1)
 
-// TODO: Implement the 15 System Opcodes
-
-template <size_t ChunkSize>
-struct SysResource
-{
-	UBYTE code;
-	UBYTE status;
-	ULONG size;
-	UWORD handle;
-	std::array<UBYTE, ChunkSize> data;
-};
-
-template <size_t ChunkSize>
-struct SysResourceResult
-{
-	using Input = const char;
-	using Output = SysResource<ChunkSize>;
-	
-	constexpr static size_t ResultCount = 1;
-	
-	constexpr static size_t allocatedSize(size_t resultIdx)
-	{
-		return sizeof(Output);
-	}
-	
-	static inline void convert(const Input* input, Output& output)
-	{
-		::memcpy(&output, input, sizeof(Output)-ChunkSize);
-	};
-};
-
-template <UBYTE CmdCode, size_t ChunkSize>
+template <UBYTE CmdCode, size_t ChunkSize, typename ResultType = SysChunkResourceResult<ChunkSize>>
 struct SysResourceOpcode : public VariableLenOpcode
 {
 	size_t pack(UBYTE* into) const
@@ -96,15 +70,16 @@ struct SysResourceOpcode : public VariableLenOpcode
 		if (into) ::memcpy(into, this, s);
 		return s;
 	}
-	//static constexpr size_t MaxChunk = 64434 - (sizeof(COMCMD) - sizeof(COMCMD::CmdSize)) - sizeof(BeginUpload);
+	
 	const UBYTE code = CmdCode;
 	const UWORD chunkSize = ChunkSize;
-	SystemStr<vmPATHSIZE> resource;
-	using Result = SysResourceResult<ChunkSize>;
+	SysString<vmPATHSIZE> resource;
+	
+	using Result = ResultType;
 };
 
-using ListFiles = SysResourceOpcode<LIST_FILES, 1014>;
-using BeginUpload = SysResourceOpcode<BEGIN_UPLOAD, 60000>;
+using BeginUpload = SysResourceOpcode<BEGIN_UPLOAD, 1024>;
+using ListFiles = SysResourceOpcode<LIST_FILES, SysDirListingResult::allocatedSize(0), SysDirListingResult>;
 
 #pragma pack(pop)
 	

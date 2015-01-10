@@ -9,7 +9,7 @@
 #pragma once
 
 #include "SBJEV3SystemInstruction.h"
-#include "SBJEV3DirectReply.h"
+#include "SBJEV3InvocationReply.h"
 
 namespace SBJ
 {
@@ -20,7 +20,7 @@ template <typename Opcode>
 class SystemCommand
 {
 public:
-	using Results = typename DirectReply<Opcode>::Results;
+	using Results = typename InvocationReply<Opcode>::Results;
 	
 	SystemCommand(unsigned short messageId, float timeout, Opcode opcode)
 	: _instructions(messageId, timeout > 0.0, opcode)
@@ -45,7 +45,7 @@ public:
 	
 private:
 	SystemInstruction<Opcode> _instructions;
-	DirectReply<Opcode> _reply;
+	InvocationReply<Opcode> _reply;
 };
 
 }

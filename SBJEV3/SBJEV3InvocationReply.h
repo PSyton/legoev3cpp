@@ -1,5 +1,5 @@
 //
-//  SBJEV3DirectReply.h
+//  SBJEV3InvocationReply.h
 //  LEGO Control
 //
 //  Created by David Giovannini on 12/1/14.
@@ -21,7 +21,7 @@ namespace EV3
 {
 	
 /*
- * DirectReply receives a buffer response and extracts the requested results from the opcodes.
+ * InvocationReply receives a buffer response and extracts the requested results from the opcodes.
  * The reponse buffer is a snapshot of the global space for the mini-program.
  *
  * TODO: do items have to be byte(4) aligned?
@@ -29,13 +29,13 @@ namespace EV3
  */
  
 template <typename... Opcodes>
-class DirectReply
+class InvocationReply
 {
 public:
 	
 	using Results = std::tuple<typename Opcodes::Result::Output...>;
 
-	DirectReply(float timeout)
+	InvocationReply(float timeout)
 	: _timeout(timeout)
 	{
 	}
@@ -136,7 +136,7 @@ private:
 		
 		// Convert the low level value to the requested high level type
 		auto& result = std::get<N>(_results);
-		converter.convert((InputType*)buffer, result);
+		converter.convert((InputType*)buffer, result, maxLen);
 		
 		return itemizedCopy(size_type<N+1>(), buffer + size, maxLen - size, cmdState);
 	}
