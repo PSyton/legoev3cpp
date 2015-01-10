@@ -65,10 +65,23 @@ using namespace SBJ::EV3;
 	if (entry.isDirectory())
 	{
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		cell.imageView.image = [UIImage imageNamed: @"Directory"];
 	}
 	else
 	{
 		cell.accessoryType = UITableViewCellAccessoryDetailButton;
+		if (entry.isExecutable())
+		{
+			cell.imageView.image = [UIImage imageNamed: @"EV3TabItem"];
+		}
+		else if (entry.isLogFile())
+		{
+			cell.imageView.image = [UIImage imageNamed: @"LogFile"];
+		}
+		else
+		{
+			cell.imageView.image = [UIImage imageNamed: @"Document"];
+		}
 	}
     
     cell.textLabel.text = [NSString stringWithUTF8String: entry.simpleName().c_str()];

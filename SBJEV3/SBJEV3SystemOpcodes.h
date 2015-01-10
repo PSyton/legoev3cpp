@@ -16,15 +16,6 @@ namespace SBJ
 namespace EV3
 {
 
-#define CURRENTDIR std::string("./")
-#define PARENTDIR std::string("../")
-#define ROOTDIR std::string("/home/root/lms2012/")
-#define TOOLDIR std::string("/home/root/lms2012/tools/")
-#define SYSDIR std::string("/home/root/lms2012/sys/")
-#define SOURCEDIR std::string("/home/root/lms2012/source/")
-#define APPDIR std::string("/home/root/lms2012/apps/")
-#define PROJDIR std::string("/home/root/lms2012/prjs/")
-
 // TODO: Implement the 15 System Opcodes
 
 #pragma pack(push, 1)

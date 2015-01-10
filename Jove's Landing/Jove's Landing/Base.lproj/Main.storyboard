@@ -161,7 +161,7 @@
             </objects>
             <point key="canvasLocation" x="750" y="-342"/>
         </scene>
-        <!--Item-->
+        <!--Files-->
         <scene sceneID="hfg-hZ-1Mc">
             <objects>
                 <tableViewController restorationIdentifier="DirectoryListingViewController" storyboardIdentifier="DirectoryListingViewController" id="YBE-YT-WEf" customClass="DirectoryListingViewController" sceneMemberID="viewController">
@@ -193,7 +193,7 @@
                             <outlet property="delegate" destination="YBE-YT-WEf" id="BI6-Q5-Llz"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" id="0yy-A9-VwZ"/>
+                    <tabBarItem key="tabBarItem" title="Files" image="Directory" id="0yy-A9-VwZ"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OqH-ZB-Uj4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -366,6 +366,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Directory" width="22" height="22"/>
         <image name="EV3TabItem" width="22" height="22"/>
         <image name="RailTabItem" width="22" height="22"/>
     </resources>

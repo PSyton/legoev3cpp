@@ -65,7 +65,7 @@ static RailSwitch* _switches[4];
 	{
 		case OutputPort::A:
 			_name = @"Mountain Pass";
-			_power = 50;
+			_power = 70;
 			_time = 1000;
 			break;
 		case OutputPort::B:
@@ -80,7 +80,7 @@ static RailSwitch* _switches[4];
 			break;
 		case OutputPort::D:
 			_name = @"Water Front";
-			_power = 50;
+			_power = 70;
 			_time = 1000;
 			break;
 		default:

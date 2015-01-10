@@ -18,6 +18,18 @@ namespace SBJ
 namespace EV3
 {
 
+#define DIREXT std::string("/")
+#define EXEEXT std::string(".rbf")
+#define DATALOGEXT std::string(".raf")
+#define CURRENTDIR std::string("./")
+#define PARENTDIR std::string("../")
+#define ROOTDIR std::string("/home/root/lms2012/")
+#define TOOLDIR std::string("/home/root/lms2012/tools/")
+#define SYSDIR std::string("/home/root/lms2012/sys/")
+#define SOURCEDIR std::string("/home/root/lms2012/source/")
+#define APPDIR std::string("/home/root/lms2012/apps/")
+#define PROJDIR std::string("/home/root/lms2012/prjs/")
+
 #pragma pack(push, 1)
 struct SysResource
 {
@@ -51,6 +63,11 @@ struct SysDirEntry
 	std::string name = "";
 	
 	bool isDirectory() const { return name.back() == '/'; }
+	
+	bool isExecutable() const { return (name.rfind(EXEEXT) == name.size() - EXEEXT.size()); }
+	
+	bool isLogFile() const { return (name.rfind(DATALOGEXT) == name.size() - DATALOGEXT.size()); }
+	
 	std::string simpleName() const
 	{
 		if (isDirectory())
