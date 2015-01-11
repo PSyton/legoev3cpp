@@ -7,35 +7,9 @@
 //
 
 #include "SBJEV3Log.h"
-
-#include <cctype>
+#include "SBJEV3Hex.h"
 
 using namespace SBJ::EV3;
-
-template <typename T>
-static inline char hdigit(T n)
-{
-	return "0123456789abcdef"[n & 0xF];
-}
-
-static inline char toChar(uint8_t v)
-{
-	return std::isprint(v) ? v : '`';
-}
-
-template <typename T>
-static char* hdstr(T t, char* dest)
-{
-	constexpr size_t nibbleCount = sizeof(T) * 2;
-	for (size_t i = 0; i < nibbleCount; i++)
-	{
-		unsigned long long value = (unsigned long long)(t);
-		unsigned long long nibble = (unsigned long long)value >> ((nibbleCount - 1 - i) * 4);
-		*dest = hdigit(nibble);
-		dest++;
-	}
-	return dest;
-}
 
 static const uint8_t* dumpline(char* dest, size_t linelen, const uint8_t* src, const uint8_t* srcend)
 {
@@ -44,7 +18,7 @@ static const uint8_t* dumpline(char* dest, size_t linelen, const uint8_t* src, c
 		return nullptr;
 	}
 	
-	dest = hdstr(src, dest);
+	dest = hexstr(src, dest);
 	*dest = ' ';
 	dest++;
 	
@@ -58,7 +32,7 @@ static const uint8_t* dumpline(char* dest, size_t linelen, const uint8_t* src, c
 			{
 				break;
 			}
-			dest = hdstr(*iter, dest);
+			dest = hexstr(*iter, dest);
 			*dest = (((i + byteCount + 1) % byteCount != 0)) ? ':' : ' ';
 			dest++;
 			iter++;
@@ -78,7 +52,7 @@ static const uint8_t* dumpline(char* dest, size_t linelen, const uint8_t* src, c
 		for (; i < linelen; i++)
 		{
 			if (iter == srcend) break;
-			*dest = toChar(*iter);
+			*dest = printchar(*iter);
 			dest++;
 			iter++;
 		}
@@ -100,9 +74,7 @@ void Log::hexDump(const void* addr, size_t len, size_t linelen)
 	
 	if (addr == nullptr || len == 0)
 	{
-		char addrStr[17] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		hdstr(addr, addrStr);
-		_stream << "  Length: " << len << " at 0x" << addrStr << std::endl;
+		_stream << "  Length: " << len << " at 0x" << hexstr(addr) << std::endl;
 		return;
 	}
 

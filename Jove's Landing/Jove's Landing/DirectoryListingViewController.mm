@@ -7,6 +7,7 @@
 //
 
 #import "DirectoryListingViewController.h"
+#import "FileViewController.h"
 #include "SBJEV3DirectoryListing.h"
 
 using namespace SBJ::EV3;
@@ -62,29 +63,35 @@ using namespace SBJ::EV3;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DirEntry" forIndexPath:indexPath];
 	
 	auto entry = (*_listing)[indexPath.row];
+	
 	if (entry.isDirectory())
 	{
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		cell.imageView.image = [UIImage imageNamed: @"Directory"];
 	}
 	else
 	{
 		cell.accessoryType = UITableViewCellAccessoryDetailButton;
-		if (entry.isExecutable())
-		{
-			cell.imageView.image = [UIImage imageNamed: @"EV3TabItem"];
-		}
-		else if (entry.isLogFile())
-		{
-			cell.imageView.image = [UIImage imageNamed: @"LogFile"];
-		}
-		else
-		{
-			cell.imageView.image = [UIImage imageNamed: @"Document"];
-		}
 	}
-    
-    cell.textLabel.text = [NSString stringWithUTF8String: entry.simpleName().c_str()];
+	
+	UIImage* image = nil;
+	NSString* name = nil;
+	if (entry.isDirectory())
+	{
+		image = [UIImage imageNamed: @"document.dir"];
+		name = [NSString stringWithUTF8String: entry.simpleName().c_str()];
+	}
+	else
+	{
+		image = [UIImage imageNamed: [NSString stringWithUTF8String: ("document" + entry.extension()).c_str()]];
+		name = [NSString stringWithUTF8String: entry.simpleName().c_str()];
+	}
+	if (image == nil)
+	{
+		image = [UIImage imageNamed: @"document.*"];
+		name =  [NSString stringWithUTF8String: entry.name.c_str()];
+	}
+	cell.imageView.image = image;
+    cell.textLabel.text = name;
 
     return cell;
 }
@@ -99,6 +106,10 @@ using namespace SBJ::EV3;
 	}
 	else
 	{
+		FileViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier: @"FileViewController"];
+		auto entry = (*_listing)[indexPath.row];
+		[vc setBrick: &_listing->brick() path: _listing->path() andFile: entry];
+		[self presentViewController: vc animated: YES completion: nil];
 	}
 }
 

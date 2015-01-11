@@ -28,6 +28,18 @@ public:
 		}
 	}
 	
+	Brick& brick() const
+	{
+		return _brick;
+	}
+	
+	const std::string& path() const
+	{
+		static const std::string empty;
+		if (_listing.entries.size() == 0) return empty;
+		return _paths.back();
+	}
+	
 	const SysDirEntry& operator [] (size_t i) const
 	{
 		return _listing.entries[i];
@@ -50,7 +62,7 @@ public:
 	{
 		if (_listing.entries.size() == 0) return;
 		
-		auto e = _listing.entries[i].name;
+		auto e = _listing.entries[i].escapedName();
 		if (e == PARENTDIR)
 		{
 			_paths.pop_back();

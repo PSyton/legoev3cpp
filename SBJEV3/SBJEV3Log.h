@@ -9,7 +9,6 @@
 #pragma once
 
 #include <iostream>
-#include <type_traits>
 #include <thread>
 
 template<typename T, typename V = bool>

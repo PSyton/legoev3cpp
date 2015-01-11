@@ -9,6 +9,7 @@
 #pragma once
 
 #include "SBJEV3Results.h"
+#include "SBJEV3Hex.h"
 
 #include <array>
 #include <vector>
@@ -48,9 +49,14 @@ struct SysChunkResource : public SysResource
 };
 #pragma pack(pop)
 
-
 struct SysDirEntry
 {
+	SysDirEntry()
+	: hash({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+	, size(0)
+	{
+	}
+	
 	SysDirEntry(const std::string& line)
 	: hash(Hash(line))
 	, size(line.back() == '/' ? 0 : ::atoi(line.c_str()+34))
@@ -58,41 +64,53 @@ struct SysDirEntry
 	{
 	}
 		
-	std::array<UBYTE, 16> hash = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-	ULONG size = 0;
-	std::string name = "";
+	std::array<UBYTE, 16> hash;
+	ULONG size;
+	std::string name;
 	
 	bool isDirectory() const { return name.back() == '/'; }
 	
-	bool isExecutable() const { return (name.rfind(EXEEXT) == name.size() - EXEEXT.size()); }
-	
-	bool isLogFile() const { return (name.rfind(DATALOGEXT) == name.size() - DATALOGEXT.size()); }
-	
 	std::string simpleName() const
 	{
-		if (isDirectory())
+		if (name.back() == '/')
 		{
-			return std::string(name).erase(name.size()-1);
+			return name.substr(0, name.size()-1);
+		}
+		size_t ext = name.rfind('.');
+		if (ext != std::string::npos && ext != 0)
+		{
+			return name.substr(0, ext);
 		}
 		return name;
+	}
+	
+	std::string extension()
+	{
+		if (name.back() == '/')
+		{
+			return "/";
+		}
+		size_t ext = name.rfind('.');
+		if (ext != std::string::npos && ext != 0)
+		{
+			return name.substr(ext);
+		}
+		return "";
+	}
+	
+	std::string escapedName() const
+	{
+		return replace(name, " ", "\\ ");
 	}
 	
 private:
 	static inline std::array<UBYTE, 16> Hash(const std::string& line)
 	{
-		std::array<UBYTE, 16> hash = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		if (line.back() != '/')
 		{
-			for (int i = 0; i < 16; i+=1)
-			{
-				char c1 = line[i*2];
-				char c2 = line[line[i*2+1]];
-				UBYTE msn = std::isalpha(c1) ? 'A' - c1 : '0' - c1;
-				UBYTE lsn = std::isalpha(c2) ? 'A' - c2 : '0' - c2;
-				hash[i] = (msn << 4) | lsn;
-			}
+			return hexvalue<16>(line);
 		}
-		return hash;
+		return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	}
 };
 
@@ -120,6 +138,11 @@ struct SysDirResource : public SysResource
 					line[j] = data[i];
 					j++;
 			}
+		}
+		if (entries.size() == 0)
+		{
+			const std::string r = "../\n./\n";
+			populate(r.c_str(), r.length());
 		}
 	}
 };
@@ -153,16 +176,13 @@ struct SysDirListingResult
 	
 	constexpr static size_t allocatedSize(size_t resultIdx)
 	{
-		return 1014;
+		return 1014; // according to docs lust cannot excede this size
 	}
 	
 	static inline void convert(const Input* input, Output& output, size_t maxLen)
 	{
 		::memcpy(&output, input, sizeof(SysResource));
-		if (output.handle != 255)
-		{
-			output.populate(input + sizeof(SysResource), maxLen - sizeof(SysResource));
-		}
+		output.populate(input + sizeof(SysResource), maxLen - sizeof(SysResource));
 	};
 	
 };

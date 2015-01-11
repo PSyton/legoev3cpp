@@ -17,7 +17,7 @@ namespace EV3
 {
 
 // TODO: Implement the 15 System Opcodes
-
+// TODO: Escape spaces in paths?
 #pragma pack(push, 1)
 
 template <size_t MaxSize, size_t MinLen = 0>
