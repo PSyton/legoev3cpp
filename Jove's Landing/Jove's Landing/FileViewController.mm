@@ -83,6 +83,9 @@ using namespace SBJ::EV3;
 	}
 	else if (cell == _download)
 	{
+		//BeginUpload upload;
+		//upload.resource = _file.pathRelativeToSys(_pathStr);
+		//_brick->systemCommand(50, upload);
 	}
 }
 

@@ -130,17 +130,19 @@ private:
 	// TODO: determine how LValues are used.
 	inline void setHeader(unsigned short counter, bool forceReply, const OpcodeAccumulation& accume)
 	{
+		size_t commandSize = sizeof(COMCMD) - sizeof(CMDSIZE) + sizeof(DIRCMD) + accume.opcodeSize;
+		
+		assert(commandSize <= MAX_COMMAND_SIZE);
 		assert(accume.globalSize <= MAX_COMMAND_GLOBALS);
 		assert(accume.localSize <= MAX_COMMAND_LOCALS);
 		
-		_cmd.CmdSize = sizeof(COMCMD) - sizeof(CMDSIZE) + sizeof(DIRCMD) + accume.opcodeSize;
+		_cmd.CmdSize = commandSize;
 		_cmd.MsgCnt = counter;
 		_cmd.Cmd = (forceReply or accume.globalSize > 0) ? DIRECT_COMMAND_REPLY : DIRECT_COMMAND_NO_REPLY;
 		_vars.Globals = (UBYTE)(0x00FF & accume.globalSize);
 		_vars.Locals = (UBYTE)((0xFF00 & accume.globalSize) >> 8);
 		_vars.Locals |= (UBYTE)(accume.localSize << 2);
 		
-		assert(_cmd.CmdSize <= MAX_COMMAND_SIZE);
 	}
 };
 

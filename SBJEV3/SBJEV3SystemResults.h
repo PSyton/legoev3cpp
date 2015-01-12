@@ -39,6 +39,14 @@ struct SysResource
 	ULONG size;
 	UBYTE handle;
 };
+/*
+struct SysContinue
+{
+	UBYTE code;
+	UBYTE status;
+	UBYTE handle;
+};
+*/
 #pragma pack(pop)
 
 #pragma pack(push, 1)
@@ -47,6 +55,13 @@ struct SysChunkResource : public SysResource
 {
 	std::array<UBYTE, ChunkSize> data;
 };
+/*
+template <size_t ChunkSize>
+struct SysChunkContunue : public SysContinue
+{
+	std::array<UBYTE, ChunkSize> data;
+};
+*/
 #pragma pack(pop)
 
 struct SysDirEntry
@@ -59,8 +74,8 @@ struct SysDirEntry
 	
 	SysDirEntry(const std::string& line)
 	: hash(Hash(line))
-	, size(line.back() == '/' ? 0 : ::atoi(line.c_str()+34))
-	, name(line.back() == '/' ? line : line.substr(42))
+	, size(Size(line))
+	, name(Name(line))
 	{
 	}
 		
@@ -103,14 +118,44 @@ struct SysDirEntry
 		return replace(name, " ", "\\ ");
 	}
 	
+	std::string pathRelativeToSys(std::string path) const
+	{
+		if (path.find(ROOTDIR) != std::string::npos)
+		{
+			return "../" + path.substr(ROOTDIR.size()) + name;
+		}
+		return path + name;
+	}
+	
 private:
 	static inline std::array<UBYTE, 16> Hash(const std::string& line)
 	{
 		if (line.back() != '/')
 		{
-			return hexvalue<16>(line);
+			return hexbytes<16>(line);
 		}
 		return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	}
+	
+	static inline ULONG Size(const std::string& line)
+	{
+		if (line.back() != '/')
+		{
+			std::array<UBYTE, 4> bytes = hexbytes<4>(line.substr(34));
+			std::reverse(bytes.begin(), bytes.end());
+			ULONG l = *(ULONG*)&bytes;
+			return l;
+		}
+		return 0;
+	}
+	
+	static inline std::string Name(const std::string& line)
+	{
+		if (line.back() != '/')
+		{
+			return line.substr(42);
+		}
+		return line;
 	}
 };
 
@@ -166,7 +211,27 @@ struct SysChunkResourceResult
 		// TODO: specialize content, check for errors
 	};
 };
-
+/*
+template <size_t ChunkSize>
+struct SysChunkContinueResult
+{
+	using Input = const char;
+	using Output = SysChunkContunue<ChunkSize>;
+	
+	constexpr static size_t ResultCount = 1;
+	
+	constexpr static size_t allocatedSize(size_t resultIdx)
+	{
+		return sizeof(Output);
+	}
+	
+	static inline void convert(const Input* input, Output& output, size_t maxLen)
+	{
+		::memcpy(&output, input, sizeof(SysResource));
+		// TODO: specialize content, check for errors
+	};
+};
+*/
 struct SysDirListingResult
 {
 	using Input = const char;

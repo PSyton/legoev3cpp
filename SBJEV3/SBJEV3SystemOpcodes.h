@@ -17,7 +17,7 @@ namespace EV3
 {
 
 // TODO: Implement the 15 System Opcodes
-// TODO: Escape spaces in paths?
+
 #pragma pack(push, 1)
 
 template <size_t MaxSize, size_t MinLen = 0>
@@ -52,6 +52,7 @@ private:
 	std::array<char, MaxSize> _data;
 };
 
+
 template <UBYTE CmdCode, size_t ChunkSize, typename ResultType = SysChunkResourceResult<ChunkSize>>
 struct SysResourceOpcode : public VariableLenOpcode
 {
@@ -69,7 +70,18 @@ struct SysResourceOpcode : public VariableLenOpcode
 	using Result = ResultType;
 };
 
-using BeginUpload = SysResourceOpcode<BEGIN_UPLOAD, 1024>;
+template <UBYTE CmdCode, size_t ChunkSize, typename ResultType = SysChunkResourceResult<ChunkSize>>
+struct SysContinueOpcode
+{
+	const UBYTE code = CmdCode;
+	UWORD handle = 0;
+	const UWORD chunkSize = ChunkSize;
+	
+	using Result = ResultType;
+};
+
+using BeginUpload = SysResourceOpcode<BEGIN_UPLOAD, 100>;
+//using ContinueUpload = SysResourceOpcode<CONTINUE_UPLOAD, 100>;
 using ListFiles = SysResourceOpcode<LIST_FILES, SysDirListingResult::allocatedSize(0), SysDirListingResult>;
 
 #pragma pack(pop)

@@ -43,12 +43,6 @@ struct OpcodeAccumulation
 	UWORD localSize = 0;
 };
 
-static inline size_t alignReply(size_t offset)
-{
-	//return (((offset / 4 ) - 1) * 4) + 4;
-	return offset;
-}
-
 #define   MAX_COMMAND_SIZE    65534
 
 #if 1

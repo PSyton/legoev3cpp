@@ -79,18 +79,20 @@ inline std::string hexstr(T t)
 	return dest;
 }
 
-inline uint8_t hexvalue(char c1)
+inline uint8_t hexvalue(char c)
 {
-	return std::isalpha(c1) ? 'A' - c1 : '0' - c1;
+	return std::isalpha(c) ? (c - 'A' + 10) : (c -'0');
 }
 
 inline uint8_t hexvalue(char c1, char c2)
 {
-	return (hexvalue(c1) << 4) | hexvalue(c2);
+	uint8_t msn = hexvalue(c1);
+	uint8_t lsn = hexvalue(c2);
+	return (msn  << 4) | lsn;
 }
 
 template <size_t Size>
-inline std::array<uint8_t, Size> hexvalue(const std::string& str)
+inline std::array<uint8_t, Size> hexbytes(const std::string& str)
 {
 	std::array<uint8_t, Size> data;
 	const size_t size = std::min(Size, str.size()/2);
