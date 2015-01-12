@@ -9,194 +9,58 @@
 #pragma once
 
 #include "SBJEV3Results.h"
-#include "SBJEV3Hex.h"
+#include "SBJEV3DirectoryEntry.h"
 
 #include <array>
-#include <vector>
 
 namespace SBJ
 {
 namespace EV3
 {
 
-#define DIREXT std::string("/")
-#define EXEEXT std::string(".rbf")
-#define DATALOGEXT std::string(".raf")
-#define CURRENTDIR std::string("./")
-#define PARENTDIR std::string("../")
-#define ROOTDIR std::string("/home/root/lms2012/")
-#define TOOLDIR std::string("/home/root/lms2012/tools/")
-#define SYSDIR std::string("/home/root/lms2012/sys/")
-#define SOURCEDIR std::string("/home/root/lms2012/source/")
-#define APPDIR std::string("/home/root/lms2012/apps/")
-#define PROJDIR std::string("/home/root/lms2012/prjs/")
-
 #pragma pack(push, 1)
-struct SysResource
+
+struct FileBegan
 {
 	UBYTE code;
 	UBYTE status;
 	ULONG size;
 	UBYTE handle;
 };
-/*
-struct SysContinue
+
+struct FileContinued
 {
 	UBYTE code;
 	UBYTE status;
 	UBYTE handle;
 };
-*/
+
 #pragma pack(pop)
 
-#pragma pack(push, 1)
 template <size_t ChunkSize>
-struct SysChunkResource : public SysResource
+struct UploadBeganOutput : public FileBegan
 {
 	std::array<UBYTE, ChunkSize> data;
 };
-/*
+
 template <size_t ChunkSize>
-struct SysChunkContunue : public SysContinue
+struct UploadContunuedOutput : public FileContinued
 {
 	std::array<UBYTE, ChunkSize> data;
 };
-*/
-#pragma pack(pop)
 
-struct SysDirEntry
+struct DirectoryBeganOutput : public FileBegan
 {
-	SysDirEntry()
-	: hash({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-	, size(0)
-	{
-	}
-	
-	SysDirEntry(const std::string& line)
-	: hash(Hash(line))
-	, size(Size(line))
-	, name(Name(line))
-	{
-	}
-		
-	std::array<UBYTE, 16> hash;
-	ULONG size;
-	std::string name;
-	
-	bool isDirectory() const { return name.back() == '/'; }
-	
-	std::string simpleName() const
-	{
-		if (name.back() == '/')
-		{
-			return name.substr(0, name.size()-1);
-		}
-		size_t ext = name.rfind('.');
-		if (ext != std::string::npos && ext != 0)
-		{
-			return name.substr(0, ext);
-		}
-		return name;
-	}
-	
-	std::string extension()
-	{
-		if (name.back() == '/')
-		{
-			return "/";
-		}
-		size_t ext = name.rfind('.');
-		if (ext != std::string::npos && ext != 0)
-		{
-			return name.substr(ext);
-		}
-		return "";
-	}
-	
-	std::string escapedName() const
-	{
-		return replace(name, " ", "\\ ");
-	}
-	
-	std::string pathRelativeToSys(std::string path) const
-	{
-		if (path.find(ROOTDIR) != std::string::npos)
-		{
-			return "../" + path.substr(ROOTDIR.size()) + name;
-		}
-		return path + name;
-	}
-	
-private:
-	static inline std::array<UBYTE, 16> Hash(const std::string& line)
-	{
-		if (line.back() != '/')
-		{
-			return hexbytes<16>(line);
-		}
-		return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-	}
-	
-	static inline ULONG Size(const std::string& line)
-	{
-		if (line.back() != '/')
-		{
-			std::array<UBYTE, 4> bytes = hexbytes<4>(line.substr(34));
-			std::reverse(bytes.begin(), bytes.end());
-			ULONG l = *(ULONG*)&bytes;
-			return l;
-		}
-		return 0;
-	}
-	
-	static inline std::string Name(const std::string& line)
-	{
-		if (line.back() != '/')
-		{
-			return line.substr(42);
-		}
-		return line;
-	}
+	std::vector<DirectoryEntry> entries;
 };
 
-struct SysDirResource : public SysResource
-{
-	std::vector<SysDirEntry> entries;
-	
-	void populate(const char* data, size_t len)
-	{
-		char line[1024];
-		int j = 0;
-		for (int i = 0; i < len; i++)
-		{
-			switch (data[i])
-			{
-				case '\n':
-				{
-					line[j] = 0;
-					j = 0;
-					SysDirEntry e(line);
-					entries.push_back(e);
-					break;
-				}
-				default:
-					line[j] = data[i];
-					j++;
-			}
-		}
-		if (entries.size() == 0)
-		{
-			const std::string r = "../\n./\n";
-			populate(r.c_str(), r.length());
-		}
-	}
-};
+// According to docs DirectoryContunuedOutput is not implemented
 
 template <size_t ChunkSize>
-struct SysChunkResourceResult
+struct UploadBeganResult
 {
 	using Input = const char;
-	using Output = SysChunkResource<ChunkSize>;
+	using Output = UploadBeganOutput<ChunkSize>;
 	
 	constexpr static size_t ResultCount = 1;
 	
@@ -207,16 +71,19 @@ struct SysChunkResourceResult
 	
 	static inline void convert(const Input* input, Output& output, size_t maxLen)
 	{
-		::memcpy(&output, input, sizeof(SysResource));
-		// TODO: specialize content, check for errors
+		::memcpy(&output, input, sizeof(FileBegan));
+		if (maxLen - sizeof(FileBegan) > 0)
+		{
+			::memcpy(&output.data, input + sizeof(FileBegan), maxLen - sizeof(FileBegan));
+		}
 	};
 };
-/*
+
 template <size_t ChunkSize>
-struct SysChunkContinueResult
+struct UploadContunuedResult
 {
 	using Input = const char;
-	using Output = SysChunkContunue<ChunkSize>;
+	using Output = UploadContunuedOutput<ChunkSize>;
 	
 	constexpr static size_t ResultCount = 1;
 	
@@ -227,27 +94,30 @@ struct SysChunkContinueResult
 	
 	static inline void convert(const Input* input, Output& output, size_t maxLen)
 	{
-		::memcpy(&output, input, sizeof(SysResource));
-		// TODO: specialize content, check for errors
+		::memcpy(&output, input, sizeof(FileContinued));
+		if (maxLen - sizeof(FileContinued) > 0)
+		{
+			::memccpy(&output.data, input + sizeof(FileContinued), maxLen - sizeof(FileContinued));
+		}
 	};
 };
-*/
-struct SysDirListingResult
+
+struct DirectoryResult
 {
 	using Input = const char;
-	using Output = SysDirResource;
+	using Output = DirectoryBeganOutput;
 	
 	constexpr static size_t ResultCount = 1;
 	
 	constexpr static size_t allocatedSize(size_t resultIdx)
 	{
-		return 1014; // according to docs lust cannot excede this size
+		return 1014; // according to docs list cannot excede this size
 	}
 	
 	static inline void convert(const Input* input, Output& output, size_t maxLen)
 	{
-		::memcpy(&output, input, sizeof(SysResource));
-		output.populate(input + sizeof(SysResource), maxLen - sizeof(SysResource));
+		::memcpy(&output, input, sizeof(FileBegan));
+		output.entries = DirectoryEntry::read(input + sizeof(FileBegan), maxLen - sizeof(FileBegan));
 	};
 	
 };

@@ -18,6 +18,8 @@ namespace EV3
 
 #pragma pack(push, 1)
 
+// TODO: implement all direct opcodes
+
 #pragma mark - 
 
 struct GetBrickName

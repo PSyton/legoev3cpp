@@ -7,7 +7,6 @@
 //
 
 #import "FileViewController.h"
-#include "SBJEV3Hex.h"
 
 using namespace SBJ::EV3;
 
@@ -15,7 +14,7 @@ using namespace SBJ::EV3;
 {
 	Brick* _brick;
 	std::string _pathStr;
-	SysDirEntry _file;
+	DirectoryEntry _file;
 	IBOutlet UITableViewCell* _up;
 	IBOutlet UITableViewCell* _download;
 	IBOutlet UITableViewCell* _path;
@@ -40,7 +39,7 @@ using namespace SBJ::EV3;
 	[self updateUI];
 }
 
-- (void) setBrick: (SBJ::EV3::Brick*) brick path: (const std::string&) path andFile: (const SBJ::EV3::SysDirEntry&) file
+- (void) setBrick: (SBJ::EV3::Brick*) brick path: (const std::string&) path andFile: (const SBJ::EV3::DirectoryEntry&) file
 {
 	_brick = brick;
 	_pathStr = path;
@@ -54,9 +53,9 @@ using namespace SBJ::EV3;
 - (void) updateUI
 {
 	_path.detailTextLabel.text = [NSString stringWithUTF8String: _pathStr.c_str()];
-	_name.detailTextLabel.text = [NSString stringWithUTF8String: _file.name.c_str()];
-	_size.detailTextLabel.text = @(_file.size).description;
-	_hash.detailTextLabel.text = [NSString stringWithUTF8String: hexstr(_file.hash).c_str()];
+	_name.detailTextLabel.text = [NSString stringWithUTF8String: _file.name().c_str()];
+	_size.detailTextLabel.text = @(_file.size()).description;
+	_hash.detailTextLabel.text = [NSString stringWithUTF8String: _file.hashStr().c_str()];
 	
 	UIImage* image = nil;
 	if (_file.isDirectory())

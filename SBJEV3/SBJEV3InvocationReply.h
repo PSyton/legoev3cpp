@@ -23,10 +23,7 @@ namespace EV3
 /*
  * InvocationReply receives a buffer response and extracts the requested results from the opcodes.
  * The reponse buffer is a snapshot of the global space for the mini-program.
- *
- * TODO: do items have to be byte(4) aligned?
- * TODO try to extend to use for system commands
- */
+*/
  
 template <typename... Opcodes>
 class InvocationReply

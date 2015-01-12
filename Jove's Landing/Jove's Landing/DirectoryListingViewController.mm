@@ -88,7 +88,7 @@ using namespace SBJ::EV3;
 	if (image == nil)
 	{
 		image = [UIImage imageNamed: @"document.*"];
-		name =  [NSString stringWithUTF8String: entry.name.c_str()];
+		name =  [NSString stringWithUTF8String: entry.name().c_str()];
 	}
 	cell.imageView.image = image;
     cell.textLabel.text = name;

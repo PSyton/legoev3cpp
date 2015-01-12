@@ -53,8 +53,8 @@ private:
 };
 
 
-template <UBYTE CmdCode, size_t ChunkSize, typename ResultType = SysChunkResourceResult<ChunkSize>>
-struct SysResourceOpcode : public VariableLenOpcode
+template <UBYTE CmdCode, size_t ChunkSize, typename ResultType>
+struct UploadOpcode : public VariableLenOpcode
 {
 	size_t pack(UBYTE* into) const
 	{
@@ -70,19 +70,19 @@ struct SysResourceOpcode : public VariableLenOpcode
 	using Result = ResultType;
 };
 
-template <UBYTE CmdCode, size_t ChunkSize, typename ResultType = SysChunkResourceResult<ChunkSize>>
-struct SysContinueOpcode
+template <UBYTE CmdCode, size_t ChunkSize, typename ResultType>
+struct ContinueOpcode
 {
 	const UBYTE code = CmdCode;
 	UWORD handle = 0;
-	const UWORD chunkSize = ChunkSize;
+	UWORD readSize = ChunkSize;
 	
 	using Result = ResultType;
 };
 
-using BeginUpload = SysResourceOpcode<BEGIN_UPLOAD, 100>;
-//using ContinueUpload = SysResourceOpcode<CONTINUE_UPLOAD, 100>;
-using ListFiles = SysResourceOpcode<LIST_FILES, SysDirListingResult::allocatedSize(0), SysDirListingResult>;
+using BeginUpload = UploadOpcode<BEGIN_UPLOAD, 100, UploadBeganResult<100>>;
+using ContinueUpload = ContinueOpcode<CONTINUE_UPLOAD, 100, UploadContunuedResult<100>>;
+using ListFiles = UploadOpcode<LIST_FILES, DirectoryResult::allocatedSize(0), DirectoryResult>;
 
 #pragma pack(pop)
 	

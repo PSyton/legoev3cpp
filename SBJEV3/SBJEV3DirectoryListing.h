@@ -40,7 +40,7 @@ public:
 		return _paths.back();
 	}
 	
-	const SysDirEntry& operator [] (size_t i) const
+	const DirectoryEntry& operator [] (size_t i) const
 	{
 		return _listing.entries[i];
 	}
@@ -77,7 +77,7 @@ public:
 private:
 	Brick& _brick;
 	std::vector<std::string> _paths;
-	SysDirResource _listing;
+	DirectoryBeganOutput _listing;
 };
 
 }

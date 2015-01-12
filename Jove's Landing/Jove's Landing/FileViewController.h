@@ -11,6 +11,6 @@
 
 @interface FileViewController : UITableViewController
 
-- (void) setBrick: (SBJ::EV3::Brick*) brick path: (const std::string&) path andFile: (const SBJ::EV3::SysDirEntry&) file;
+- (void) setBrick: (SBJ::EV3::Brick*) brick path: (const std::string&) path andFile: (const SBJ::EV3::DirectoryEntry&) file;
 
 @end
