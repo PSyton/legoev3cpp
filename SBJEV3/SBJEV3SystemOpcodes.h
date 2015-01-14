@@ -53,9 +53,11 @@ private:
 };
 
 
-template <UBYTE CmdCode, size_t ChunkSize, typename ResultType>
+template <UBYTE CmdCode, UWORD ChunkSize, typename ResultType>
 struct UploadOpcode : public VariableLenOpcode
 {
+	constexpr static UWORD BaseSize = ChunkSize;
+	
 	size_t pack(UBYTE* into) const
 	{
 		const size_t s = sizeof(*this) - resource.differential();
@@ -64,26 +66,26 @@ struct UploadOpcode : public VariableLenOpcode
 	}
 	
 	const UBYTE code = CmdCode;
-	const UWORD chunkSize = ChunkSize;
+	const UWORD readSize = ChunkSize;
 	SysString<vmPATHSIZE> resource;
 	
 	using Result = ResultType;
 };
 
-template <UBYTE CmdCode, size_t ChunkSize, typename ResultType>
+template <UBYTE CmdCode, UWORD ChunkSize, typename ResultType>
 struct ContinueOpcode
 {
 	const UBYTE code = CmdCode;
 	UWORD handle = 0;
-	UWORD readSize = ChunkSize;
+	const UWORD readSize = ChunkSize;
 	
 	using Result = ResultType;
 };
 
-template <size_t ChunkSize>
+template <UWORD ChunkSize>
 using BeginUpload = UploadOpcode<BEGIN_UPLOAD, ChunkSize, UploadBeganResult<ChunkSize>>;
 
-template <size_t ChunkSize>
+template <UWORD ChunkSize>
 using ContinueUpload = ContinueOpcode<CONTINUE_UPLOAD, ChunkSize, UploadContunuedResult<ChunkSize>>;
 
 using ListFiles = UploadOpcode<LIST_FILES, DirectoryResult::allocatedSize(0), DirectoryResult>;

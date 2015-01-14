@@ -20,7 +20,7 @@ template <typename Opcode>
 class SystemCommand
 {
 public:
-	using Results = typename InvocationReply<Opcode>::Results;
+	using Results = typename std::tuple_element<0, typename InvocationReply<Opcode>::Results>::type;
 	
 	SystemCommand(unsigned short messageId, float timeout, Opcode opcode)
 	: _instructions(messageId, timeout > 0.0, opcode)
@@ -40,7 +40,7 @@ public:
 	
 	const Results& wait()
 	{
-		return _reply.wait();
+		return std::get<0>(_reply.wait());
 	}
 	
 private:

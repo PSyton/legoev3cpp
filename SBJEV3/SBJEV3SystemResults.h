@@ -37,16 +37,27 @@ struct FileContinued
 
 #pragma pack(pop)
 
-template <size_t ChunkSize>
+template <UWORD ChunkSize>
 struct UploadBeganOutput : public FileBegan
 {
-	std::array<UBYTE, ChunkSize> data;
+	UBYTE data[ChunkSize];
+	
+	ULONG actualRead() const
+	{
+		return std::min((ULONG)ChunkSize, size);
+	}
 };
 
-template <size_t ChunkSize>
+template <UWORD ChunkSize>
 struct UploadContunuedOutput : public FileContinued
 {
-	std::array<UBYTE, ChunkSize> data;
+	UBYTE data[ChunkSize];
+	
+	ULONG actualRead(ULONG fileSize) const
+	{
+		ULONG remaining = fileSize - (ULONG)ChunkSize;
+		return std::min(remaining, (ULONG)ChunkSize);
+	}
 };
 
 struct DirectoryBeganOutput : public FileBegan
@@ -56,7 +67,7 @@ struct DirectoryBeganOutput : public FileBegan
 
 // According to docs DirectoryContunuedOutput is not implemented
 
-template <size_t ChunkSize>
+template <UWORD ChunkSize>
 struct UploadBeganResult
 {
 	using Input = const char;
@@ -72,14 +83,15 @@ struct UploadBeganResult
 	static inline void convert(const Input* input, Output& output, size_t maxLen)
 	{
 		::memcpy(&output, input, sizeof(FileBegan));
-		if (maxLen - sizeof(FileBegan) > 0)
+		size_t payLoadLen = maxLen - sizeof(FileBegan);
+		if (payLoadLen > 0)
 		{
-			::memcpy(&output.data, input + sizeof(FileBegan), maxLen - sizeof(FileBegan));
+			::memcpy(output.data, input + sizeof(FileBegan), payLoadLen);
 		}
 	};
 };
 
-template <size_t ChunkSize>
+template <UWORD ChunkSize>
 struct UploadContunuedResult
 {
 	using Input = const char;
@@ -95,9 +107,10 @@ struct UploadContunuedResult
 	static inline void convert(const Input* input, Output& output, size_t maxLen)
 	{
 		::memcpy(&output, input, sizeof(FileContinued));
-		if (maxLen - sizeof(FileContinued) > 0)
+		size_t payLoadLen = maxLen - sizeof(FileContinued);
+		if (payLoadLen > 0)
 		{
-			::memccpy(&output.data, input + sizeof(FileContinued), maxLen - sizeof(FileContinued));
+			::memcpy(output.data, input + sizeof(FileContinued), payLoadLen);
 		}
 	};
 };

@@ -7,6 +7,9 @@
 //
 
 #import "FileViewController.h"
+#include "SBJEV3FileUploader.h"
+#include "SBJEV3Chunk.h"
+#include "SBJEV3Log.h"
 
 using namespace SBJ::EV3;
 
@@ -82,9 +85,13 @@ using namespace SBJ::EV3;
 	}
 	else if (cell == _download)
 	{
-		BeginUpload<1024> upload;
-		upload.resource = _file.pathRelativeToSys(_pathStr);
-		_brick->systemCommand(60, upload);
+		Chunk<1024> file;
+		FileUploader upoloader(*_brick, _file.pathRelativeToSys(_pathStr));
+		upoloader.perform([&file](auto data, auto size)
+		{
+			file.append(data, size);
+		});
+		_brick->log().hexDump(file, file.size());
 	}
 }
 

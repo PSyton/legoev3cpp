@@ -44,10 +44,10 @@ public:
 		return _dataPtr;
 	}
 	
-	void append(uint8_t* data, size_t size)
+	void append(const uint8_t* data, size_t size)
 	{
-		allocateFor(_size + size, data);
-		::memcpy(_dataPtr + _size, _data, _size);
+		allocateFor(_size + size);
+		::memcpy(_dataPtr + _size, data, size);
 		_size += size;
 	}
 	
@@ -66,8 +66,8 @@ public:
 private:
 	uint8_t _data[ChunkSize];
 	uint8_t* _dataPtr = _data;
-	uint64_t _size = 0;
-	uint64_t _allocated = 0;
+	size_t _size = 0;
+	size_t _allocated = 0;
 	
 	void allocateFor(size_t size)
 	{

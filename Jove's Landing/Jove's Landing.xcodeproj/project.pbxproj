@@ -50,6 +50,7 @@
 		55781F791A6403E500BD0ABB /* SBJEV3DirectoryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectoryEntry.h; sourceTree = "<group>"; };
 		55781F7B1A640D1800BD0ABB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		55781F7E1A66C9BB00BD0ABB /* SBJEV3Chunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Chunk.h; sourceTree = "<group>"; };
+		55781F811A672D8D00BD0ABB /* SBJEV3FileUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3FileUploader.h; sourceTree = "<group>"; };
 		5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3Log.cpp; sourceTree = "<group>"; };
 		5596B75F1A56D7070079C403 /* SBJEV3Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Log.h; sourceTree = "<group>"; };
 		55A7CB741A3E07130028553C /* Jove's Landing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jove's Landing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,6 +169,17 @@
 			name = Commands;
 			sourceTree = "<group>";
 		};
+		55781F831A67311A00BD0ABB /* File System */ = {
+			isa = PBXGroup;
+			children = (
+				55781F791A6403E500BD0ABB /* SBJEV3DirectoryEntry.h */,
+				55781F781A6403E500BD0ABB /* SBJEV3DirectoryEntry.cpp */,
+				55781F6C1A6175BE00BD0ABB /* SBJEV3DirectoryListing.h */,
+				55781F811A672D8D00BD0ABB /* SBJEV3FileUploader.h */,
+			);
+			name = "File System";
+			sourceTree = "<group>";
+		};
 		55A7CB6B1A3E07130028553C = {
 			isa = PBXGroup;
 			children = (
@@ -243,17 +255,15 @@
 			children = (
 				55781F751A62E20C00BD0ABB /* SBJEV3Hex.h */,
 				55A7CBC41A3E10860028553C /* SBJEV3Brick.h */,
+				55781F7E1A66C9BB00BD0ABB /* SBJEV3Chunk.h */,
 				55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */,
 				5596B75F1A56D7070079C403 /* SBJEV3Log.h */,
 				5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */,
-				55781F791A6403E500BD0ABB /* SBJEV3DirectoryEntry.h */,
-				55781F781A6403E500BD0ABB /* SBJEV3DirectoryEntry.cpp */,
-				55781F6C1A6175BE00BD0ABB /* SBJEV3DirectoryListing.h */,
-				55781F7E1A66C9BB00BD0ABB /* SBJEV3Chunk.h */,
 				552D221A1A407DBC00F188A2 /* Connection Management */,
 				55781F6A1A61726400BD0ABB /* Commands */,
 				55781F671A61719A00BD0ABB /* Direct Commands */,
 				55781F681A6171BF00BD0ABB /* System Commands */,
+				55781F831A67311A00BD0ABB /* File System */,
 			);
 			name = SBJEV3;
 			path = ../SBJEV3;
