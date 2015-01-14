@@ -10,6 +10,7 @@
 
 #include "SBJEV3BluetoothConnectionIOS.h"
 #include "SBJEV3Log.h"
+#include "SBJEV3Chunk.h"
 
 #include <thread>
 
@@ -197,6 +198,8 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 	package.sent = (bytesToWrite == 0);
 }
 
+#define ExtendedLogging 1
+
 - (void)stream:(NSStream*)theStream handleEvent:(NSStreamEvent)streamEvent
 {
 	bool ready = false;
@@ -204,7 +207,9 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 	{
 		case NSStreamEventHasSpaceAvailable:
 		{
-			//_log->write(LogDomian, theStream.class.description, " - Space ");
+#if ExtendedLogging
+			_log->write(LogDomian, theStream.class.description, " - Space ");
+#endif
 			NSOutputStream* output = [_session outputStream];
 			if (output == theStream)
 			{
@@ -216,7 +221,9 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 		}
 		case NSStreamEventOpenCompleted:
 		{
-			//_log->write(LogDomian, theStream.class.description, " - Open ");
+#if ExtendedLogging
+			_log->write(LogDomian, theStream.class.description, " - Open ");
+#endif
 			{
 				std::unique_lock<std::mutex> lock(_mutex);
 				_openStreams++;
@@ -226,7 +233,9 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 		}
 		case NSStreamEventHasBytesAvailable:
 		{
-			//_log->write(LogDomian, theStream.class.description, " - Bytes ");
+#if ExtendedLogging
+			_log->write(LogDomian, theStream.class.description, " - Bytes ");
+#endif
 			NSInputStream* input = [_session inputStream];
 			if (input == theStream)
 			{
@@ -234,12 +243,20 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 			}
 			break;
 		}
-		case NSStreamEventErrorOccurred:
-			//_log->write(LogDomian, theStream.class.description, " - Error ");
-			break;
 		case NSStreamEventEndEncountered:
-			//_log->write(LogDomian, theStream.class.description, " - End ");
+		{
+#if ExtendedLogging
+			_log->write(LogDomian, theStream.class.description, " - End ");
+#endif
 			break;
+		}
+		case NSStreamEventErrorOccurred:
+		{
+			NSError* theError = [theStream streamError];
+			_log->write(LogDomian, theStream.class.description, " - Error(", theError.code, ") ", theError.localizedDescription);
+			[self close];
+			break;
+		}
 	}
 	if (ready)
 	{
@@ -250,24 +267,18 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 - (void) readData
 {
 	NSInputStream* stream = _session.inputStream;
-	uint8_t buffer[1024];
-	uint8_t* reading = buffer;
-	size_t bytesNotRead = sizeof(buffer);
-	
-	while ([stream hasBytesAvailable])
+	Chunk<2048> buffer;
+	while (stream.hasBytesAvailable)
 	{
-		NSInteger bytesRead = [stream read: reading maxLength: bytesNotRead];
+		uint8_t* ptr = buffer.writePtr();
+		NSInteger bytesRead = [stream read: ptr maxLength: buffer.NaturalSize];
 		if (bytesRead == -1)
 		{
-			bytesNotRead = sizeof(buffer);
 			break;
 		}
-		bytesNotRead -= bytesRead;
-		reading += bytesRead;
+		buffer.actualBytesWrittenTo(bytesRead, ptr);
 	}
-	uint8_t bytesRead = sizeof(buffer)-bytesNotRead;
-
-	if (_read) _read(buffer, bytesRead);
+	if (_read) _read(buffer, buffer.size());
 }
 
 @end

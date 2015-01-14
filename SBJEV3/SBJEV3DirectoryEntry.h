@@ -9,15 +9,37 @@
 #include <vector>
 #include <array>
 #include <string>
+#include <cstdint>
 
 namespace SBJ
 {
 namespace EV3
 {
 
+/*
+  FILETYPE_UNKNOWN              = 0x00,
+  TYPE_FOLDER                   = 0x01,
+  TYPE_SOUND                    = 0x02,
+  TYPE_BYTECODE                 = 0x03,
+  TYPE_GRAPHICS                 = 0x04,
+  TYPE_DATALOG                  = 0x05,
+  TYPE_PROGRAM                  = 0x06,
+  TYPE_TEXT                     = 0x07,
+  TYPE_SDCARD                   = 0x10,
+  TYPE_USBSTICK                 = 0x20,
+*/
+
 #define DIREXT std::string("/")
-#define EXEEXT std::string(".rbf")
-#define DATALOGEXT std::string(".raf")
+#define BYTECODEEXT std::string(".rbf")
+#define DATALOGEXT2 std::string(".raf")
+#define GRAPHICEXT std::string(".rgf")
+#define SOUNDEXT std::string(".rsf")
+#define DATALOGEXT std::string(".rdf")
+#define LIBRARYEXT std::string(".so")
+#define KERNeLEXT std::string(".ko")
+
+
+
 #define CURRENTDIR std::string("./")
 #define PARENTDIR std::string("../")
 #define ROOTDIR std::string("/home/root/lms2012/")
@@ -42,9 +64,11 @@ public:
 	
 	const std::array<uint8_t, 16>& hash() const { return _hash; }
 	
-	unsigned int size() const { return _size; }
+	uint32_t size() const { return _size; }
 	
 	std::string hashStr() const;
+	
+	std::string sizeStr() const;
 	
 	std::string simpleName() const;
 	
@@ -56,7 +80,7 @@ public:
 	
 private:
 	std::array<uint8_t, 16> _hash;
-	unsigned int _size;
+	uint32_t _size;
 	std::string _name;
 };
 

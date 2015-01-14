@@ -56,7 +56,7 @@ public:
 		if (expectsReply())
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
-			int time = _timeout * 1000.0;
+			long long time = _timeout * 1000.0;
 			_waitOn.wait_for(lock, std::chrono::milliseconds(time), [this]{return _status > ReplyStatus::none;});
 		}
 		else

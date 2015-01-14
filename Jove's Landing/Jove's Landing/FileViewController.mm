@@ -54,7 +54,7 @@ using namespace SBJ::EV3;
 {
 	_path.detailTextLabel.text = [NSString stringWithUTF8String: _pathStr.c_str()];
 	_name.detailTextLabel.text = [NSString stringWithUTF8String: _file.name().c_str()];
-	_size.detailTextLabel.text = @(_file.size()).description;
+	_size.detailTextLabel.text = [NSString stringWithUTF8String: _file.sizeStr().c_str()];
 	_hash.detailTextLabel.text = [NSString stringWithUTF8String: _file.hashStr().c_str()];
 	
 	UIImage* image = nil;
@@ -82,9 +82,9 @@ using namespace SBJ::EV3;
 	}
 	else if (cell == _download)
 	{
-		//BeginUpload upload;
-		//upload.resource = _file.pathRelativeToSys(_pathStr);
-		//_brick->systemCommand(50, upload);
+		BeginUpload<1024> upload;
+		upload.resource = _file.pathRelativeToSys(_pathStr);
+		_brick->systemCommand(60, upload);
 	}
 }
 

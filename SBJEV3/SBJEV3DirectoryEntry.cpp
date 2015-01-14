@@ -9,6 +9,8 @@
 #include "SBJEV3DirectoryEntry.h"
 #include "SBJEV3Hex.h"
 
+#include <sstream>
+
 using namespace SBJ::EV3;
 
 static std::array<uint8_t, 16> Hash(const std::string& line)
@@ -20,14 +22,13 @@ static std::array<uint8_t, 16> Hash(const std::string& line)
 	return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 }
 
-static unsigned int Size(const std::string& line)
+static uint32_t Size(const std::string& line)
 {
 	if (line.back() != '/')
 	{
 		std::array<uint8_t, 4> bytes = hexbytes<4>(line.substr(33));
 		std::reverse(bytes.begin(), bytes.end()); // little endian
-		unsigned int l = *(unsigned int*)&bytes;
-		return l;
+		return *(uint32_t*)&bytes;
 	}
 	return 0;
 }
@@ -93,6 +94,34 @@ bool DirectoryEntry::isDirectory() const
 std::string DirectoryEntry::hashStr() const
 {
 	return hexstr(_hash);
+}
+
+std::string DirectoryEntry::sizeStr() const
+{
+	std::stringstream str;
+	str.precision(2);
+	str << std::fixed;
+	
+	if (_size < 1000)
+	{
+		str << _size << "B";
+	}
+	else if (_size < 1000*1000)
+	{
+		auto size = _size / 1000.0;
+		str << size << "kB";
+	}
+	else if (_size < 1000*1000*1000)
+	{
+		auto size = _size / 1000.0 / 1000.0;
+		str << size << "MB";
+	}
+	else
+	{
+		auto size = _size / 1000.0 / 1000.0 / 1000.0;
+		str << size << "GB";
+	}
+	return str.str();
 }
 
 std::string DirectoryEntry::simpleName() const

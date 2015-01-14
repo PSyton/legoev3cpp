@@ -23,7 +23,7 @@ static const uint8_t* dumpline(char* dest, size_t linelen, const uint8_t* src, c
 	dest++;
 	
 	{
-		constexpr int byteCount = sizeof(uint8_t*);
+		constexpr size_t byteCount = sizeof(uint8_t*);
 		const uint8_t* iter = src;
 		int i = 0;
 		for (; i < linelen; i++)

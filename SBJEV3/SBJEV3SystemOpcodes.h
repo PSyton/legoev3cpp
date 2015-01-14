@@ -80,8 +80,12 @@ struct ContinueOpcode
 	using Result = ResultType;
 };
 
-using BeginUpload = UploadOpcode<BEGIN_UPLOAD, 100, UploadBeganResult<100>>;
-using ContinueUpload = ContinueOpcode<CONTINUE_UPLOAD, 100, UploadContunuedResult<100>>;
+template <size_t ChunkSize>
+using BeginUpload = UploadOpcode<BEGIN_UPLOAD, ChunkSize, UploadBeganResult<ChunkSize>>;
+
+template <size_t ChunkSize>
+using ContinueUpload = ContinueOpcode<CONTINUE_UPLOAD, ChunkSize, UploadContunuedResult<ChunkSize>>;
+
 using ListFiles = UploadOpcode<LIST_FILES, DirectoryResult::allocatedSize(0), DirectoryResult>;
 
 #pragma pack(pop)
