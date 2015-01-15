@@ -92,6 +92,7 @@ struct UploadBeganResult
 	using Input = uint8_t;
 	using Output = UploadBeganOutput<ChunkSize>;
 	
+	constexpr static VarScope Scope = VarScope::global;
 	constexpr static size_t ResultCount = 1;
 	
 	constexpr static size_t allocatedSize(size_t resultIdx)
@@ -111,6 +112,7 @@ struct UploadContunuedResult
 	using Input = uint8_t;
 	using Output = UploadContunuedOutput<ChunkSize>;
 	
+	constexpr static VarScope Scope = VarScope::global;
 	constexpr static size_t ResultCount = 1;
 	
 	constexpr static size_t allocatedSize(size_t resultIdx)
@@ -126,9 +128,11 @@ struct UploadContunuedResult
 
 struct DirectoryResult
 {
+	
 	using Input = char;
 	using Output = DirectoryBeganOutput;
 	
+	constexpr static VarScope Scope = VarScope::global;
 	constexpr static size_t ResultCount = 1;
 	
 	constexpr static size_t allocatedSize(size_t resultIdx)

@@ -28,7 +28,7 @@ struct GetBrickName
 	const UBYTE code = opCOM_GET;
 	const CUValue subcode = GET_BRICKNAME;
 	const CUValue length = MaxSize;
-	using Result = StringResult<MaxSize>;
+	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
 struct SetBrickName : public VariableLenOpcode
@@ -51,21 +51,21 @@ struct BatteryVoltage
 {
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_VBATT;
-	using Result = BasicResult<FLOAT>;
+	using Result = BasicResult<VarScope::global, FLOAT>;
 };
 
 struct BatteryCurrent
 {
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_IBATT;
-	using Result = BasicResult<FLOAT>;
+	using Result = BasicResult<VarScope::global, FLOAT>;
 };
 
 struct BatteryTempuratureRise
 {
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_TBATT;
-	using Result = BasicResult<FLOAT>;
+	using Result = BasicResult<VarScope::global, FLOAT>;
 };
 
 struct BatteryLevel
@@ -73,7 +73,7 @@ struct BatteryLevel
 	static constexpr UBYTE MaxValue = 100;
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_LBATT;
-	using Result = BasicResult<UBYTE>;
+	using Result = BasicResult<VarScope::global, UBYTE>;
 };
 
 struct HardwareVersion
@@ -82,7 +82,7 @@ struct HardwareVersion
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_HW_VERS;
 	const CUValue length = MaxSize;
-	using Result = StringResult<MaxSize>;
+	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
 struct FirmwareVersion
@@ -91,7 +91,7 @@ struct FirmwareVersion
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_FW_VERS;
 	const CUValue length = MaxSize;
-	using Result = StringResult<MaxSize>;
+	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
 struct FirmwareBuild
@@ -100,7 +100,7 @@ struct FirmwareBuild
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_FW_BUILD;
 	const CUValue length = MaxSize;
-	using Result = StringResult<MaxSize>;
+	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
 struct OSVersion
@@ -109,7 +109,7 @@ struct OSVersion
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_OS_VERS;
 	const CUValue length = MaxSize;
-	using Result = StringResult<MaxSize>;
+	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
 struct OSBuild
@@ -118,7 +118,7 @@ struct OSBuild
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_OS_BUILD;
 	const CUValue length = MaxSize;
-	using Result = StringResult<MaxSize>;
+	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
 struct FullVersion
@@ -127,7 +127,7 @@ struct FullVersion
 	const UBYTE code = opUI_READ;
 	const CUValue subcode =  GET_VERSION;
 	const CUValue length = MaxSize;
-	using Result = StringResult<MaxSize>;
+	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
 #pragma mark - Flow
@@ -194,7 +194,7 @@ struct GetOutputType
 	const UBYTE code = opOUTPUT_GET_TYPE;
 	CLayer layer;
 	COutputPort port = OutputPort::A;
-	using Result = BasicResult<UBYTE>;
+	using Result = BasicResult<VarScope::global, UBYTE>;
 };
 
 struct SetOutputType
@@ -295,8 +295,7 @@ struct GetInputType
 	using Result = TypeMode;
 };
 
-// TODO:
-// - What is mode? Type enum appears incomplete
+// TODO: What is mode? Type enum appears incomplete
 
 template <UBYTE NumValues = 1>
 struct ReadValues
@@ -308,7 +307,7 @@ struct ReadValues
 	CUValue type = TYPE_KEEP;
 	CMode mode = MODE_KEEP;
 	const CUValue numValues = NumValues;
-	using Result = ArrayResult<ULONG, NumValues>;
+	using Result = ArrayResult<VarScope::global, ULONG, NumValues>;
 };
 	
 #pragma pack(pop)

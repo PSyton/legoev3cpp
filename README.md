@@ -7,6 +7,7 @@ The following are on the TODO list...
 * Local variables in opcodes and variable dereferencing in opcodes.
 * Finish implementing all direct opcode structures.
 * Finish implementing Implement all system opcode structures.
+* Many file uploads fail with timeouts (requiring brick reboot) for some reason
 
 This project is dependent on the ev3 sources with the minor header changes made in the dsjove fork (pull request has been made). I have a fork of both ev3 source trees with the changes.
 

@@ -31,26 +31,40 @@ public:
 	
 	void accumulate(OpcodeAccumulation& accume)
 	{
-		accume.globalSize += setReplyPositions(accume.globalSize);
-		accume.opcodeSize += (packOpcode(_opcode, nullptr) + sizeof(_pos));
+		if (sizeof(_globals))
+		{
+			accume.globalSize += setReplyPositions(accume.globalSize);
+		}
+		else
+		{
+			accume.localSize += setReplyPositions(accume.localSize);
+		}
+		accume.opcodeSize += (packOpcode(_opcode, nullptr) + sizeof(_globals) + sizeof(_locals));
 	}
 	
 	size_t pack(uint8_t* buffer) const
 	{
 		size_t baseSize = packOpcode(_opcode, buffer);
-		::memcpy(buffer + baseSize, _pos, sizeof(_pos));
-		return baseSize + sizeof(_pos);
+		::memcpy(buffer + baseSize, _globals, sizeof(_globals) + sizeof(_locals));
+		return baseSize + sizeof(_globals) + sizeof(_locals);
 	}
 	
 private:
-	// Tells the EV3 where in the global space to store the resulting values.
+	// Tells the EV3 where in the global or local space to store the resulting values.
 	size_t setReplyPositions(size_t startPosition)
 	{
 		size_t replySize = 0;
-		for (size_t i = 0; i < Opcode::Result::ResultCount; i++)
+		for (size_t i = 0; i < StorageSpecs<typename Opcode::Result>::scopedCount(); i++)
 		{
-			size_t globalAddress = startPosition + replySize;
-			_pos[i] = (UWORD)globalAddress;
+			size_t variableAddress = startPosition + replySize;
+			if (sizeof(_globals))
+			{
+				_globals[i] = (UWORD)variableAddress;
+			}
+			else
+			{
+				_locals[i] = (UWORD)variableAddress;
+			}
 			size_t allocatedSize = alignReply(Opcode::Result::allocatedSize(i));
 			replySize += allocatedSize;
 		}
@@ -59,8 +73,8 @@ private:
 	
 #pragma pack(push, 1)
 	Opcode _opcode;
-	// TODO: This may have to have an LValue as well
-	GUShort _pos[Opcode::Result::ResultCount];
+	GUShort _globals[StorageSpecs<typename Opcode::Result>::globalCount()];
+	LUShort _locals[StorageSpecs<typename Opcode::Result>::localCount()];
 #pragma pack(pop)
 };
 
@@ -127,7 +141,6 @@ private:
 	}
 	
 	// The reply buffer is a snapshot of the global space.
-	// TODO: determine how LValues are used.
 	inline void setHeader(unsigned short counter, bool forceReply, const OpcodeAccumulation& accume)
 	{
 		size_t commandSize = sizeof(COMCMD) - sizeof(CMDSIZE) + sizeof(DIRCMD) + accume.opcodeSize;

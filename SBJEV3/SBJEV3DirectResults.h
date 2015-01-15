@@ -17,11 +17,6 @@ namespace SBJ
 namespace EV3
 {
 
-/*
- * TODO: ResultCount and allocatedSize will likely have to be expanded to
- * help define local variable space in direct commands.
- */
-
 struct TypeMode
 {
 #pragma pack(push, 1)

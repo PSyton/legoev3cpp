@@ -30,7 +30,7 @@ class InvocationReply
 {
 public:
 	
-	using Results = std::tuple<typename Opcodes::Result::Output...>;
+	using Results = std::tuple<typename StorageSpecs<typename Opcodes::Result>::Output...>;
 
 	InvocationReply(float timeout)
 	: _timeout(timeout)
@@ -122,7 +122,7 @@ private:
 		
 		size_t size = 0;
 		// Calculate full allocation size and check for boundary condition
-		for(size_t i = 0; i < converter.ResultCount; i++)
+		for(size_t i = 0; i < StorageSpecs<ConverterType>::globalCount(); i++)
 		{
 			size += alignReply(converter.allocatedSize(i));
 			// system cmd errors are handled by the result object

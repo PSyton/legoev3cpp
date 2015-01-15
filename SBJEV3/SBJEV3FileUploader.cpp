@@ -26,9 +26,8 @@ void FileUploader::perform(Upload uploadTask)
 	
 	uploadTask(file.size, file.data, file.bytesRead, file.status);
 	
-	// TODO why invalid handles on success?
 	if (file.status != 0) return;
-	if (file.handle == 0) return;
+	//if (file.handle == 0) return;
 	if (file.bytesRead >= file.size) return;
 	
 	UBYTE handle = file.handle;
@@ -42,7 +41,7 @@ void FileUploader::perform(Upload uploadTask)
 		uploadTask(file.size, section.data, section.bytesRead, section.status);
 		
 		if (section.status != 0) return;
-		if (section.handle == 0) return;
+		//if (section.handle == 0) return;
 		if (section.bytesRead >= file.size) return;
 		
 		handle = section.handle;

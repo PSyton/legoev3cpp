@@ -211,8 +211,7 @@ struct OutputToInput
 /*
  * A Value Store instance is the readonly final representation of an
  * opcode parameter.
- * TODO: I believe the coversion type selection between LValue and CValue
- *    will have to a be a compile-time option once I figure out how local values work.
+ * TODO: ValueStore will have to be modified to take a constant, global, or local value
  */
 	
 #pragma pack(push, 1)

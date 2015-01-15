@@ -64,6 +64,7 @@ public:
 		auto e = _listing.entries[i].escapedName();
 		if (e == PARENTDIR)
 		{
+			if (_paths.size() == 1) return;
 			_paths.pop_back();
 		}
 		else if (e != CURRENTDIR)

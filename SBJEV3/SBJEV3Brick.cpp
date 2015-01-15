@@ -38,9 +38,8 @@ void Brick::setName(const std::string& name)
 	
 Brick::Battery Brick::battery()
 {
-	// TODO: test reply alignment by moving BatteryLevel() opcode from last
-	auto result = directCommand(1.0, BatteryVoltage(), BatteryCurrent(), BatteryTempuratureRise(), BatteryLevel());
-	return { std::get<0>(result), std::get<1>(result), std::get<2>(result), std::get<3>(result) };
+	auto result = directCommand(1.0, BatteryLevel(), BatteryVoltage(), BatteryCurrent(), BatteryTempuratureRise());
+	return { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<0>(result) };
 }
 
 bool Brick::isConnected() const

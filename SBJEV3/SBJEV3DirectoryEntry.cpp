@@ -45,6 +45,8 @@ static std::string Name(const std::string& line)
 std::vector<DirectoryEntry> DirectoryEntry::read(const char* data, size_t len)
 {
 	std::vector<DirectoryEntry> entries;
+	bool hasCurrent = false;
+	bool hasParent = false;
 	if (data and len)
 	{
 		char line[1024];
@@ -58,6 +60,14 @@ std::vector<DirectoryEntry> DirectoryEntry::read(const char* data, size_t len)
 					line[j] = 0;
 					j = 0;
 					DirectoryEntry e(line);
+					if (e.name() == CURRENTDIR)
+					{
+						hasCurrent = true;
+					}
+					if (e.name() == PARENTDIR)
+					{
+						hasParent = true;
+					}
 					entries.push_back(e);
 					break;
 				}
@@ -67,10 +77,13 @@ std::vector<DirectoryEntry> DirectoryEntry::read(const char* data, size_t len)
 			}
 		}
 	}
-	if (entries.size() == 0)
+	if (hasCurrent == false)
 	{
-		const std::string r = "../\n./\n";
-		return read(r.c_str(), r.length());
+		entries.push_back(DirectoryEntry(CURRENTDIR));
+	}
+	if (hasParent == false)
+	{
+		entries.push_back(DirectoryEntry(PARENTDIR));
 	}
 	return entries;
 }
