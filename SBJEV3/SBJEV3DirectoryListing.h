@@ -54,8 +54,7 @@ public:
 	{
 		ListFiles listFiles;
 		listFiles.resource = _paths.back();
-		auto t = _brick.systemCommand(2.0, listFiles);
-		_listing = std::get<0>(t);
+		_listing = _brick.systemCommand(2.0, listFiles);
 	}
 	
 	void change(size_t i)

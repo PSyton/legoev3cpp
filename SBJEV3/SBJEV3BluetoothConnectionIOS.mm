@@ -198,7 +198,7 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 	package.sent = (bytesToWrite == 0);
 }
 
-#define ExtendedLogging 1
+#define ExtendedLogging 0
 
 - (void)stream:(NSStream*)theStream handleEvent:(NSStreamEvent)streamEvent
 {
