@@ -40,29 +40,48 @@ struct FileContinued
 template <UWORD ChunkSize>
 struct UploadBeganOutput : public FileBegan
 {
+	UWORD bytesRead = 0;
 	UBYTE data[ChunkSize];
 	
-	ULONG actualRead() const
+	void read(const uint8_t* input, size_t len)
 	{
-		return std::min((ULONG)ChunkSize, size);
+		::memcpy(this, input, sizeof(FileBegan));
+		size_t payLoadLen = len - sizeof(FileBegan);
+		if (payLoadLen > 0)
+		{
+			bytesRead = payLoadLen;
+			::memcpy((void*)data, input + sizeof(FileBegan), payLoadLen);
+		}
 	}
 };
 
 template <UWORD ChunkSize>
 struct UploadContunuedOutput : public FileContinued
 {
+	UWORD bytesRead = 0;
 	UBYTE data[ChunkSize];
 	
-	ULONG actualRead(ULONG fileSize) const
+	void read(const uint8_t* input, size_t len)
 	{
-		ULONG remaining = fileSize - (ULONG)ChunkSize;
-		return std::min(remaining, (ULONG)ChunkSize);
+		::memcpy(this, input, sizeof(FileContinued));
+		size_t payLoadLen = len - sizeof(FileContinued);
+		if (payLoadLen > 0)
+		{
+			bytesRead = payLoadLen;
+			::memcpy((void*)data, input + sizeof(FileContinued), payLoadLen);
+		}
 	}
 };
 
 struct DirectoryBeganOutput : public FileBegan
 {
 	std::vector<DirectoryEntry> entries;
+	
+	void read(const char* input, size_t len)
+	{
+		::memcpy(this, input, sizeof(FileBegan));
+		entries = DirectoryEntry::read(input + sizeof(FileBegan), len - sizeof(FileBegan));
+	};
 };
 
 // According to docs DirectoryContunuedOutput is not implemented
@@ -70,7 +89,7 @@ struct DirectoryBeganOutput : public FileBegan
 template <UWORD ChunkSize>
 struct UploadBeganResult
 {
-	using Input = const char;
+	using Input = uint8_t;
 	using Output = UploadBeganOutput<ChunkSize>;
 	
 	constexpr static size_t ResultCount = 1;
@@ -82,19 +101,14 @@ struct UploadBeganResult
 	
 	static inline void convert(const Input* input, Output& output, size_t maxLen)
 	{
-		::memcpy(&output, input, sizeof(FileBegan));
-		size_t payLoadLen = maxLen - sizeof(FileBegan);
-		if (payLoadLen > 0)
-		{
-			::memcpy(output.data, input + sizeof(FileBegan), payLoadLen);
-		}
+		output.read(input, maxLen);
 	};
 };
 
 template <UWORD ChunkSize>
 struct UploadContunuedResult
 {
-	using Input = const char;
+	using Input = uint8_t;
 	using Output = UploadContunuedOutput<ChunkSize>;
 	
 	constexpr static size_t ResultCount = 1;
@@ -106,18 +120,13 @@ struct UploadContunuedResult
 	
 	static inline void convert(const Input* input, Output& output, size_t maxLen)
 	{
-		::memcpy(&output, input, sizeof(FileContinued));
-		size_t payLoadLen = maxLen - sizeof(FileContinued);
-		if (payLoadLen > 0)
-		{
-			::memcpy(output.data, input + sizeof(FileContinued), payLoadLen);
-		}
+		output.read(input, maxLen);
 	};
 };
 
 struct DirectoryResult
 {
-	using Input = const char;
+	using Input = char;
 	using Output = DirectoryBeganOutput;
 	
 	constexpr static size_t ResultCount = 1;
@@ -129,10 +138,8 @@ struct DirectoryResult
 	
 	static inline void convert(const Input* input, Output& output, size_t maxLen)
 	{
-		::memcpy(&output, input, sizeof(FileBegan));
-		output.entries = DirectoryEntry::read(input + sizeof(FileBegan), maxLen - sizeof(FileBegan));
+		output.read(input, maxLen);
 	};
-	
 };
 
 }

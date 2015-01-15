@@ -87,11 +87,11 @@ using namespace SBJ::EV3;
 	{
 		Chunk<1024> file;
 		FileUploader upoloader(*_brick, _file.pathRelativeToSys(_pathStr));
-		upoloader.perform([&file](auto data, auto size)
+		upoloader.perform([&file](auto fullSize, auto data, auto size, auto status)
 		{
 			file.append(data, size);
 		});
-		_brick->log().hexDump(file, file.size());
+		_brick->log().hexDump(_file.name(), file, file.size());
 	}
 }
 

@@ -84,6 +84,7 @@ private:
 			if (len == 0)
 			{
 				_status = buffer != nullptr ? ReplyStatus::sendError : ReplyStatus::timeout;
+				// TODO: allow the coverter objects to put themselves into a "no-response" state;
 			}
 			else
 			{

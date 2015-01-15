@@ -81,6 +81,8 @@ public:
 		return *this;
 	}
 	
+	void hexDump(const std::string& header, const void* addr, size_t len, size_t linelen = 16);
+	
 	void hexDump(const void* addr, size_t len, size_t linelen = 16);
 	
 private:

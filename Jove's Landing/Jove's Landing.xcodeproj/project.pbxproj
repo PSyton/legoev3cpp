@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		55781F741A62DB2C00BD0ABB /* FileViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55781F731A62DB2C00BD0ABB /* FileViewController.mm */; };
 		55781F7A1A6403E500BD0ABB /* SBJEV3DirectoryEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55781F781A6403E500BD0ABB /* SBJEV3DirectoryEntry.cpp */; };
+		55781F871A67F5E900BD0ABB /* SBJEV3FileUploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55781F861A67F5E900BD0ABB /* SBJEV3FileUploader.cpp */; };
 		5596B7601A56D7070079C403 /* SBJEV3Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */; };
 		55A7CB7A1A3E07130028553C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB791A3E07130028553C /* main.m */; };
 		55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7C1A3E07130028553C /* AppDelegate.mm */; };
@@ -51,6 +52,7 @@
 		55781F7B1A640D1800BD0ABB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		55781F7E1A66C9BB00BD0ABB /* SBJEV3Chunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Chunk.h; sourceTree = "<group>"; };
 		55781F811A672D8D00BD0ABB /* SBJEV3FileUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3FileUploader.h; sourceTree = "<group>"; };
+		55781F861A67F5E900BD0ABB /* SBJEV3FileUploader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3FileUploader.cpp; sourceTree = "<group>"; };
 		5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3Log.cpp; sourceTree = "<group>"; };
 		5596B75F1A56D7070079C403 /* SBJEV3Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Log.h; sourceTree = "<group>"; };
 		55A7CB741A3E07130028553C /* Jove's Landing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jove's Landing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +178,7 @@
 				55781F781A6403E500BD0ABB /* SBJEV3DirectoryEntry.cpp */,
 				55781F6C1A6175BE00BD0ABB /* SBJEV3DirectoryListing.h */,
 				55781F811A672D8D00BD0ABB /* SBJEV3FileUploader.h */,
+				55781F861A67F5E900BD0ABB /* SBJEV3FileUploader.cpp */,
 			);
 			name = "File System";
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				55A7CBDB1A3E10860028553C /* SBJEV3ConnectionToken.cpp in Sources */,
 				55781F741A62DB2C00BD0ABB /* FileViewController.mm in Sources */,
 				55A7CBDC1A3E10860028553C /* SBJEV3InvocationStack.cpp in Sources */,
+				55781F871A67F5E900BD0ABB /* SBJEV3FileUploader.cpp in Sources */,
 				55A7CBD91A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm in Sources */,
 				55A7CBD81A3E10860028553C /* SBJEV3Brick.cpp in Sources */,
 				55A7CB7A1A3E07130028553C /* main.m in Sources */,

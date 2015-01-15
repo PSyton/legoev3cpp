@@ -69,8 +69,18 @@ static const uint8_t* dumpline(char* dest, size_t linelen, const uint8_t* src, c
 
 void Log::hexDump(const void* addr, size_t len, size_t linelen)
 {
+	hexDump("", addr, len, linelen);
+}
+
+void Log::hexDump(const std::string& header, const void* addr, size_t len, size_t linelen)
+{
 	if (!_enabled) return;
 	std::unique_lock<std::mutex> lock(_mutex);
+	
+	if (header.length())
+	{
+		_stream << header << std::endl;
+	}
 	
 	if (addr == nullptr || len == 0)
 	{

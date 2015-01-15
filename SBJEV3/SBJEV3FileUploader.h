@@ -8,48 +8,24 @@
 
 #pragma once
 
-#include "SBJEV3Brick.h"
+#include <string>
+#include <functional>
 
 namespace SBJ
 {
 namespace EV3
 {
 
+class Brick;
+
 class FileUploader
 {
 public:
-	using Upload = std::function<void(const uint8_t* buffer, size_t size)>;
+	using Upload = std::function<void(size_t fullSize, const uint8_t* buffer, size_t size, uint8_t status)>;
 	
-	FileUploader(Brick& brick, std::string file)
-	: _brick(brick)
-	, _path(file)
-	{
-	}
+	FileUploader(Brick& brick, std::string file);
 	
-	void perform(Upload uploadTask)
-	{
-		// TODO: why at 150 does the EV3 timeout!!!!
-		BeginUpload<128> begin;
-		begin.resource = _path;
-		auto file = _brick.systemCommand(60, begin);
-		auto actualRead = file.actualRead();
-		
-		uploadTask(file.data, actualRead);
-		
-		if (actualRead < file.size)
-		{
-			do
-			{
-				ContinueUpload<begin.BaseSize> cntinue;
-				cntinue.handle = file.handle;
-				auto section = _brick.systemCommand(60, cntinue);
-				actualRead = section.actualRead(file.size);
-				
-				uploadTask(section.data, actualRead);
-				
-			} while (actualRead == begin.BaseSize);
-		}
-	}
+	void perform(Upload uploadTask);
 	
 private:
 	Brick& _brick;

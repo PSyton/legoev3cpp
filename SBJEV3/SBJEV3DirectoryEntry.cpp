@@ -45,23 +45,26 @@ static std::string Name(const std::string& line)
 std::vector<DirectoryEntry> DirectoryEntry::read(const char* data, size_t len)
 {
 	std::vector<DirectoryEntry> entries;
-	char line[1024];
-	int j = 0;
-	for (int i = 0; i < len; i++)
+	if (data and len)
 	{
-		switch (data[i])
+		char line[1024];
+		int j = 0;
+		for (int i = 0; i < len; i++)
 		{
-			case '\n':
+			switch (data[i])
 			{
-				line[j] = 0;
-				j = 0;
-				DirectoryEntry e(line);
-				entries.push_back(e);
-				break;
+				case '\n':
+				{
+					line[j] = 0;
+					j = 0;
+					DirectoryEntry e(line);
+					entries.push_back(e);
+					break;
+				}
+				default:
+					line[j] = data[i];
+					j++;
 			}
-			default:
-				line[j] = data[i];
-				j++;
 		}
 	}
 	if (entries.size() == 0)

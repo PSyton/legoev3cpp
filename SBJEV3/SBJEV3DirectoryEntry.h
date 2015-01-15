@@ -31,14 +31,11 @@ namespace EV3
 
 #define DIREXT std::string("/")
 #define BYTECODEEXT std::string(".rbf")
-#define DATALOGEXT2 std::string(".raf")
 #define GRAPHICEXT std::string(".rgf")
 #define SOUNDEXT std::string(".rsf")
+
 #define DATALOGEXT std::string(".rdf")
-#define LIBRARYEXT std::string(".so")
-#define KERNeLEXT std::string(".ko")
-
-
+#define DATALOGEXT2 std::string(".raf")
 
 #define CURRENTDIR std::string("./")
 #define PARENTDIR std::string("../")
