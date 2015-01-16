@@ -58,9 +58,9 @@ public:
 		return ptr;
 	}
 	
-	void actualBytesWrittenTo(size_t actualWriteSize, const uint8_t* marker)
+	void appendSize(size_t actualWriteSize)
 	{
-		_size = (marker - _dataPtr) + actualWriteSize;
+		_size += actualWriteSize;
 	}
 	
 private:

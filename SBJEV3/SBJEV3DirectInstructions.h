@@ -54,7 +54,7 @@ private:
 	size_t setReplyPositions(size_t startPosition)
 	{
 		size_t replySize = 0;
-		for (size_t i = 0; i < StorageSpecs<typename Opcode::Result>::scopedCount(); i++)
+		for (size_t i = 0; i < ResultStorage<typename Opcode::Result>::scopedCount(); i++)
 		{
 			size_t variableAddress = startPosition + replySize;
 			if (sizeof(_globals))
@@ -73,8 +73,8 @@ private:
 	
 #pragma pack(push, 1)
 	Opcode _opcode;
-	GUShort _globals[StorageSpecs<typename Opcode::Result>::globalCount()];
-	LUShort _locals[StorageSpecs<typename Opcode::Result>::localCount()];
+	GUShort _globals[ResultStorage<typename Opcode::Result>::globalCount()];
+	LUShort _locals[ResultStorage<typename Opcode::Result>::localCount()];
 #pragma pack(pop)
 };
 

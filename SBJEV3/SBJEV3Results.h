@@ -30,14 +30,8 @@ enum class VarScope
 
 class VoidResult;
 
-template <typename Result, VarScope Scope = VarScope::global>
-struct OutputStore { using Type = typename Result::Output; };
-
 template <typename Result>
-struct OutputStore<Result, VarScope::local> { using Type = struct { }; };
-
-template <typename Result>
-struct StorageSpecs
+struct ResultStorage
 {
 	constexpr static inline size_t localCount()
 	{
@@ -54,7 +48,32 @@ struct StorageSpecs
 		return Result::ResultCount;
 	}
 	
-	using Output = typename OutputStore<Result, Result::Scope>::Type;
+	using Reply = typename std::conditional<
+			Result::Scope == VarScope::local,
+				std::tuple<>,
+				std::tuple<typename Result::Output>>::type;
+};
+
+
+template <>
+struct ResultStorage<VoidResult>
+{
+	constexpr static inline size_t localCount()
+	{
+		return 0;
+	}
+	
+	constexpr static inline size_t globalCount()
+	{
+		return 0;
+	}
+	
+	constexpr static inline size_t scopedCount()
+	{
+		return 0;
+	}
+	
+	using Reply = std::tuple<>;
 };
 
 /*
@@ -76,28 +95,6 @@ struct VoidResult
 	
 	// Convert the value
 	static inline void convert(const Input*, Output&, size_t) { };
-};
-
-
-template <>
-struct StorageSpecs<VoidResult>
-{
-	constexpr static inline size_t localCount()
-	{
-		return 0;
-	}
-	
-	constexpr static inline size_t globalCount()
-	{
-		return 0;
-	}
-	
-	constexpr static inline size_t scopedCount()
-	{
-		return 0;
-	}
-	
-	using Output = typename VoidResult::Output;
 };
 
 template<VarScope varScope, typename InputType, typename OutputType = InputType>

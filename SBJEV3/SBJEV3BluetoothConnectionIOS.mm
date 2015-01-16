@@ -270,13 +270,12 @@ bool BluetoothConnectionIOS::write(const uint8_t* buffer, size_t len)
 	Chunk<2048> buffer;
 	while (stream.hasBytesAvailable)
 	{
-		uint8_t* ptr = buffer.writePtr();
-		NSInteger bytesRead = [stream read: ptr maxLength: buffer.NaturalSize];
+		NSInteger bytesRead = [stream read: buffer.writePtr() maxLength: buffer.NaturalSize];
 		if (bytesRead == -1)
 		{
 			break;
 		}
-		buffer.actualBytesWrittenTo(bytesRead, ptr);
+		buffer.appendSize(bytesRead);
 	}
 	if (_read) _read(buffer, buffer.size());
 }

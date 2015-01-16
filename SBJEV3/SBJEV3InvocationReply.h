@@ -24,13 +24,12 @@ namespace EV3
  * InvocationReply receives a buffer response and extracts the requested results from the opcodes.
  * The reponse buffer is a snapshot of the global space for the mini-program.
 */
- 
+
 template <typename... Opcodes>
 class InvocationReply
 {
 public:
-	
-	using Results = std::tuple<typename StorageSpecs<typename Opcodes::Result>::Output...>;
+	using Results = decltype(std::tuple_cat(typename ResultStorage<typename Opcodes::Result>::Reply()...));
 
 	InvocationReply(float timeout)
 	: _timeout(timeout)
@@ -122,7 +121,7 @@ private:
 		
 		size_t size = 0;
 		// Calculate full allocation size and check for boundary condition
-		for(size_t i = 0; i < StorageSpecs<ConverterType>::globalCount(); i++)
+		for(size_t i = 0; i < ResultStorage<ConverterType>::globalCount(); i++)
 		{
 			size += alignReply(converter.allocatedSize(i));
 			// system cmd errors are handled by the result object
