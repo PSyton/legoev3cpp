@@ -117,6 +117,7 @@ using namespace SBJ::EV3;
 		{
 			Brick::Battery battery = _brick->battery();
 			_battery.progress = battery.indicator();
+			NSLog(@"b %d", battery.level);
 		}
 		else
 		{

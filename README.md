@@ -4,10 +4,11 @@ legoev3cpp
 This is a light-weight cross-platform C++14 API for remote control of the LEGO EV3. The current platform specific  implementation files are only iOS bluetooth. I use this library to remote-control my EV3 from an iOS app. If you find this project useful, please propose any additions/changes.
 
 The following are on the TODO list...
-* Local variables in opcodes and variable dereferencing in opcodes.
+* Variable dereferencing in opcodes.
 * Finish implementing all direct opcode structures.
-* Finish implementing Implement all system opcode structures.
+* Finish implementing all system opcode structures.
 * Many file uploads fail with timeouts (requiring brick reboot) for some reason
+* Fetching extended brick info timeouts
 
 This project is dependent on the ev3 sources with the minor header changes made in the dsjove fork (pull request has been made). I have a fork of both ev3 source trees with the changes.
 

@@ -17,19 +17,21 @@ namespace SBJ
 namespace EV3
 {
 
+template<VarScope varScope = VarScope::global>
 struct TypeMode
 {
 #pragma pack(push, 1)
 	struct InputType
 	{
-		UBYTE type;
-		UBYTE mode;
+		UBYTE type = TYPE_ERROR;
+		UBYTE mode = MODE_KEEP;
 	};
 #pragma pack(pop)
 	
 	using Input = InputType;
 	using Output = Input;
 	
+	constexpr static VarScope Scope = varScope;
 	constexpr static size_t ResultCount = 2;
 	
 	const static size_t allocatedSize(size_t resultIdx)
@@ -37,26 +39,28 @@ struct TypeMode
 		return sizeof(UBYTE);
 	}
 	
-	static inline void convert(const Input* input, Output& o, size_t)
+	static inline void convert(const Input* input, Output& output, size_t)
 	{
-		o = *input;
+		if (input == nullptr) return;
+		output = *input;
 	};
 };
 	
-// This is an example of an opcode with two results
+template<VarScope varScope = VarScope::global>
 struct TachoSpeed
 {
 #pragma pack(push, 1)
 	struct InputType
 	{
-		UWORD speed;
-		UWORD count;
+		UWORD speed = 0;
+		UWORD count = 0;
 	};
 #pragma pack(pop)
 	
 	using Input = InputType;
 	using Output = Input;
 	
+	constexpr static VarScope Scope = varScope;
 	constexpr static size_t ResultCount = 2;
 	
 	const static size_t allocatedSize(size_t resultIdx)
@@ -64,9 +68,10 @@ struct TachoSpeed
 		return sizeof(UWORD);
 	}
 	
-	static inline void convert(const Input* input, Output& o, size_t)
+	static inline void convert(const Input* input, Output& output, size_t)
 	{
-		o = *input;
+		if (input == nullptr) return;
+		output = *input;
 	};
 };
 	

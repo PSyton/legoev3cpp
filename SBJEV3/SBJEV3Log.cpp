@@ -18,8 +18,13 @@ static const uint8_t* dumpline(char* dest, size_t linelen, const uint8_t* src, c
 		return nullptr;
 	}
 	
+	const char COLM = '\t';
+	const char BYTE = ':';
+	const char WORD = ' ';
+	const char FILL = ' ';
+	
 	dest = hexstr(src, dest);
-	*dest = ' ';
+	*dest = COLM;
 	dest++;
 	
 	{
@@ -33,7 +38,7 @@ static const uint8_t* dumpline(char* dest, size_t linelen, const uint8_t* src, c
 				break;
 			}
 			dest = hexstr(*iter, dest);
-			*dest = (((i + byteCount + 1) % byteCount != 0)) ? ':' : ' ';
+			*dest = i == linelen-1 ? COLM : (((i + byteCount + 1) % byteCount != 0)) ? BYTE : WORD;
 			dest++;
 			iter++;
 		}
@@ -41,7 +46,7 @@ static const uint8_t* dumpline(char* dest, size_t linelen, const uint8_t* src, c
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				*dest = ' ';
+				*dest = FILL;
 				dest++;
 			}
 		}
@@ -58,7 +63,7 @@ static const uint8_t* dumpline(char* dest, size_t linelen, const uint8_t* src, c
 		}
 		for (; i < linelen; i++)
 		{
-			*dest = ' ';
+			*dest = i == linelen-1 ? COLM : FILL;
 			dest++;
 		}
 		src = iter;
@@ -82,7 +87,7 @@ void Log::hexDump(const std::string& header, const void* addr, size_t len, size_
 		_stream << header << std::endl;
 	}
 	
-	if (addr == nullptr || len == 0)
+	if (addr == nullptr or len <= 0)
 	{
 		_stream << "  Length: " << len << " at 0x" << hexstr(addr) << std::endl;
 		return;

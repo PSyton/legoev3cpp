@@ -53,9 +53,27 @@ using namespace SBJ::EV3;
     return 1;
 }
 
+- (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	return [NSString stringWithUTF8String: _listing->path().c_str()];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	return _listing->size();
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (_listing->depth() == 1)
+	{
+		auto entry = (*_listing)[indexPath.row];
+		if (entry.name() == PARENTDIR)
+		{
+			return 0;
+		}
+	}
+    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

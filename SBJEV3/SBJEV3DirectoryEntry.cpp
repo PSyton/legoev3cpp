@@ -47,7 +47,7 @@ std::vector<DirectoryEntry> DirectoryEntry::read(const char* data, size_t len)
 	std::vector<DirectoryEntry> entries;
 	bool hasCurrent = false;
 	bool hasParent = false;
-	if (data and len)
+	if (data and len > 0)
 	{
 		char line[1024];
 		int j = 0;
@@ -85,6 +85,9 @@ std::vector<DirectoryEntry> DirectoryEntry::read(const char* data, size_t len)
 	{
 		entries.push_back(DirectoryEntry(PARENTDIR));
 	}
+	
+	std::sort(entries.begin(), entries.end(), [](auto& a, auto& b) { return b._name < a._name; });
+	
 	return entries;
 }
 
@@ -147,7 +150,7 @@ std::string DirectoryEntry::simpleName() const
 		return _name.substr(0, _name.size()-1);
 	}
 	size_t ext = _name.rfind('.');
-	if (ext != std::string::npos && ext != 0)
+	if (ext != std::string::npos and ext != 0)
 	{
 		return _name.substr(0, ext);
 	}
@@ -161,7 +164,7 @@ std::string DirectoryEntry::extension() const
 		return "/";
 	}
 	size_t ext = _name.rfind('.');
-	if (ext != std::string::npos && ext != 0)
+	if (ext != std::string::npos and ext != 0)
 	{
 		return _name.substr(ext);
 	}

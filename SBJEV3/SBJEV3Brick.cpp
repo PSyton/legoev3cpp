@@ -73,7 +73,7 @@ void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, st
 		// - replies have to be byte(N) aligned
 		// - max length constant wrong byte code type
 		auto result = directCommand(5.0,
-			GetBrickName(),
+			GetBrickName<>(),
 			HardwareVersion(),
 			//FirmwareVersion(), // timeout
 			FirmwareBuild(),

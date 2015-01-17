@@ -22,7 +22,7 @@ public:
 	, _paths{root}
 	{
 		// according to docs, this happens automatically, just being explicit to remove any possible side-effects
-		if (root.find(PARENTDIR) == 0 || root.find(CURRENTDIR) == 0)
+		if (root.find(PARENTDIR) == 0 or root.find(CURRENTDIR) == 0)
 		{
 			root  = ROOTDIR + root;
 		}
@@ -48,6 +48,11 @@ public:
 	size_t size() const
 	{
 		return _listing.entries.size();
+	}
+	
+	size_t depth() const
+	{
+		return _paths.size();
 	}
 	
 	void refresh()

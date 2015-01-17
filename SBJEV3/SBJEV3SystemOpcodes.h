@@ -83,10 +83,10 @@ struct ContinueOpcode
 };
 
 template <UWORD ChunkSize>
-using BeginUpload = UploadOpcode<BEGIN_UPLOAD, ChunkSize, UploadBeganResult<ChunkSize>>;
+using BeginUpload = UploadOpcode<BEGIN_UPLOAD, ChunkSize, UploadBeganResult<BEGIN_UPLOAD, ChunkSize>>;
 
 template <UWORD ChunkSize>
-using ContinueUpload = ContinueOpcode<CONTINUE_UPLOAD, ChunkSize, UploadContunuedResult<ChunkSize>>;
+using ContinueUpload = ContinueOpcode<CONTINUE_UPLOAD, ChunkSize, UploadContunuedResult<CONTINUE_UPLOAD, ChunkSize>>;
 
 using ListFiles = UploadOpcode<LIST_FILES, DirectoryResult::allocatedSize(0), DirectoryResult>;
 

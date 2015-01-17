@@ -22,13 +22,14 @@ namespace EV3
 
 #pragma mark - 
 
+template <VarScope Scope = VarScope::global>
 struct GetBrickName
 {
 	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opCOM_GET;
 	const CUValue subcode = GET_BRICKNAME;
 	const CUValue length = MaxSize;
-	using Result = StringResult<VarScope::global, MaxSize>;
+	using Result = StringResult<Scope, MaxSize>;
 };
 
 struct SetBrickName : public VariableLenOpcode
@@ -292,7 +293,7 @@ struct GetInputType
 	const CUValue subcode =  GET_TYPEMODE;
 	CLayer layer;
 	CInputPort port = OutputPort::A;
-	using Result = TypeMode;
+	using Result = TypeMode<>;
 };
 
 // TODO: What is mode? Type enum appears incomplete

@@ -48,6 +48,11 @@ struct ResultStorage
 		return Result::ResultCount;
 	}
 	
+	constexpr static size_t allocatedSize(size_t resultIdx)
+	{
+		return Result::allocatedSize(resultIdx);
+	};
+	
 	using Reply = typename std::conditional<
 			Result::Scope == VarScope::local,
 				std::tuple<>,
@@ -73,28 +78,22 @@ struct ResultStorage<VoidResult>
 		return 0;
 	}
 	
+	constexpr static size_t allocatedSize(size_t resultIdx)
+	{
+		return 0;
+	}
+	
 	using Reply = std::tuple<>;
 };
 
 /*
  * The Result structures do not require any storage space.
  * They define types and starategies used for defining how the EV3
- * produces a reply and how the reply items are converted to high level types.
+ * produces an opcode return value and how the values are converted to high level types.
  */
 
 struct VoidResult
 {
-	// Type provided by EV3 in response buffer
-	using Input = struct { };
-	
-	// Desired type output from result tuple
-	using Output = Input;
-	
-	// Provide the required allocated size for each non-contiguous result
-	constexpr static size_t allocatedSize(size_t resultIdx) { return 0; };
-	
-	// Convert the value
-	static inline void convert(const Input*, Output&, size_t) { };
 };
 
 template<VarScope varScope, typename InputType, typename OutputType = InputType>
@@ -113,6 +112,7 @@ struct BasicResult
 	
 	static inline void convert(const Input* input, Output& output, size_t)
 	{
+		if (input == nullptr) return;
 		output = static_cast<Output>(*input);
 	};
 };
@@ -133,11 +133,11 @@ struct StringResult
 	
 	static inline void convert(const Input* input, Output& output, size_t)
 	{
+		if (input == nullptr) return;
 		output = input;
 	};
 };
 
-// Contiguous results...
 template<VarScope varScope, typename InputType, size_t Count, typename OutputType = InputType>
 struct ArrayResult
 {

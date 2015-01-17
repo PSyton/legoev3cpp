@@ -82,8 +82,8 @@ private:
 			std::unique_lock<std::mutex> lock(_mutex);
 			if (len == 0)
 			{
+				itemizeFail(size_type<0>());
 				_status = buffer != nullptr ? ReplyStatus::sendError : ReplyStatus::timeout;
-				// TODO: allow the coverter objects to put themselves into a "no-response" state;
 			}
 			else
 			{
@@ -110,6 +110,25 @@ private:
 		_waitOn.notify_one();
 		return _status;
 	}
+	
+	template <size_t N>
+	inline void itemizeFail(size_type<N>)
+	{
+		auto& converter = std::get<N>(_converters);
+		using ConverterRef = decltype(converter);
+		using ConverterType = typename std::remove_reference<ConverterRef>::type;
+		using InputType = typename ConverterType::Input;
+		
+		auto& result = std::get<N>(_results);
+		converter.convert((InputType*)nullptr, result, 0);
+		
+		itemizeFail(size_type<N+1>());
+	}
+	
+	inline bool itemizeFail(size_type<std::tuple_size<Results>::value>)
+	{
+		return true;
+	}
 
 	template <size_t N>
 	inline bool itemizedCopy(size_type<N>, const uint8_t* buffer, size_t maxLen, UBYTE cmdState)
@@ -125,7 +144,7 @@ private:
 		{
 			size += alignReply(converter.allocatedSize(i));
 			// system cmd errors are handled by the result object
-			if (cmdState ==  DIRECT_REPLY && size > maxLen)
+			if (cmdState == DIRECT_REPLY and size > maxLen)
 			{
 				return false;
 			}

@@ -27,7 +27,7 @@ inline std::string replace(const std::string& str, const std::string& from, cons
 {
     std::string wsRet;
 	
-    if (str.empty() || from.empty())
+    if (str.empty() or from.empty())
 	{
         return wsRet;
 	}

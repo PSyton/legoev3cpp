@@ -31,7 +31,7 @@ public:
 	
 	void accumulate(OpcodeAccumulation& accume)
 	{
-		if (sizeof(_globals))
+		if (Result::globalCount())
 		{
 			accume.globalSize += setReplyPositions(accume.globalSize);
 		}
@@ -50,14 +50,16 @@ public:
 	}
 	
 private:
+	using Result = ResultStorage<typename Opcode::Result>;
+
 	// Tells the EV3 where in the global or local space to store the resulting values.
 	size_t setReplyPositions(size_t startPosition)
 	{
 		size_t replySize = 0;
-		for (size_t i = 0; i < ResultStorage<typename Opcode::Result>::scopedCount(); i++)
+		for (size_t i = 0; i < Result::scopedCount(); i++)
 		{
 			size_t variableAddress = startPosition + replySize;
-			if (sizeof(_globals))
+			if (Result::globalCount())
 			{
 				_globals[i] = (UWORD)variableAddress;
 			}
@@ -65,7 +67,7 @@ private:
 			{
 				_locals[i] = (UWORD)variableAddress;
 			}
-			size_t allocatedSize = alignReply(Opcode::Result::allocatedSize(i));
+			size_t allocatedSize = alignReply(Result::allocatedSize(i));
 			replySize += allocatedSize;
 		}
 		return replySize;
@@ -73,8 +75,8 @@ private:
 	
 #pragma pack(push, 1)
 	Opcode _opcode;
-	GUShort _globals[ResultStorage<typename Opcode::Result>::globalCount()];
-	LUShort _locals[ResultStorage<typename Opcode::Result>::localCount()];
+	GUShort _globals[Result::globalCount()];
+	LUShort _locals[Result::localCount()];
 #pragma pack(pop)
 };
 

@@ -61,6 +61,7 @@ public:
 	void appendSize(size_t actualWriteSize)
 	{
 		_size += actualWriteSize;
+		allocateFor(_size);
 	}
 	
 private:
