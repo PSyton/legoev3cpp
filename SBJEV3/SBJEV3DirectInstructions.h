@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "SBJEV3Results.h"
 #include "SBJEV3DirectOpcodes.h"
 #include "SBJEV3Invocation.h"
 
@@ -20,66 +19,13 @@ namespace SBJ
 {
 namespace EV3
 {
-	
-template <typename Opcode>
-class ExtendedDirectOpcode
-{
-public:
-	ExtendedDirectOpcode(const Opcode& opcode)
-	: _opcode(opcode)
-	{
-	}
-	
-	void accumulate(OpcodeAccumulation& accume)
-	{
-		if (Result::globalCount())
-		{
-			accume.globalSize += setReplyPositions(accume.globalSize);
-		}
-		else
-		{
-			accume.localSize += setReplyPositions(accume.localSize);
-		}
-		accume.opcodeSize += (packOpcode(_opcode, nullptr) + sizeof(_globals) + sizeof(_locals));
-	}
-	
-	size_t pack(uint8_t* buffer) const
-	{
-		size_t baseSize = packOpcode(_opcode, buffer);
-		::memcpy(buffer + baseSize, _globals, sizeof(_globals) + sizeof(_locals));
-		return baseSize + sizeof(_globals) + sizeof(_locals);
-	}
-	
-private:
-	using Result = ResultStorage<typename Opcode::Result>;
 
-	// Tells the EV3 where in the global or local space to store the resulting values.
-	size_t setReplyPositions(size_t startPosition)
-	{
-		size_t replySize = 0;
-		for (size_t i = 0; i < Result::scopedCount(); i++)
-		{
-			size_t variableAddress = startPosition + replySize;
-			if (Result::globalCount())
-			{
-				_globals[i] = (UWORD)variableAddress;
-			}
-			else
-			{
-				_locals[i] = (UWORD)variableAddress;
-			}
-			size_t allocatedSize = roundUp(Result::allocatedSize(i), 4);
-			replySize += allocatedSize;
-		}
-		return replySize;
-	}
-	
-#pragma pack(push, 1)
-	Opcode _opcode;
-	GUShort _globals[Result::globalCount()];
-	LUShort _locals[Result::localCount()];
-#pragma pack(pop)
+template <typename T>
+struct UpgradeToDirectOpcode
+{
+	using type = std::conditional_t<std::is_base_of<IsDirectOpcode, T>::value, T, DirectOpcode<typename T::Result, T>>;
 };
+template <typename T> using UpgradeToDirectOpcode_t = typename UpgradeToDirectOpcode<T>::type;
 
 /*
  * DirectInstructions creates a buffer of a mini-program that can be sent to the EV3.
@@ -89,20 +35,22 @@ template <typename... Opcodes>
 class DirectInstructions
 {
 public:
+	DirectInstructions() = delete;
+	DirectInstructions(DirectInstructions&) = delete;
+	DirectInstructions(DirectInstructions&&) = delete;
+	DirectInstructions& operator = (DirectInstructions&) = delete;
+	DirectInstructions& operator = (DirectInstructions&&) = delete;
+	
 	DirectInstructions(unsigned short counter, bool forceReply, Opcodes... opcodes)
 	{
-		AllOpcodes allOpcodes((ExtendedDirectOpcode<Opcodes>(opcodes))...);
+		AllOpcodes allOpcodes(opcodes...);
 		OpcodeAccumulation accume;
-		accumulate(allOpcodes, accume, size_type<0>());
+		tuple_for_each(allOpcodes, [&accume](size_t N, auto& opcode)
+		{
+			opcode.accumulate(accume);
+		});
 		setHeader(counter, forceReply, accume);
-		if (accume.opcodeSize == sizeof(AllOpcodes))
-		{
-			::memcpy(_data, &allOpcodes, sizeof(AllOpcodes));
-		}
-		else
-		{
-			pack(allOpcodes, _data, size_type<0>());
-		}
+		packTuple(allOpcodes, _data);
 	}
 	
 	Invocation invocation(Invocation::Reply reply)
@@ -113,35 +61,11 @@ public:
 	
 private:
 #pragma pack(push, 1)
-	using AllOpcodes = std::tuple<ExtendedDirectOpcode<Opcodes>...>;
+	using AllOpcodes = std::tuple<UpgradeToDirectOpcode_t<std::remove_reference_t<Opcodes>>...>;
 	COMCMD _cmd = {0, 0, 0}; // bytes { {0, 1}, {2, 3}, {4} }
 	DIRCMD _vars = {0, 0}; // bytes {5, 6}
 	uint8_t _data[sizeof(AllOpcodes)];
 #pragma pack(pop)
-	
-	template <size_t N>
-	inline void accumulate(AllOpcodes& opcodes, OpcodeAccumulation& accume, size_type<N>)
-	{
-		auto& opcode = std::get<N>(opcodes);
-		opcode.accumulate(accume);
-		accumulate(opcodes, accume, size_type<N+1>());
-	}
-	
-	inline void accumulate(AllOpcodes& opcodes, OpcodeAccumulation& accume, size_type<std::tuple_size<AllOpcodes>::value>)
-	{
-	}
-	
-	template <size_t N>
-	inline void pack(AllOpcodes& opcodes, uint8_t* buffer, size_type<N>)
-	{
-		auto& opcode = std::get<N>(opcodes);
-		buffer += opcode.pack(buffer);
-		pack(opcodes, buffer, size_type<N+1>());
-	}
-	
-	inline void pack(AllOpcodes& opcodes, uint8_t* buffer, size_type<std::tuple_size<AllOpcodes>::value>)
-	{
-	}
 	
 	// The reply buffer is a snapshot of the global space.
 	inline void setHeader(unsigned short counter, bool forceReply, const OpcodeAccumulation& accume)

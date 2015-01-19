@@ -20,11 +20,11 @@ static inline void Expand(const T&...) { }
 #ifdef __OBJC__
 
 template<typename T>
-struct is_objc_class<T, typename std::enable_if<std::is_convertible<T, id>::value, bool>::type > : std::true_type
+struct is_objc_class<T, std::enable_if_t<std::is_convertible<T, id>::value, bool> > : std::true_type
 {
 };
 
-template <class T, class = typename std::enable_if<is_objc_class<T>::value>::type>
+template <class T, class = std::enable_if_t<is_objc_class<T>::value>>
 std::ostream& operator << (std::ostream& stream, T const & t)
 {
     stream << [[t description] UTF8String];

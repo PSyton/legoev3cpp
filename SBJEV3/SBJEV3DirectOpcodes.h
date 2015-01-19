@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "SBJEV3Opcodes.h"
+#include "SBJEV3DirectOpcode.h"
 #include "SBJEV3DirectResults.h"
 
 namespace SBJ
@@ -17,7 +17,37 @@ namespace EV3
 {
 
 #pragma pack(push, 1)
+/*
+template <VarScope Scope = VarScope::global>
+inline auto getBrickName() -> DirectOpcode<StringResult<Scope, vmNAMESIZE>, UBYTE, CUTiny, CUTiny>
+{
+	return {opCOM_GET, GET_BRICKNAME, vmNAMESIZE};
+}
 
+template <typename Name>
+inline auto setBrickName(Name name) -> DirectOpcode<VoidResult, UBYTE, CUTiny, Name>
+{
+	return {opCOM_SET, SET_BRICKNAME, name};
+}
+
+template <typename Volume, typename Freq, typename Duration>
+inline auto playTone(Volume volume, Freq freq, Duration duration) -> DirectOpcode<VoidResult, UBYTE, CUTiny, Volume, Freq, Duration>
+{
+	return {opSOUND, TONE, volume, freq, duration};
+}
+
+template <typename Layer, typename Port>
+inline auto outputStart(Port port = OutputPort::A, Layer layer = 0) -> DirectOpcode<VoidResult, UBYTE, Layer, Port>
+{
+	return {opOUTPUT_START, layer, port};
+}
+
+template <VarScope Scope = VarScope::global>
+inline auto batteryLevel() -> DirectOpcode<BasicResult<VarScope::global, UBYTE>, UBYTE, CUTiny>
+{
+	return {opUI_READ, GET_LBATT};
+}
+*/
 // TODO: implement all direct opcodes
 
 #pragma mark - 
@@ -32,13 +62,11 @@ struct GetBrickName
 	using Result = StringResult<Scope, MaxSize>;
 };
 
-struct SetBrickName : public VariableLenOpcode
+struct SetBrickName : public VariableSizedEntity
 {
-	size_t pack(UBYTE* into) const
+	size_t size() const
 	{
-		const size_t s = sizeof(*this) - name.differential();
-		if (into) ::memcpy(into, this, s);
-		return s;
+		return (sizeof(*this) - sizeof(name)) + name.size();
 	}
 	
 	constexpr static size_t MaxSize = vmNAMESIZE;

@@ -24,7 +24,7 @@ struct OpcodeAccumulation
 	UWORD localSize = 0;
 };
 
-static inline size_t roundUp(size_t n, size_t base)
+static inline size_t roundUp(size_t n, size_t base = 4)
 {
 	return ((n + base - 1) / base) * base;
 }
@@ -60,10 +60,15 @@ struct ResultStorage
 		return Result::allocatedSize(resultIdx);
 	};
 	
-	using Reply = typename std::conditional<
+	using Allocation = std::conditional_t<
+			Result::Scope == VarScope::local,
+				LUShort[Result::ResultCount],
+				GUShort[Result::ResultCount]>;
+	
+	using Reply = std::conditional_t<
 			Result::Scope == VarScope::local,
 				std::tuple<>,
-				std::tuple<typename Result::Output>>::type;
+				std::tuple<typename Result::Output>>;
 };
 
 
@@ -89,6 +94,8 @@ struct ResultStorage<VoidResult>
 	{
 		return 0;
 	}
+	
+	using Allocation = int[0];
 	
 	using Reply = std::tuple<>;
 };

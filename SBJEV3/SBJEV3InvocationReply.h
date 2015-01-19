@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "SBJEV3Opcodes.h"
+#include "SBJEV3Results.h"
 #include "SBJEV3Invocation.h"
 
 #include <tuple>
@@ -116,7 +116,7 @@ private:
 	{
 		auto& converter = std::get<N>(_converters);
 		using ConverterRef = decltype(converter);
-		using ConverterType = typename std::remove_reference<ConverterRef>::type;
+		using ConverterType = std::remove_reference_t<ConverterRef>;
 		using InputType = typename ConverterType::Input;
 		
 		auto& result = std::get<N>(_results);
@@ -135,14 +135,14 @@ private:
 	{
 		auto& converter = std::get<N>(_converters);
 		using ConverterRef = decltype(converter);
-		using ConverterType = typename std::remove_reference<ConverterRef>::type;
+		using ConverterType = std::remove_reference_t<ConverterRef>;
 		using InputType = typename ConverterType::Input;
 		
 		size_t size = 0;
 		// Calculate full allocation size and check for boundary condition
 		for(size_t i = 0; i < ResultStorage<ConverterType>::globalCount(); i++)
 		{
-			size += roundUp(converter.allocatedSize(i), 4);
+			size += roundUp(converter.allocatedSize(i));
 			// system cmd errors are handled by the result object
 			if (cmdState == DIRECT_REPLY and size > maxLen)
 			{

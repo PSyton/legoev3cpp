@@ -118,7 +118,7 @@ using namespace SBJ::EV3;
 		{
 			Brick::Battery battery = _brick->battery();
 			_battery.progress = battery.indicator();
-			_brick->log().write("Battery ", battery.level);
+			_brick->log().write("Battery ", (int)battery.level);
 		}
 		else
 		{

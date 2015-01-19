@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "SBJEV3Opcodes.h"
 #include "SBJEV3SystemResults.h"
 
 namespace SBJ
@@ -21,7 +20,7 @@ namespace EV3
 #pragma pack(push, 1)
 
 template <size_t MaxSize, size_t MinLen = 0>
-struct SysString
+struct SysString : public VariableSizedEntity
 {
 	SysString(const std::string& v = "")
 	{
@@ -41,12 +40,12 @@ struct SysString
 		}
 		return *this;
 	}
-		
-	size_t differential() const
+	
+	size_t size() const
 	{
 		size_t len = ::strlen((const char*)this);
 		assert(len >= MinLen);
-		return MaxSize - (len + 1);
+		return len + 1;
 	}
 private:
 	std::array<char, MaxSize> _data;
@@ -54,15 +53,13 @@ private:
 
 
 template <UBYTE CmdCode, UWORD ChunkSize, typename ResultType>
-struct UploadOpcode : public VariableLenOpcode
+struct UploadOpcode : public VariableSizedEntity
 {
 	constexpr static UWORD BaseSize = ChunkSize;
 	
-	size_t pack(UBYTE* into) const
+	size_t size() const
 	{
-		const size_t s = sizeof(*this) - resource.differential();
-		if (into) ::memcpy(into, this, s);
-		return s;
+		return (sizeof(*this) - sizeof(resource)) + resource.size();
 	}
 	
 	const UBYTE code = CmdCode;

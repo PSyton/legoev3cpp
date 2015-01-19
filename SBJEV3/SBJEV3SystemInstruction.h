@@ -10,6 +10,7 @@
 
 #include "SBJEV3SystemOpcodes.h"
 #include "SBJEV3Invocation.h"
+#include "SBJEV3Results.h"
 
 #include <tuple>
 #include <cassert>
@@ -31,8 +32,8 @@ public:
 	SystemInstruction(unsigned short counter, bool forceReply, const Opcode& opcode)
 	{
 		OpcodeAccumulation accume;
-		accume.opcodeSize = packOpcode(opcode, _data);
-		accume.globalSize = roundUp(Opcode::Result::allocatedSize(0), 4);
+		accume.opcodeSize = packEntity(opcode, _data);
+		accume.globalSize = roundUp(ResultStorage<typename Opcode::Result>::allocatedSize(0));
 		setHeader(counter, forceReply, accume);
 	}
 	
