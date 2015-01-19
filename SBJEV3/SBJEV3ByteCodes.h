@@ -250,11 +250,13 @@ struct CString : public ValueByteCode<LocalConstStr<MaxSize>>, public VariableSi
 {
 	using ValueByteCode<LocalConstStr<MaxSize>>::ValueByteCode;
 	
-	size_t size() const
+	size_t pack(uint8_t* buffer) const
 	{
 		size_t len = ::strlen((const char*)this);
 		assert(len > MinLen); // account for LCS
-		return len + 1;
+		size_t size = len + 1;
+		if (buffer) ::memcpy(buffer, (void*)this, size);
+		return size;
 	}
 };
 

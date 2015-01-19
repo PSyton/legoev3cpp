@@ -41,11 +41,13 @@ struct SysString : public VariableSizedEntity
 		return *this;
 	}
 	
-	size_t size() const
+	size_t pack(uint8_t* buffer) const
 	{
 		size_t len = ::strlen((const char*)this);
 		assert(len >= MinLen);
-		return len + 1;
+		size_t size = len + 1;
+		if (buffer) ::memcpy(buffer, &_data, size);
+		return size;
 	}
 private:
 	std::array<char, MaxSize> _data;
@@ -57,9 +59,12 @@ struct UploadOpcode : public VariableSizedEntity
 {
 	constexpr static UWORD BaseSize = ChunkSize;
 	
-	size_t size() const
+	size_t pack(uint8_t* buffer) const
 	{
-		return (sizeof(*this) - sizeof(resource)) + resource.size();
+		size_t size = sizeof(code) + sizeof(readSize);
+		if (buffer) ::memcpy(buffer, &code, size);
+		size += resource.pack(buffer ? buffer+size : buffer);
+		return size;
 	}
 	
 	const UBYTE code = CmdCode;

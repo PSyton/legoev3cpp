@@ -22,7 +22,7 @@ namespace EV3
 
 struct VariableSizedEntity
 {
-	size_t size() const
+	size_t pack(uint8_t* buffer) const
 	{
 		assert(false);
 	}
@@ -44,9 +44,7 @@ inline size_t packEntity(const Entity& entity, uint8_t* buffer)
 template <typename Entity, std::enable_if_t<isVariableSizedEntity<Entity>() == true>* = nullptr>
 inline size_t packEntity(const Entity& entity, uint8_t* buffer)
 {
-	const size_t size = entity.size();
-	if (buffer) ::memcpy(buffer, &entity, size);
-	return size;
+	return entity.pack(buffer);
 }
 
 #pragma mark - Tuple Aggregate

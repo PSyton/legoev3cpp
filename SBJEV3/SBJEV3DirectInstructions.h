@@ -20,11 +20,6 @@ namespace SBJ
 namespace EV3
 {
 
-// TODO: deriving Direct Opcode from this is prefixing a byte to its size!
-struct IsDirectOpcode
-{
-};
-
 template <typename T>
 struct UpgradeToDirectOpcode
 {
@@ -37,7 +32,7 @@ template <typename T> using UpgradeToDirectOpcode_t = typename UpgradeToDirectOp
  */
 
 template <typename... Opcodes>
-class DirectInstructions : public VariableSizedEntity
+class DirectInstructions
 {
 public:
 	DirectInstructions() = delete;

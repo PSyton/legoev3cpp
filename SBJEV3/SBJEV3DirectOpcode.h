@@ -21,8 +21,12 @@ namespace EV3
 
 #pragma pack(push, 1)
 
+struct IsDirectOpcode
+{
+};
+
 template <typename ResultType, typename... ParameterTypes>
-class DirectOpcode
+class DirectOpcode : public VariableSizedEntity
 {
 public:
 	DeleteDefaultMethods(DirectOpcode);
@@ -46,18 +50,14 @@ public:
 		{
 			accume.localSize += setReplyPositions(accume.localSize);
 		}
-		size_t actualSize = size();
-		accume.opcodeSize += actualSize;
-	}
-	
-	size_t size() const
-	{
-		return pack(nullptr) + sizeof(_resultPos);
+		accume.opcodeSize += pack(nullptr);
 	}
 
 	size_t pack(uint8_t* buffer) const
 	{
-		return packTuple(_params, buffer);
+		size_t size = packTuple(_params, buffer);
+		if (buffer) ::memcpy(buffer + size, _resultPos, sizeof(_resultPos));
+		return size + sizeof(_resultPos);
 	}
 
 private:

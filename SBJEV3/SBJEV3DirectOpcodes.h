@@ -64,9 +64,12 @@ struct GetBrickName
 
 struct SetBrickName : public VariableSizedEntity
 {
-	size_t size() const
+	size_t pack(uint8_t* buffer) const
 	{
-		return (sizeof(*this) - sizeof(name)) + name.size();
+		size_t size = sizeof(code) + sizeof(subcode);
+		if (buffer) ::memcpy(buffer, &code, size);
+		size += name.pack(buffer ? buffer+size : buffer);
+		return size;
 	}
 	
 	constexpr static size_t MaxSize = vmNAMESIZE;
