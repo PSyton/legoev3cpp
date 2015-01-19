@@ -10,6 +10,8 @@
 
 #include "SBJEV3Results.h"
 #include "SBJEV3VariableSizedEntity.h"
+#include "SBJEV3DeleteMethods.h"
+
 #include <algorithm>
 
 namespace SBJ
@@ -27,15 +29,11 @@ template <typename ResultType, typename... ParameterTypes>
 class DirectOpcode : public IsDirectOpcode
 {
 public:
+	DeleteDefaultMethods(DirectOpcode);
+	
 	using Result = ResultType;
 	using Parameters = std::tuple<typename NativeToVMType<ParameterTypes>::type...>;
 	using ResultStorage = ResultStorage<ResultType>;
-	
-	DirectOpcode() = delete;
-	DirectOpcode(DirectOpcode&) = delete;
-	DirectOpcode(DirectOpcode&&) = delete;
-	DirectOpcode& operator = (DirectOpcode&) = delete;
-	DirectOpcode& operator = (DirectOpcode&&) = delete;
 	
 	DirectOpcode(ParameterTypes... params)
 	: _params(params...)

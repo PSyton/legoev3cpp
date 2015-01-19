@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "SBJEV3DeleteMethods.h"
+
 #include <functional>
 #include <string>
 
@@ -20,7 +22,7 @@ namespace EV3
 
 enum class ReplyStatus
 {
-	none = 0,
+	ready = 0,
 	success,
 	sendError,
 	timeout,
@@ -31,7 +33,7 @@ enum class ReplyStatus
 
 inline std::string ReplyStatusStr(ReplyStatus r)
 {
-	const static std::string s[] = {"none", "success", "sendError", "timeout", "unknownMsg", "malformedError", "lengthError" };
+	const static std::string s[] = {"ready", "success", "sendError", "timeout", "unknownMsg", "malformedError", "lengthError" };
 	return s[static_cast<int>(r)];
 }
 
@@ -48,6 +50,8 @@ using custodian_ptr = std::unique_ptr<T, Deleter<T>>;
 class Invocation
 {
 public:
+	DeleteCopyMethods(Invocation);
+	
 	using Reply = std::function<ReplyStatus(const uint8_t* buffer, size_t size)>;
 	
 	Invocation(
@@ -59,6 +63,16 @@ public:
 	, _data(std::move(data))
 	, _size(size)
 	, _reply(reply)
+	, _status(ReplyStatus::ready)
+	{
+	}
+	
+	Invocation()
+	: _messageId(0)
+	, _data()
+	, _size(0)
+	, _reply()
+	, _status(ReplyStatus::unknownMsg)
 	{
 	}
 	
@@ -73,6 +87,11 @@ public:
 	unsigned short ID() const
 	{
 		return _messageId;
+	}
+	
+	bool wantsReply() const
+	{
+		return (bool)_reply;
 	}
 	
 	size_t size() const
@@ -92,7 +111,10 @@ public:
 	
 	ReplyStatus reply(const uint8_t* buffer, size_t size)
 	{
-		_status = _reply(buffer, size);
+		if (_reply)
+		{
+			_status = _reply(buffer, size);
+		}
 		return _status;
 	}
 	
@@ -101,7 +123,7 @@ private:
 	custodian_ptr<uint8_t> _data;
 	size_t _size;
 	Reply _reply;
-	ReplyStatus _status = ReplyStatus::none;
+	ReplyStatus _status;
 };
 
 }

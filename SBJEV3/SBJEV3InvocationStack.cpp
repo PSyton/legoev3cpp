@@ -76,24 +76,24 @@ const Invocation& InvocationStack::pushInvocation(Invocation& invocation)
 
 void InvocationStack::replyInvocation(unsigned short messageId, const uint8_t* buffer, size_t len)
 {
-	Invocation* actual = nullptr;
+	Invocation invocation;
 	{
 		std::unique_lock<std::mutex> lock(_mutex);
 		auto i = _invocations.find(messageId);
 		if (i != _invocations.end())
 		{
-			actual = &i->second;
+			invocation = std::move(i->second);
 			_invocations.erase(i);
 		}
 	}
 	// We have a response, send error, or timeout
-	if (actual != nullptr)
+	if (invocation.wantsReply())
 	{
-		ReplyStatus status = actual->reply(buffer, len);
+		ReplyStatus status = invocation.reply(buffer, len);
 		_log.write(LogDomian, "Reply ", messageId, " - ", ReplyStatusStr(status));
 		_log.hexDump(buffer, len);
 	}
-	// We do not have a record of the invocation
+	// We do not have a record of the invocation or it was a no-reply message
 	else
 	{
 		// EV3 sent us an unknown reply

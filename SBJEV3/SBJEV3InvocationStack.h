@@ -9,6 +9,7 @@
 #pragma once
 
 #include "SBJEV3Invocation.h"
+#include "SBJEV3DeleteMethods.h"
 
 #include <map>
 #include <thread>
@@ -28,6 +29,8 @@ class Connection;
 class InvocationStack
 {
 public:
+	DeleteDefaultMethods(InvocationStack);
+	
 	using ReplyKey = std::function<unsigned short(const uint8_t* buffer)>;
 	
 	InvocationStack(Log& log, ReplyKey replyKey);

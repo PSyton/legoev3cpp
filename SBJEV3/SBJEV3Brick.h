@@ -13,6 +13,7 @@
 #include "SBJEV3SystemCommand.h"
 #include "SBJEV3Connection.h"
 #include "SBJEV3DeviceIdentifier.h"
+#include "SBJEV3DeleteMethods.h"
 
 #include <memory>
 
@@ -33,12 +34,14 @@ enum class PromptBluetoothError : int;
 class Brick
 {
 public:
+	DeleteDefaultMethods(Brick);
+	
 	struct Battery
 	{
+		uint8_t level;
 		float voltage;
 		float current;
 		float tempuratureRise;
-		uint8_t level;
 		
 		float indicator() const { return (float)level / 100.0; }
 		float power() const { return voltage * current; }

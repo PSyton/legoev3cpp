@@ -56,7 +56,7 @@ public:
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
 			long long time = _timeout * 1000.0;
-			_waitOn.wait_for(lock, std::chrono::milliseconds(time), [this]{return _status > ReplyStatus::none;});
+			_waitOn.wait_for(lock, std::chrono::milliseconds(time), [this]{return _status > ReplyStatus::ready;});
 		}
 		else
 		{
@@ -74,7 +74,7 @@ private:
 	const float _timeout;
 	Converters _converters;
 	Results _results;
-	ReplyStatus _status = ReplyStatus::none;
+	ReplyStatus _status = ReplyStatus::ready;
 	
 	ReplyStatus replied(const uint8_t* buffer, size_t len)
 	{

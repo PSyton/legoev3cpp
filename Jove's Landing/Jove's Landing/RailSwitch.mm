@@ -116,14 +116,11 @@ static RailSwitch* _switches[4];
 	motor.port = _port;
 	motor.power = _power * (_open ? 1 : -1);
 	motor.runTime = _time * 1,000;
-	
 	OutputStart start;
-	ReadValues<> read;
 	
 	_open = !_open;
 	
-	auto results = _brick->directCommand(1.0, read, motor, start);
-	_brick->log().write("Sensor", std::get<0>(results)[0]);
+	_brick->directCommand(0.0, motor, start);
 	
 	[self save];
 }

@@ -39,7 +39,7 @@ void Brick::setName(const std::string& name)
 Brick::Battery Brick::battery()
 {
 	auto result = directCommand(1.0, BatteryLevel(), BatteryVoltage(), BatteryCurrent(), BatteryTempuratureRise());
-	return { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<0>(result) };
+	return { std::get<0>(result), std::get<1>(result), std::get<2>(result), std::get<3>(result) };
 }
 
 bool Brick::isConnected() const
@@ -70,7 +70,7 @@ void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, st
 		// TODO: why timeouts?
 		// - const length in opcodes could be -1
 		// - max lengths maybe incorrect size
-		// - replies have to be byte(N) aligned
+		// - replies have to be byte(4) aligned
 		// - max length constant wrong byte code type
 		auto result = directCommand(5.0,
 			GetBrickName<>(),

@@ -44,6 +44,7 @@
 		5574F01E1A6CC248007FE0FA /* SBJEV3DirectOpcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectOpcode.h; sourceTree = "<group>"; };
 		5574F01F1A6CC248007FE0FA /* SBJEV3TupleIter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3TupleIter.h; sourceTree = "<group>"; };
 		5574F0201A6CC248007FE0FA /* SBJEV3VariableSizedEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3VariableSizedEntity.h; sourceTree = "<group>"; };
+		5574F0221A6D52A7007FE0FA /* SBJEV3DeleteMethods.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3DeleteMethods.h; sourceTree = "<group>"; };
 		55781F661A61719200BD0ABB /* SBJEV3DirectResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectResults.h; sourceTree = "<group>"; };
 		55781F691A61720400BD0ABB /* SBJEV3SystemResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemResults.h; sourceTree = "<group>"; };
 		55781F6C1A6175BE00BD0ABB /* SBJEV3DirectoryListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectoryListing.h; sourceTree = "<group>"; };
@@ -139,6 +140,7 @@
 		5574F0211A6CC7A1007FE0FA /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				5574F0221A6D52A7007FE0FA /* SBJEV3DeleteMethods.h */,
 				5574F01F1A6CC248007FE0FA /* SBJEV3TupleIter.h */,
 				5574F0201A6CC248007FE0FA /* SBJEV3VariableSizedEntity.h */,
 				55781F751A62E20C00BD0ABB /* SBJEV3Hex.h */,
