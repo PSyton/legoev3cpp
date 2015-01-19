@@ -66,7 +66,7 @@ public:
 	{
 		if (_listing.entries.size() == 0) return;
 		
-		auto e = _listing.entries[i].escapedName();
+		const auto& e = _listing.entries[i].escapedName();
 		if (e == PARENTDIR)
 		{
 			if (_paths.size() == 1) return;

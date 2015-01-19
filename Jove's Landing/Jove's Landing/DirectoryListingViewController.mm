@@ -67,7 +67,7 @@ using namespace SBJ::EV3;
 {
 	if (_listing->depth() == 1)
 	{
-		auto entry = (*_listing)[indexPath.row];
+		const auto& entry = (*_listing)[indexPath.row];
 		if (entry.name() == PARENTDIR)
 		{
 			return 0;
@@ -80,7 +80,7 @@ using namespace SBJ::EV3;
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DirEntry" forIndexPath:indexPath];
 	
-	auto entry = (*_listing)[indexPath.row];
+	const auto& entry = (*_listing)[indexPath.row];
 	
 	if (entry.isDirectory())
 	{
@@ -116,7 +116,7 @@ using namespace SBJ::EV3;
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	auto entry = (*_listing)[indexPath.row];
+	const auto& entry = (*_listing)[indexPath.row];
 	if (entry.isDirectory())
 	{
 		_listing->change(indexPath.row);
@@ -125,7 +125,7 @@ using namespace SBJ::EV3;
 	else
 	{
 		FileViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier: @"FileViewController"];
-		auto entry = (*_listing)[indexPath.row];
+		const auto& entry = (*_listing)[indexPath.row];
 		[vc setBrick: &_listing->brick() path: _listing->path() andFile: entry];
 		[self presentViewController: vc animated: YES completion: nil];
 	}

@@ -55,9 +55,9 @@ template <typename Tuple>
 constexpr bool isVariableSizedTuple()
 {
 	bool isVariableSized = false;
-	tuple_for_each<Tuple>([&isVariableSized](size_t N, auto v)
+	tuple_for_each<Tuple>([&isVariableSized](size_t N, auto ptr)
 	{
-		isVariableSized |= isVariableSizedEntity<std::remove_pointer_t<decltype(v)>>();
+		isVariableSized |= isVariableSizedEntity<std::remove_pointer_t<decltype(ptr)>>();
 	});
 	return isVariableSized;
 }

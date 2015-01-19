@@ -86,7 +86,7 @@ std::vector<DirectoryEntry> DirectoryEntry::read(const char* data, size_t len)
 		entries.push_back(DirectoryEntry(PARENTDIR));
 	}
 	
-	//std::sort(entries.begin(), entries.end(), [](auto& a, auto& b) { return b._name < a._name; });
+	//std::sort(entries.begin(), entries.end(), [](const auto& a, const auto& b) { return b._name < a._name; });
 	
 	return entries;
 }
@@ -123,21 +123,22 @@ std::string DirectoryEntry::sizeStr() const
 	
 	if (_size < 1000)
 	{
-		str << _size << "B";
+		const auto size = _size;
+		str << size << "B";
 	}
 	else if (_size < 1000*1000)
 	{
-		auto size = _size / 1000.0;
+		const auto size = _size / 1000.0;
 		str << size << "kB";
 	}
 	else if (_size < 1000*1000*1000)
 	{
-		auto size = _size / 1000.0 / 1000.0;
+		const auto size = _size / 1000.0 / 1000.0;
 		str << size << "MB";
 	}
 	else
 	{
-		auto size = _size / 1000.0 / 1000.0 / 1000.0;
+		const auto size = _size / 1000.0 / 1000.0 / 1000.0;
 		str << size << "GB";
 	}
 	return str.str();

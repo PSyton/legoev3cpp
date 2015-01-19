@@ -114,7 +114,7 @@ private:
 	template <size_t N>
 	inline void itemizeFail(size_type<N>)
 	{
-		auto& converter = std::get<N>(_converters);
+		const auto& converter = std::get<N>(_converters);
 		using ConverterRef = decltype(converter);
 		using ConverterType = std::remove_reference_t<ConverterRef>;
 		using InputType = typename ConverterType::Input;
@@ -133,7 +133,7 @@ private:
 	template <size_t N>
 	inline bool itemizedCopy(size_type<N>, const uint8_t* buffer, size_t maxLen, UBYTE cmdState)
 	{
-		auto& converter = std::get<N>(_converters);
+		const auto& converter = std::get<N>(_converters);
 		using ConverterRef = decltype(converter);
 		using ConverterType = std::remove_reference_t<ConverterRef>;
 		using InputType = typename ConverterType::Input;
