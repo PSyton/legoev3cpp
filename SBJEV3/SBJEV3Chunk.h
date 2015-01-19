@@ -28,7 +28,7 @@ public:
 	{
 		if (_allocated)
 		{
-			delete[] _dataPtr;
+			::free(_dataPtr);
 		}
 	}
 	
@@ -51,8 +51,8 @@ public:
 	
 	uint8_t* writePtr(size_t expectedWriteSize = NaturalSize)
 	{
-		uint8_t* ptr = _dataPtr + _size;
 		allocateFor(_size + expectedWriteSize);
+		uint8_t* ptr = _dataPtr + _size;
 		return ptr;
 	}
 	
@@ -72,7 +72,7 @@ private:
 	{
 		if (size > ChunkSize)
 		{
-			int requiredChunks = ((size + ChunkSize - 1) / ChunkSize) * ChunkSize;
+			size_t requiredChunks = ((size + ChunkSize - 1) / ChunkSize) * ChunkSize;
 			if (_allocated == 0)
 			{
 				requiredChunks++;
