@@ -142,7 +142,7 @@ private:
 		// Calculate full allocation size and check for boundary condition
 		for(size_t i = 0; i < ResultStorage<ConverterType>::globalCount(); i++)
 		{
-			size += alignReply(converter.allocatedSize(i));
+			size += roundUp(converter.allocatedSize(i), 4);
 			// system cmd errors are handled by the result object
 			if (cmdState == DIRECT_REPLY and size > maxLen)
 			{

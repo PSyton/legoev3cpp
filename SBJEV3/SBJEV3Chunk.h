@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include "SBJEV3Brick.h"
-
 namespace SBJ
 {
 namespace EV3
@@ -74,7 +72,7 @@ private:
 	{
 		if (size > ChunkSize)
 		{
-			int requiredChunks = (int)(::ceil((double)size / (double)ChunkSize));
+			int requiredChunks = ((size + ChunkSize - 1) / ChunkSize) * ChunkSize;
 			if (_allocated == 0)
 			{
 				requiredChunks++;

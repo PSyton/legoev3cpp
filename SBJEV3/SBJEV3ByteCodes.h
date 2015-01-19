@@ -25,6 +25,8 @@ namespace SBJ
 namespace EV3
 {
 
+#pragma mark - POD to byte array conversions
+
 /*
  * Opcode parameters are a series of bytes created using macros in the EV3 SDK.
  * We create conversion structures to define how to translate from a
@@ -147,6 +149,8 @@ struct LocalVarBytes4
 	static Output convert(Input v) { return {LV4(v)}; }
 };
 
+#pragma mark - High-Level to POD conversions
+
 template <typename InputType, typename OutputType = InputType>
 struct StaticCast
 {
@@ -175,7 +179,7 @@ struct OverflowCheck
 	inline static OutputType convert(InputType v) { assert(v >= Min and v <= Max); return static_cast<Output>(v); }
 };
 
-struct BoolToByte
+struct BoolToUByte
 {
 	using Input = bool;
 	using Output = UBYTE;
@@ -208,22 +212,22 @@ struct OutputToInput
 	}
 };
 
+#pragma mark - ValueByteCode
+
 /*
- * A Value Store instance is the readonly final representation of an
- * opcode parameter.
- * TODO: ValueStore will have to be modified to take a constant, global, or local value
+ * A ValueByteCode instance is the readonly final representation of an opcode parameter.
  */
 	
 #pragma pack(push, 1)
 
 template <typename OutputType, typename InputType = StaticCast<typename OutputType::Input>>
-struct ValueStore
+struct ValueByteCode
 {
 public:
 	using Input = typename InputType::Input;
 	using Output = typename OutputType::Output;
 	
-	ValueStore(Input v = Input())
+	ValueByteCode(Input v = Input())
 	: _data(OutputType::convert(InputType::convert(v)))
 	{
 	}
@@ -231,24 +235,19 @@ public:
 private:
 	Output _data;
 };
-	
-// Types
 
-typedef unsigned long long ULONGLONG;
-typedef signed long long SLONGLONG;
-
-typedef ValueStore<LocalConstBytes0<UBYTE>, OverflowCheck<UBYTE, UBYTE, 0, 32>> CUValue;
-typedef ValueStore<LocalConstBytes1<UBYTE>, OverflowCheck<UWORD, UBYTE>> CUByte;
-typedef ValueStore<LocalConstBytes1<SBYTE>, OverflowCheck<SWORD, SBYTE>> CSByte;
-typedef ValueStore<LocalConstBytes2<UWORD>, OverflowCheck<ULONG, UWORD>> CUShort;
-typedef ValueStore<LocalConstBytes2<SWORD>, OverflowCheck<SLONG, SWORD>> CSShort;
-typedef ValueStore<LocalConstBytes4<ULONG>, OverflowCheck<ULONGLONG, ULONG>> CULong;
-typedef ValueStore<LocalConstBytes4<SLONG>, OverflowCheck<SLONGLONG, SLONG>> CSLong;
+typedef ValueByteCode<LocalConstBytes0<UBYTE>, OverflowCheck<unsigned char, UBYTE, 0, 32>> CUTiny;
+typedef ValueByteCode<LocalConstBytes1<UBYTE>, OverflowCheck<unsigned short, UBYTE>> CUByte;
+typedef ValueByteCode<LocalConstBytes1<SBYTE>, OverflowCheck<signed short, SBYTE>> CSByte;
+typedef ValueByteCode<LocalConstBytes2<UWORD>, OverflowCheck<unsigned int, UWORD>> CUShort;
+typedef ValueByteCode<LocalConstBytes2<SWORD>, OverflowCheck<signed int, SWORD>> CSShort;
+typedef ValueByteCode<LocalConstBytes4<ULONG>, OverflowCheck<unsigned long long, ULONG>> CULong;
+typedef ValueByteCode<LocalConstBytes4<SLONG>, OverflowCheck<signed long long, SLONG>> CSLong;
 
 template <size_t MaxSize = 256, size_t MinLen = 0>
-struct CString : ValueStore<LocalConstStr<MaxSize>>
+struct CString : public ValueByteCode<LocalConstStr<MaxSize>>
 {
-	using ValueStore<LocalConstStr<MaxSize>>::ValueStore;
+	using ValueByteCode<LocalConstStr<MaxSize>>::ValueByteCode;
 	
 	size_t differential() const
 	{
@@ -259,36 +258,36 @@ struct CString : ValueStore<LocalConstStr<MaxSize>>
 	}
 };
 
-typedef ValueStore<GlobalVarBytes0<UBYTE>, OverflowCheck<UBYTE, UBYTE, 0x00, 0x32>> GUValue;
-typedef ValueStore<GlobalVarBytes1<UBYTE>, OverflowCheck<UWORD, UBYTE>> GUByte;
-typedef ValueStore<GlobalVarBytes1<SBYTE>, OverflowCheck<SWORD, SBYTE>> GSByte;
-typedef ValueStore<GlobalVarBytes2<UWORD>, OverflowCheck<ULONG, UWORD>> GUShort;
-typedef ValueStore<GlobalVarBytes2<SWORD>, OverflowCheck<SLONG, SWORD>> GSShort;
-typedef ValueStore<GlobalVarBytes4<ULONG>, OverflowCheck<ULONGLONG, ULONG>> GULong;
-typedef ValueStore<GlobalVarBytes4<SLONG>, OverflowCheck<SLONGLONG, SLONG>> GSLong;
+typedef ValueByteCode<GlobalVarBytes0<UBYTE>, OverflowCheck<unsigned char, UBYTE, 0x00, 0x32>> GUTiny;
+typedef ValueByteCode<GlobalVarBytes1<UBYTE>, OverflowCheck<unsigned short, UBYTE>> GUByte;
+typedef ValueByteCode<GlobalVarBytes1<SBYTE>, OverflowCheck<signed short, SBYTE>> GSByte;
+typedef ValueByteCode<GlobalVarBytes2<UWORD>, OverflowCheck<unsigned int, UWORD>> GUShort;
+typedef ValueByteCode<GlobalVarBytes2<SWORD>, OverflowCheck<signed int, SWORD>> GSShort;
+typedef ValueByteCode<GlobalVarBytes4<ULONG>, OverflowCheck<unsigned long long, ULONG>> GULong;
+typedef ValueByteCode<GlobalVarBytes4<SLONG>, OverflowCheck<signed long long, SLONG>> GSLong;
 	
-typedef ValueStore<LocalVarBytes0<UBYTE>, OverflowCheck<UBYTE, UBYTE, 0x00, 0x32>> LUValue;
-typedef ValueStore<LocalVarBytes1<UBYTE>, OverflowCheck<UWORD, UBYTE>> LUByte;
-typedef ValueStore<LocalVarBytes1<SBYTE>, OverflowCheck<SWORD, SBYTE>> LSByte;
-typedef ValueStore<LocalVarBytes2<UWORD>, OverflowCheck<ULONG, UWORD>> LUShort;
-typedef ValueStore<LocalVarBytes2<SWORD>, OverflowCheck<SLONG, SWORD>> LSShort;
-typedef ValueStore<LocalVarBytes4<ULONG>, OverflowCheck<ULONGLONG, ULONG>> LULong;
-typedef ValueStore<LocalVarBytes4<SLONG>, OverflowCheck<SLONGLONG, SLONG>> LSLong;
+typedef ValueByteCode<LocalVarBytes0<UBYTE>, OverflowCheck<unsigned char, UBYTE, 0x00, 0x32>> LUTiny;
+typedef ValueByteCode<LocalVarBytes1<UBYTE>, OverflowCheck<unsigned short, UBYTE>> LUByte;
+typedef ValueByteCode<LocalVarBytes1<SBYTE>, OverflowCheck<signed short, SBYTE>> LSByte;
+typedef ValueByteCode<LocalVarBytes2<UWORD>, OverflowCheck<unsigned int, UWORD>> LUShort;
+typedef ValueByteCode<LocalVarBytes2<SWORD>, OverflowCheck<signed int, SWORD>> LSShort;
+typedef ValueByteCode<LocalVarBytes4<ULONG>, OverflowCheck<unsigned long long, ULONG>> LULong;
+typedef ValueByteCode<LocalVarBytes4<SLONG>, OverflowCheck<signed long long, SLONG>> LSLong;
 	
-typedef ValueStore<LocalConstBytes1<SBYTE>, RangeCheck<SBYTE, -100, +100>> CSpeed;
-typedef ValueStore<LocalConstBytes1<SBYTE>, RangeCheck<SBYTE, -1, +17>> CMode;
-typedef ValueStore<LocalConstBytes0<UBYTE>, RangeCheck<UBYTE, 0, 3>> CLayer;
-typedef ValueStore<LocalConstBytes0<UBYTE>, StaticCast<OutputPort, UBYTE>> COutputPort;
-typedef ValueStore<LocalConstBytes0<UBYTE>, StaticCast<Polarity, UBYTE>> CPolarity;
-typedef ValueStore<LocalConstBytes0<UBYTE>, BoolToByte> CBool;
+typedef ValueByteCode<LocalConstBytes1<SBYTE>, RangeCheck<signed char, -100, +100>> CSpeed;
+typedef ValueByteCode<LocalConstBytes1<SBYTE>, RangeCheck<signed char, -1, +17>> CMode;
+typedef ValueByteCode<LocalConstBytes0<UBYTE>, RangeCheck<unsigned char, 0, 3>> CLayer;
+typedef ValueByteCode<LocalConstBytes0<UBYTE>, StaticCast<OutputPort, UBYTE>> COutputPort;
+typedef ValueByteCode<LocalConstBytes0<UBYTE>, StaticCast<Polarity, UBYTE>> CPolarity;
+typedef ValueByteCode<LocalConstBytes0<UBYTE>, BoolToUByte> CBool;
 
 // Certain opcodes use special Input port values to treat the Output port like a sensor (read motor states)
-struct CInputPort : public ValueStore<LocalConstBytes0<UBYTE>, StaticCast<InputPort, UBYTE>>
+struct CInputPort : public ValueByteCode<LocalConstBytes0<UBYTE>, StaticCast<InputPort, UBYTE>>
 {
-	using ValueStore::ValueStore;
+	using ValueByteCode::ValueByteCode;
 	
 	CInputPort(OutputPort port)
-	: ValueStore(OutputToInput::convert(port))
+	: ValueByteCode(OutputToInput::convert(port))
 	{
 	}
 };

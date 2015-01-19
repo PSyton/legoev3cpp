@@ -27,8 +27,8 @@ struct GetBrickName
 {
 	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opCOM_GET;
-	const CUValue subcode = GET_BRICKNAME;
-	const CUValue length = MaxSize;
+	const CUTiny subcode = GET_BRICKNAME;
+	const CUTiny length = MaxSize;
 	using Result = StringResult<Scope, MaxSize>;
 };
 
@@ -43,7 +43,7 @@ struct SetBrickName : public VariableLenOpcode
 	
 	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opCOM_SET;
-	const CUValue subcode = SET_BRICKNAME;
+	const CUTiny subcode = SET_BRICKNAME;
 	CString<MaxSize> name;
 	using Result = VoidResult;
 };
@@ -51,21 +51,21 @@ struct SetBrickName : public VariableLenOpcode
 struct BatteryVoltage
 {
 	const UBYTE code = opUI_READ;
-	const CUValue subcode =  GET_VBATT;
+	const CUTiny subcode =  GET_VBATT;
 	using Result = BasicResult<VarScope::global, FLOAT>;
 };
 
 struct BatteryCurrent
 {
 	const UBYTE code = opUI_READ;
-	const CUValue subcode =  GET_IBATT;
+	const CUTiny subcode =  GET_IBATT;
 	using Result = BasicResult<VarScope::global, FLOAT>;
 };
 
 struct BatteryTempuratureRise
 {
 	const UBYTE code = opUI_READ;
-	const CUValue subcode =  GET_TBATT;
+	const CUTiny subcode =  GET_TBATT;
 	using Result = BasicResult<VarScope::global, FLOAT>;
 };
 
@@ -73,7 +73,7 @@ struct BatteryLevel
 {
 	static constexpr UBYTE MaxValue = 100;
 	const UBYTE code = opUI_READ;
-	const CUValue subcode =  GET_LBATT;
+	const CUTiny subcode =  GET_LBATT;
 	using Result = BasicResult<VarScope::global, UBYTE>;
 };
 
@@ -81,8 +81,8 @@ struct HardwareVersion
 {
 	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opUI_READ;
-	const CUValue subcode =  GET_HW_VERS;
-	const CUValue length = MaxSize;
+	const CUTiny subcode =  GET_HW_VERS;
+	const CUTiny length = MaxSize;
 	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
@@ -90,8 +90,8 @@ struct FirmwareVersion
 {
 	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opUI_READ;
-	const CUValue subcode =  GET_FW_VERS;
-	const CUValue length = MaxSize;
+	const CUTiny subcode =  GET_FW_VERS;
+	const CUTiny length = MaxSize;
 	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
@@ -99,8 +99,8 @@ struct FirmwareBuild
 {
 	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opUI_READ;
-	const CUValue subcode =  GET_FW_BUILD;
-	const CUValue length = MaxSize;
+	const CUTiny subcode =  GET_FW_BUILD;
+	const CUTiny length = MaxSize;
 	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
@@ -108,8 +108,8 @@ struct OSVersion
 {
 	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opUI_READ;
-	const CUValue subcode =  GET_OS_VERS;
-	const CUValue length = MaxSize;
+	const CUTiny subcode =  GET_OS_VERS;
+	const CUTiny length = MaxSize;
 	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
@@ -117,8 +117,8 @@ struct OSBuild
 {
 	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opUI_READ;
-	const CUValue subcode =  GET_OS_BUILD;
-	const CUValue length = MaxSize;
+	const CUTiny subcode =  GET_OS_BUILD;
+	const CUTiny length = MaxSize;
 	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
@@ -126,8 +126,8 @@ struct FullVersion
 {
 	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opUI_READ;
-	const CUValue subcode =  GET_VERSION;
-	const CUValue length = MaxSize;
+	const CUTiny subcode =  GET_VERSION;
+	const CUTiny length = MaxSize;
 	using Result = StringResult<VarScope::global, MaxSize>;
 };
 
@@ -167,14 +167,14 @@ struct UIFlush
 struct SoundBreak
 {
 	const UBYTE code = opSOUND;
-	const CUValue subcode =  BREAK;
+	const CUTiny subcode =  BREAK;
 	using Result = VoidResult;
 };
-	
+
 struct PlayTone
 {
 	const UBYTE code = opSOUND;
-	const CUValue subcode =  TONE;
+	const CUTiny subcode =  TONE;
 	CUByte volume;
 	CUShort freq;
 	CUShort duration;
@@ -203,7 +203,7 @@ struct SetOutputType
 	const UBYTE code = opOUTPUT_SET_TYPE;
 	CLayer layer;
 	COutputPort port = OutputPort::A;
-	CUValue type = TYPE_TACHO;
+	CUTiny type = TYPE_TACHO;
 	using Result = VoidResult;
 };
 
@@ -290,7 +290,7 @@ struct OutputPolarity
 struct GetInputType
 {
 	const UBYTE code = opINPUT_DEVICE;
-	const CUValue subcode =  GET_TYPEMODE;
+	const CUTiny subcode =  GET_TYPEMODE;
 	CLayer layer;
 	CInputPort port = OutputPort::A;
 	using Result = TypeMode<>;
@@ -302,12 +302,12 @@ template <UBYTE NumValues = 1>
 struct ReadValues
 {
 	const UBYTE code = opINPUT_DEVICE;
-	const CUValue subcode =  READY_SI;
+	const CUTiny subcode =  READY_SI;
 	CLayer layer;
 	CInputPort port = OutputPort::A;
-	CUValue type = TYPE_KEEP;
+	CUTiny type = TYPE_KEEP;
 	CMode mode = MODE_KEEP;
-	const CUValue numValues = NumValues;
+	const CUTiny numValues = NumValues;
 	using Result = ArrayResult<VarScope::global, ULONG, NumValues>;
 };
 	

@@ -17,9 +17,16 @@ namespace SBJ
 namespace EV3
 {
 
-static inline size_t alignReply(size_t offset)
+struct OpcodeAccumulation
 {
-	return (((offset / 4 ) - 1) * 4) + 4;
+	size_t opcodeSize = 0;
+	UWORD globalSize = 0;
+	UWORD localSize = 0;
+};
+
+static inline size_t roundUp(size_t n, size_t base)
+{
+	return ((n + base - 1) / base) * base;
 }
 
 enum class VarScope
@@ -154,6 +161,7 @@ struct ArrayResult
 	
 	static inline void convert(const Input* input, Output& output, size_t)
 	{
+		if (input == nullptr) return;
 		for (size_t i = 0; i < Count; i++)
 		{
 			output[i] = static_cast<OutputType>(input[i]);

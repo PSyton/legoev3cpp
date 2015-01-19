@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "SBJEV3Results.h"
 #include "SBJEV3DirectOpcodes.h"
 #include "SBJEV3Invocation.h"
 
@@ -67,7 +68,7 @@ private:
 			{
 				_locals[i] = (UWORD)variableAddress;
 			}
-			size_t allocatedSize = alignReply(Result::allocatedSize(i));
+			size_t allocatedSize = roundUp(Result::allocatedSize(i), 4);
 			replySize += allocatedSize;
 		}
 		return replySize;
@@ -157,7 +158,6 @@ private:
 		_vars.Globals = (UBYTE)(0x00FF & accume.globalSize);
 		_vars.Locals = (UBYTE)((0xFF00 & accume.globalSize) >> 8);
 		_vars.Locals |= (UBYTE)(accume.localSize << 2);
-		
 	}
 };
 

@@ -8,6 +8,7 @@
 
 #import "ConnectivityViewController.h"
 #include "SBJEV3Brick.h"
+#include "SBJEV3Log.h"
 
 using namespace SBJ::EV3;
 
@@ -117,7 +118,7 @@ using namespace SBJ::EV3;
 		{
 			Brick::Battery battery = _brick->battery();
 			_battery.progress = battery.indicator();
-			NSLog(@"b %d", battery.level);
+			_brick->log().write("Battery ", battery.level);
 		}
 		else
 		{

@@ -86,7 +86,7 @@ std::vector<DirectoryEntry> DirectoryEntry::read(const char* data, size_t len)
 		entries.push_back(DirectoryEntry(PARENTDIR));
 	}
 	
-	std::sort(entries.begin(), entries.end(), [](auto& a, auto& b) { return b._name < a._name; });
+	//std::sort(entries.begin(), entries.end(), [](auto& a, auto& b) { return b._name < a._name; });
 	
 	return entries;
 }

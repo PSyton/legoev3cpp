@@ -32,7 +32,7 @@ public:
 	{
 		OpcodeAccumulation accume;
 		accume.opcodeSize = packOpcode(opcode, _data);
-		accume.globalSize = alignReply(Opcode::Result::allocatedSize(0));
+		accume.globalSize = roundUp(Opcode::Result::allocatedSize(0), 4);
 		setHeader(counter, forceReply, accume);
 	}
 	

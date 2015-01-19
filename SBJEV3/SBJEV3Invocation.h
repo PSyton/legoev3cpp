@@ -16,6 +16,8 @@ namespace SBJ
 namespace EV3
 {
 
+#define   MAX_COMMAND_SIZE    65534
+
 enum class ReplyStatus
 {
 	none = 0,

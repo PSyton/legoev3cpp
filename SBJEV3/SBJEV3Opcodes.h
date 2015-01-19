@@ -23,8 +23,6 @@ namespace EV3
  *
  * If an opcode is variable sized then derive from VariableLenOpcode and implement the
  * pack method.
- *
- * TODO: support use of optional LValues and GValues for opcode parameters
  */
 
 // Until detectable custom attributes or template concepts (c++17++) - we use a parent class to tag classes as packable
@@ -35,15 +33,6 @@ struct VariableLenOpcode
 		assert(false);
 	}
 };
-
-struct OpcodeAccumulation
-{
-	size_t opcodeSize = 0;
-	UWORD globalSize = 0;
-	UWORD localSize = 0;
-};
-
-#define   MAX_COMMAND_SIZE    65534
 
 #if 1
 
