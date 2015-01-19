@@ -65,6 +65,11 @@ struct ResultStorage
 				LUShort[Result::ResultCount],
 				GUShort[Result::ResultCount]>;
 	
+	using Converter = std::conditional_t<
+			Result::Scope == VarScope::local,
+				std::tuple<>,
+				std::tuple<Result>>;
+	
 	using Reply = std::conditional_t<
 			Result::Scope == VarScope::local,
 				std::tuple<>,
@@ -96,6 +101,8 @@ struct ResultStorage<VoidResult>
 	}
 	
 	using Allocation = int[0];
+	
+	using Converter = std::tuple<>;
 	
 	using Reply = std::tuple<>;
 };

@@ -50,7 +50,7 @@ public:
 	{
 		AllOpcodes allOpcodes(opcodes...);
 		OpcodeAccumulation accume;
-		tuple_for_each(allOpcodes, [&accume](size_t N, auto& opcode)
+		tuple_for_each(allOpcodes, [&accume](auto N, auto& opcode)
 		{
 			opcode.accumulate(accume);
 		});

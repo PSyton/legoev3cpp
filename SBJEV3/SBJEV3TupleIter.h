@@ -16,6 +16,9 @@ namespace SBJ
 namespace EV3
 {
 
+template <size_t s>
+using size_type = std::integral_constant<size_t, s>;
+
 template <typename Tuple, size_t N, typename Function, std::enable_if_t<(N == std::tuple_size<Tuple>::value)>* = nullptr>
 constexpr inline void tuple_for_each_item(Function function)
 {
@@ -24,8 +27,7 @@ constexpr inline void tuple_for_each_item(Function function)
 template <typename Tuple, size_t N, typename Function, std::enable_if_t<(N < std::tuple_size<Tuple>::value)>* = nullptr>
 constexpr inline void tuple_for_each_item(Function function)
 {
-	const auto ptr = std::add_pointer_t<typename std::tuple_element<N, Tuple>::type>();
-	function(N, ptr);
+	function(size_type<N>(), std::tuple_element<N, Tuple>());
 	tuple_for_each_item<Tuple, N+1>(function);
 }
 
@@ -45,7 +47,7 @@ template <typename Tuple, size_t N, typename Function, std::enable_if_t<(N < std
 inline void tuple_for_each_item(Tuple& tuple, Function function)
 {
 	auto& entity = std::get<N>(tuple);
-	function(N, entity);
+	function(size_type<N>(), entity);
 	tuple_for_each_item<Tuple, N+1>(tuple, function);
 }
 
@@ -65,7 +67,7 @@ template <typename Tuple, size_t N, typename Function, std::enable_if_t<(N < std
 inline void tuple_for_each_item(const Tuple& tuple, Function function)
 {
 	const auto& entity = std::get<N>(tuple);
-	function(N, entity);
+	function(size_type<N>(), entity);
 	tuple_for_each_item<Tuple, N+1>(tuple, function);
 }
 

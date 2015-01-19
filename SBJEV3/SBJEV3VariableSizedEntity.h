@@ -55,9 +55,9 @@ template <typename Tuple>
 constexpr bool isVariableSizedTuple()
 {
 	bool isVariableSized = false;
-	tuple_for_each<Tuple>([&isVariableSized](size_t N, auto ptr)
+	tuple_for_each<Tuple>([&isVariableSized](auto N, auto T)
 	{
-		isVariableSized |= isVariableSizedEntity<std::remove_pointer_t<decltype(ptr)>>();
+		isVariableSized |= isVariableSizedEntity<typename decltype(T)::type>();
 	});
 	return isVariableSized;
 }
@@ -68,7 +68,7 @@ inline size_t packTuple(const Tuple& tuple, uint8_t* buffer)
 	const uint8_t* start = buffer;
 	if (isVariableSizedTuple<Tuple>())
 	{
-		tuple_for_each(tuple, [&tuple, &buffer](size_t N, const auto& element)
+		tuple_for_each(tuple, [&tuple, &buffer](auto N, const auto& element)
 		{
 			size_t entityLen = packEntity(element, buffer);
 			buffer += entityLen;

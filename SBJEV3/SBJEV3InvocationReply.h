@@ -34,6 +34,7 @@ class InvocationReply
 {
 public:
 	using Results = decltype(std::tuple_cat(typename ResultStorage<typename Opcodes::Result>::Reply()...));
+	using Converters = decltype(std::tuple_cat(typename ResultStorage<typename Opcodes::Result>::Converter()...));
 
 	InvocationReply(float timeout)
 	: _timeout(timeout)
@@ -70,7 +71,6 @@ public:
 	}
 	
 private:
-	using Converters = std::tuple<typename Opcodes::Result...>;
 	
 	mutable std::mutex _mutex;
 	std::condition_variable _waitOn;
@@ -86,7 +86,7 @@ private:
 			std::unique_lock<std::mutex> lock(_mutex);
 			if (len == 0)
 			{
-				itemizeFail(size_type<0>());
+				itemizeFail();
 				_status = buffer != nullptr ? ReplyStatus::sendError : ReplyStatus::timeout;
 			}
 			else
@@ -100,7 +100,7 @@ private:
 				{
 					const size_t payloadLen = len - sizeof(COMRPL);
 					const uint8_t* payload = buffer + sizeof(COMRPL);
-					if (itemizedCopy(size_type<0>(), payload, payloadLen, header->Cmd))
+					if (itemizedCopy(payload, payloadLen, header->Cmd))
 					{
 						_status = ReplyStatus::success;
 					}
@@ -115,55 +115,48 @@ private:
 		return _status;
 	}
 	
-	template <size_t N>
-	inline void itemizeFail(size_type<N>)
+	inline void itemizeFail()
 	{
-		const auto& converter = std::get<N>(_converters);
-		using ConverterRef = decltype(converter);
-		using ConverterType = std::remove_reference_t<ConverterRef>;
-		using InputType = typename ConverterType::Input;
-		
-		auto& result = std::get<N>(_results);
-		converter.convert((InputType*)nullptr, result, 0);
-		
-		itemizeFail(size_type<N+1>());
-	}
-	
-	inline bool itemizeFail(size_type<std::tuple_size<Results>::value>)
-	{
-		return true;
-	}
-
-	template <size_t N>
-	inline bool itemizedCopy(size_type<N>, const uint8_t* buffer, size_t maxLen, UBYTE cmdState)
-	{
-		const auto& converter = std::get<N>(_converters);
-		using ConverterRef = decltype(converter);
-		using ConverterType = std::remove_reference_t<ConverterRef>;
-		using InputType = typename ConverterType::Input;
-		
-		size_t size = 0;
-		// Calculate full allocation size and check for boundary condition
-		for(size_t i = 0; i < ResultStorage<ConverterType>::globalCount(); i++)
+		tuple_for_each(_converters, [this](auto N, const auto& converter)
 		{
-			size += roundUp(converter.allocatedSize(i));
-			// system cmd errors are handled by the result object
-			if (cmdState == DIRECT_REPLY and size > maxLen)
-			{
-				return false;
-			}
-		}
-		
-		// Convert the low level value to the requested high level type
-		auto& result = std::get<N>(_results);
-		converter.convert((InputType*)buffer, result, maxLen);
-		
-		return itemizedCopy(size_type<N+1>(), buffer + size, maxLen - size, cmdState);
+			using ConverterRef = decltype(converter);
+			using ConverterType = std::remove_reference_t<ConverterRef>;
+			using InputType = typename ConverterType::Input;
+			
+			auto& result = std::get<N>(_results);
+			converter.convert((InputType*)nullptr, result, 0);
+		});
 	}
 	
-	inline bool itemizedCopy(size_type<std::tuple_size<Results>::value>, const uint8_t* buffer, size_t maxLen, UBYTE cmdState)
+	inline bool itemizedCopy(const uint8_t* buffer, size_t maxLen, UBYTE cmdState)
 	{
-		return true;
+		bool success = true;
+		tuple_for_each(_converters, [this, buffer, maxLen, cmdState, &success](auto N, const auto& converter)
+		{
+			if (success == false) return;
+			
+			using ConverterRef = decltype(converter);
+			using ConverterRef = decltype(converter);
+			using ConverterType = std::remove_reference_t<ConverterRef>;
+			using InputType = typename ConverterType::Input;
+			
+			size_t size = 0;
+			// Calculate full allocation size and check for boundary condition
+			for(size_t i = 0; i < ResultStorage<ConverterType>::globalCount(); i++)
+			{
+				size += roundUp(converter.allocatedSize(i));
+				// system cmd errors are handled by the result object
+				if (cmdState == DIRECT_REPLY and size > maxLen)
+				{
+					success = false;
+				}
+			}
+			
+			// Convert the low level value to the requested high level type
+			auto& result = std::get<N>(_results);
+			converter.convert((InputType*)buffer, result, maxLen);
+		});
+		return success;
 	}
 };
 
