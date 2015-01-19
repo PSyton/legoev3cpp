@@ -8,9 +8,7 @@
 
 #pragma once
 
-#include "SBJEV3InvocationStack.h"
-#include "SBJEV3DirectCommand.h"
-#include "SBJEV3SystemCommand.h"
+#include "SBJEV3Messenger.h"
 #include "SBJEV3Connection.h"
 #include "SBJEV3DeviceIdentifier.h"
 #include "SBJEV3DeleteMethods.h"
@@ -110,32 +108,23 @@ public:
 	template <typename...  Opcodes>
 	typename DirectCommand<Opcodes...>::Results directCommand(float timeout, Opcodes... opcodes)
 	{
-		DirectCommand<Opcodes...> command(_messageCounter, timeout, opcodes...);
-		_messageCounter++;
-		Invocation invocation(std::move(command.invocation()));
-		InvocationScope invocationScope(_stack, invocation);
-		return command.wait();
+		return _messenger.directCommand(timeout, opcodes...);
 	}
 
 	template <typename  Opcode>
 	typename SystemCommand<Opcode>::Results systemCommand(float timeout, Opcode opcode)
 	{
-		SystemCommand<Opcode> command(_messageCounter, timeout, opcode);
-		_messageCounter++;
-		Invocation invocation(std::move(command.invocation()));
-		InvocationScope invocationScope(_stack, invocation);
-		return command.wait();
+		return _messenger.systemCommand(timeout, opcode);
 	}
 
 private:
 	Log& _log;
+	Messenger _messenger;
 	DeviceIdentifier _identifier;
 	std::string _name;
 	Version _version;
-	InvocationStack _stack;
 	Connection::Type _connectionType = Connection::Type::none;
 	std::unique_ptr<ConnectionToken> _token;
-	unsigned short _messageCounter = 0;
 	
 	void handleConnectionChange(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection);
 };

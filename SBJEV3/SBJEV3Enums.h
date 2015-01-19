@@ -43,8 +43,5 @@ enum class Polarity
 	forward = 1
 };
 
-template <size_t s>
-using size_type = std::integral_constant<size_t, s>;
-
 }
 }

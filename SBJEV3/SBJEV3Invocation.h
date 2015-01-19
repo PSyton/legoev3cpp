@@ -12,13 +12,13 @@
 
 #include <functional>
 #include <string>
+#include <cassert>
 
 namespace SBJ
 {
 namespace EV3
 {
 
-#define   MAX_COMMAND_SIZE    65534
 
 enum class ReplyStatus
 {
@@ -65,6 +65,8 @@ public:
 	, _reply(reply)
 	, _status(ReplyStatus::ready)
 	{
+		constexpr size_t maxInvocationSize = 65534 + 2;
+		assert(size <= maxInvocationSize);
 	}
 	
 	Invocation()

@@ -52,9 +52,6 @@ private:
 	inline void setHeader(unsigned short counter, bool forceReply, const OpcodeAccumulation& accume)
 	{
 		size_t commandSize = sizeof(COMCMD) - sizeof(CMDSIZE) + accume.opcodeSize;
-		
-		assert(commandSize <= MAX_COMMAND_SIZE);
-		
 		_cmd.CmdSize = commandSize;
 		_cmd.MsgCnt = counter;
 		_cmd.Cmd = (forceReply or accume.globalSize > 0) ? SYSTEM_COMMAND_REPLY : SYSTEM_COMMAND_NO_REPLY;

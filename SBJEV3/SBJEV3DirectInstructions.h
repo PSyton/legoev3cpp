@@ -20,6 +20,11 @@ namespace SBJ
 namespace EV3
 {
 
+// TODO: deriving Direct Opcode from this is prefixing a byte to its size!
+struct IsDirectOpcode
+{
+};
+
 template <typename T>
 struct UpgradeToDirectOpcode
 {
@@ -32,7 +37,7 @@ template <typename T> using UpgradeToDirectOpcode_t = typename UpgradeToDirectOp
  */
 
 template <typename... Opcodes>
-class DirectInstructions
+class DirectInstructions : public VariableSizedEntity
 {
 public:
 	DirectInstructions() = delete;
@@ -72,7 +77,6 @@ private:
 	{
 		size_t commandSize = sizeof(COMCMD) - sizeof(CMDSIZE) + sizeof(DIRCMD) + accume.opcodeSize;
 		
-		assert(commandSize <= MAX_COMMAND_SIZE);
 		assert(accume.globalSize <= MAX_COMMAND_GLOBALS);
 		assert(accume.localSize <= MAX_COMMAND_LOCALS);
 		

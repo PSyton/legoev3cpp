@@ -14,7 +14,7 @@ using namespace SBJ::EV3;
 Brick::Brick(ConnectionFactory& factory, const DeviceIdentifier& identifier)
 : _log(factory.log())
 , _identifier(identifier)
-, _stack(_log, [](auto buffer) { return((const COMRPL*)buffer)->MsgCnt; })
+, _messenger(_log, [](auto buffer) { return((const COMRPL*)buffer)->MsgCnt; })
 {
 	_token.reset((
 		new ConnectionToken(factory, identifier,
@@ -32,7 +32,7 @@ void Brick::setName(const std::string& name)
 {
 	SetBrickName set;
 	set.name = name;
-	directCommand(5.0, set);
+	directCommand(0.0, set);
 	_name = name;
 }
 	
@@ -64,7 +64,7 @@ void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, st
 {
 	_identifier = updatedIdentifier;
 	_connectionType = connection ? connection->type() : Connection::Type::none;
-	_stack.connectionChange(connection);
+	_messenger.connectionChange(connection);
 	if (_connectionType != Connection::Type::none)
 	{
 		// TODO: why timeouts?

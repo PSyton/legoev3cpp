@@ -21,26 +21,22 @@ namespace EV3
 
 #pragma pack(push, 1)
 
-struct IsDirectOpcode
-{
-};
-
 template <typename ResultType, typename... ParameterTypes>
-class DirectOpcode : public IsDirectOpcode
+class DirectOpcode
 {
 public:
 	DeleteDefaultMethods(DirectOpcode);
 	
-	using Result = ResultType;
 	using Parameters = std::tuple<typename NativeToVMType<ParameterTypes>::type...>;
-	using ResultStorage = ResultStorage<ResultType>;
+	using Result = ResultType;
+	using ResultStorage = ResultStorage<Result>;
 	
 	DirectOpcode(ParameterTypes... params)
 	: _params(params...)
 	{
 	}
 	
-	bool accumulate(OpcodeAccumulation& accume)
+	void accumulate(OpcodeAccumulation& accume)
 	{
 		if (ResultStorage::globalCount())
 		{
@@ -52,8 +48,6 @@ public:
 		}
 		size_t actualSize = size();
 		accume.opcodeSize += actualSize;
-		return (actualSize != sizeof(*this));
-		return 0;
 	}
 	
 	size_t size() const
