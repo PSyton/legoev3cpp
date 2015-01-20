@@ -295,24 +295,23 @@ struct CInputPort : public ValueByteCode<LocalConstBytes0<UBYTE>, StaticCast<Inp
 };
 
 template <typename T, size_t S = sizeof(T)> struct NativeToVMType { using type = T; };
-
 /*
+template <> struct NativeToVMType<bool> { using type = CBool; };
+template <> struct NativeToVMType<unsigned char> { using type = CUByte; };
+template <> struct NativeToVMType<signed char> { using type = CSByte; };
+template <> struct NativeToVMType<unsigned short> { using type = CUShort; };
+template <> struct NativeToVMType<signed short> { using type = CSShort; };
+template <> struct NativeToVMType<unsigned int> { using type = CULong; };
+template <> struct NativeToVMType<signed int> { using type = CSLong; };
+template <> struct NativeToVMType<OutputPort> { using type = COutputPort; };
+template <> struct NativeToVMType<InputPort> { using type = CInputPort; };
+template <> struct NativeToVMType<Polarity> { using type = CPolarity; };
+
 template <typename T, size_t S>
 struct TransferSizeConstraint
 {
 };
-
-template <> struct NativeToVMType<bool> { using type = CBool; };
-template <> struct NativeToVMType<UBYTE> { using type = CUByte; };
-template <> struct NativeToVMType<SBYTE> { using type = CSByte; };
-template <> struct NativeToVMType<UWORD> { using type = CUShort; };
-template <> struct NativeToVMType<SWORD> { using type = CSShort; };
-template <> struct NativeToVMType<ULONG> { using type = CULong; };
-template <> struct NativeToVMType<SLONG> { using type = CSLong; };
-template <> struct NativeToVMType<OutputPort> { using type = COutputPort; };
-template <> struct NativeToVMType<InputPort> { using type = CInputPort; };
-template <> struct NativeToVMType<Polarity> { using type = CPolarity; };
-*/	
+*/
 #pragma pack(pop)
 	
 }

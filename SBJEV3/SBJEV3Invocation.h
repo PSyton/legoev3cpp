@@ -23,17 +23,18 @@ namespace EV3
 enum class ReplyStatus
 {
 	ready = 0,
-	success,
 	sendError,
+	success,
 	timeout,
 	unknownMsg,
-	malformedError,
-	lengthError,
+	unwantedReply,
+	malformedMsg,
+	malformedReply,
 };
 
 inline std::string ReplyStatusStr(ReplyStatus r)
 {
-	const static std::string s[] = {"ready", "success", "sendError", "timeout", "unknownMsg", "malformedError", "lengthError" };
+	const static std::string s[] = { "Ready", "Send Error", "Success", "Timeout", "Unknown Message", "Unwanted Reply", "Malformed Message", "Malformed Reply" };
 	return s[static_cast<int>(r)];
 }
 
@@ -116,6 +117,20 @@ public:
 		if (_reply)
 		{
 			_status = _reply(buffer, size);
+		}
+		else
+		{
+			if (buffer != nullptr)
+			{
+				if (size == 0)
+				{
+					_status = ReplyStatus::sendError;
+				}
+				else
+				{
+					_status = ReplyStatus::unwantedReply;
+				}
+			}
 		}
 		return _status;
 	}

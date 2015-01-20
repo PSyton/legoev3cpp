@@ -26,11 +26,9 @@ struct IsDirectOpcode
 };
 
 template <typename ResultType, typename... ParameterTypes>
-class DirectOpcode : public VariableSizedEntity
+class DirectOpcode : public VariableSizedEntity, IsDirectOpcode
 {
 public:
-	DeleteDefaultMethods(DirectOpcode);
-	
 	using Parameters = std::tuple<typename NativeToVMType<ParameterTypes>::type...>;
 	using Result = ResultType;
 	using ResultStorage = ResultStorage<Result>;

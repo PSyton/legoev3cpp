@@ -94,7 +94,7 @@ private:
 				COMRPL* header = (COMRPL*)buffer;
 				if (header->Cmd == DIRECT_REPLY_ERROR)
 				{
-					_status = ReplyStatus::malformedError;
+					_status = ReplyStatus::malformedMsg;
 				}
 				else
 				{
@@ -106,7 +106,7 @@ private:
 					}
 					else
 					{
-						_status = ReplyStatus::lengthError;
+						_status = ReplyStatus::malformedReply;
 					}
 				}
 			}

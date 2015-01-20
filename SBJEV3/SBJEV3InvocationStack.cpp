@@ -65,7 +65,7 @@ void InvocationStack::remove(unsigned short messageId)
 
 const Invocation& InvocationStack::pushInvocation(Invocation& invocation)
 {
-	_log.write(LogDomian, "Call ", invocation.ID());
+	_log.write(LogDomian, "Call ", invocation.ID(), (invocation.wantsReply() ? "" : "*"));
 	_log.hexDump(invocation.data(), invocation.size());
 	{
 		std::unique_lock<std::mutex> lock(_mutex);
@@ -86,22 +86,21 @@ void InvocationStack::replyInvocation(unsigned short messageId, const uint8_t* b
 			_invocations.erase(i);
 		}
 	}
-	// We have a response, send error, or timeout
-	if (invocation.wantsReply())
+	// We have a known invocation
+	if (invocation.size() != 0)
 	{
 		ReplyStatus status = invocation.reply(buffer, len);
-		_log.write(LogDomian, "Reply ", messageId, " - ", ReplyStatusStr(status));
-		_log.hexDump(buffer, len);
-	}
-	// We do not have a record of the invocation or it was a no-reply message
-	else
-	{
-		// EV3 sent us an unknown reply
-		if (buffer != nullptr)
+		if (status != ReplyStatus::ready)
 		{
-			_log.write(LogDomian, "Reply ", messageId, " - ", ReplyStatusStr(ReplyStatus::unknownMsg));
+			_log.write(LogDomian, "Reply ", messageId, " - ", ReplyStatusStr(status));
 			_log.hexDump(buffer, len);
 		}
-		// else Invocation Scope ensuring timeout is handled where replyInvocation was previously called
 	}
+	// No invocation with real data
+	else if (buffer != nullptr)
+	{
+		_log.write(LogDomian, "Reply ", messageId, " - ", ReplyStatusStr(ReplyStatus::unknownMsg));
+		_log.hexDump(buffer, len);
+	}
+	// else invocation being removed that was already been removed
 }
