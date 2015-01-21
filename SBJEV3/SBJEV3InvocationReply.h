@@ -125,16 +125,14 @@ private:
 			
 			auto& result = std::get<N>(_results);
 			converter.convert((InputType*)nullptr, result, 0);
+			return true;
 		});
 	}
 	
 	inline bool itemizedCopy(const uint8_t* buffer, size_t maxLen, UBYTE cmdState)
 	{
-		bool success = true;
-		tuple_for_each(_converters, [this, buffer, maxLen, cmdState, &success](auto N, const auto& converter)
+		return tuple_for_each(_converters, [this, buffer, maxLen, cmdState](auto N, const auto& converter)
 		{
-			if (success == false) return;
-			
 			using ConverterRef = decltype(converter);
 			using ConverterRef = decltype(converter);
 			using ConverterType = std::remove_reference_t<ConverterRef>;
@@ -148,15 +146,15 @@ private:
 				// system cmd errors are handled by the result object
 				if (cmdState == DIRECT_REPLY and size > maxLen)
 				{
-					success = false;
+					return false;
 				}
 			}
 			
 			// Convert the low level value to the requested high level type
 			auto& result = std::get<N>(_results);
 			converter.convert((InputType*)buffer, result, maxLen);
+			return true;
 		});
-		return success;
 	}
 };
 

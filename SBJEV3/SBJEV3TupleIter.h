@@ -16,65 +16,90 @@ namespace SBJ
 namespace EV3
 {
 
+/*
+ *	There are hundreds of ways of iterating over a tuple.
+ *	- The pattern below has constexpr, const, and non-const variants.
+ *	- The iteration index is captured as a constexpr paramrter to the functor invocation. 
+ *	- C++14 polymorphic lambdas (auto param) is required. 
+ *	- The functor must return true/false to continue/break the iteration.
+ *	- If tuple_element and get have been previously overridden for the tuple type, the overrides will be used.
+ */
+
 template <size_t s>
 using size_type = std::integral_constant<size_t, s>;
 
 template <typename Tuple, size_t N, typename Function, std::enable_if_t<(N == std::tuple_size<Tuple>::value)>* = nullptr>
-constexpr inline void tuple_for_each_item(Function function)
+constexpr inline bool tuple_for_each_item(Function function)
 {
+	return true;
 }
 
 template <typename Tuple, size_t N, typename Function, std::enable_if_t<(N < std::tuple_size<Tuple>::value)>* = nullptr>
-constexpr inline void tuple_for_each_item(Function function)
+constexpr inline bool tuple_for_each_item(Function function)
 {
-	function(size_type<N>(), std::tuple_element<N, Tuple>());
-	tuple_for_each_item<Tuple, N+1>(function);
+	using std::tuple_element;
+	auto entity = tuple_element<N, Tuple>();
+	if (function(size_type<N>(), entity))
+	{
+		return tuple_for_each_item<Tuple, N+1>(function);
+	}
+	return false;
 }
 
 template <typename Tuple, typename Function>
-constexpr inline void tuple_for_each(Function function)
+constexpr inline bool tuple_for_each(Function function)
 {
-	tuple_for_each_item<Tuple, 0>(function);
+	return tuple_for_each_item<Tuple, 0>(function);
 }
 
 
 template <typename Tuple, size_t N, typename Function, std::enable_if_t<(N == std::tuple_size<Tuple>::value)>* = nullptr>
-inline void tuple_for_each_item(Tuple& tuple, Function function)
+inline bool tuple_for_each_item(const Tuple& tuple, Function function)
 {
+	return true;
 }
 
 template <typename Tuple, size_t N, typename Function, std::enable_if_t<(N < std::tuple_size<Tuple>::value)>* = nullptr>
-inline void tuple_for_each_item(Tuple& tuple, Function function)
+inline bool tuple_for_each_item(const Tuple& tuple, Function function)
 {
-	auto& entity = std::get<N>(tuple);
-	function(size_type<N>(), entity);
-	tuple_for_each_item<Tuple, N+1>(tuple, function);
+	using std::get;
+	const auto& entity = get<N>(tuple);
+	if (function(size_type<N>(), entity))
+	{
+		return tuple_for_each_item<Tuple, N+1>(tuple, function);
+	}
+	return false;
 }
 
 template <typename Tuple, typename Function>
-inline void tuple_for_each(Tuple& tuple, Function function)
+inline bool tuple_for_each(const Tuple& tuple, Function function)
 {
-	tuple_for_each_item<Tuple, 0>(tuple, function);
+	return tuple_for_each_item<Tuple, 0>(tuple, function);
 }
 
 
 template <typename Tuple, size_t N, typename Function, std::enable_if_t<(N == std::tuple_size<Tuple>::value)>* = nullptr>
-inline void tuple_for_each_item(const Tuple& tuple, Function function)
+inline bool tuple_for_each_item(Tuple& tuple, Function function)
 {
+	return true;
 }
 
 template <typename Tuple, size_t N, typename Function, std::enable_if_t<(N < std::tuple_size<Tuple>::value)>* = nullptr>
-inline void tuple_for_each_item(const Tuple& tuple, Function function)
+inline bool tuple_for_each_item(Tuple& tuple, Function function)
 {
-	const auto& entity = std::get<N>(tuple);
-	function(size_type<N>(), entity);
-	tuple_for_each_item<Tuple, N+1>(tuple, function);
+	using std::get;
+	auto& entity = get<N>(tuple);
+	if (function(size_type<N>(), entity))
+	{
+		return tuple_for_each_item<Tuple, N+1>(tuple, function);
+	}
+	return false;
 }
 
 template <typename Tuple, typename Function>
-inline void tuple_for_each(const Tuple& tuple, Function function)
+inline bool tuple_for_each(Tuple& tuple, Function function)
 {
-	tuple_for_each_item<Tuple, 0>(tuple, function);
+	return tuple_for_each_item<Tuple, 0>(tuple, function);
 }
 
 }

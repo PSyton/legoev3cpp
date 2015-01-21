@@ -48,6 +48,7 @@ public:
 		tuple_for_each(allOpcodes, [&accume](auto N, auto& opcode)
 		{
 			opcode.accumulate(accume);
+			return true;
 		});
 		setHeader(counter, forceReply, accume);
 		packTuple(allOpcodes, _data);
