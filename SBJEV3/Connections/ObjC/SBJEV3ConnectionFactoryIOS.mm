@@ -7,20 +7,28 @@
 //
 
 #include "SBJEV3ConnectionFactory.h"
-#include "SBJEV3BluetoothConnectionIOS.h"
+#include "SBJEV3ConnectionObjC.h"
+
+#import "SBJEV3WifiConnectionImplObjC.h"
+#import "SBJEV3BluetoothConnectionImplIOS.h"
+
 #import <ExternalAccessory/ExternalAccessory.h>
 
 using namespace SBJ::EV3;
+
+static EV3ConnectionImplObjC* findConnectionUsb(Log& log, DeviceIdentifier& identifier);
+static EV3ConnectionImplObjC* findConnectionWifi(Log& log, DeviceIdentifier& identifier);
+static EV3ConnectionImplObjC* findConnectionBluetooth(Log& log, DeviceIdentifier& identifier);
 
 /*
  * We need to have an objective c object to receive OS notifications.
  * The notifications are immediately handed to the factory.
  */
 
-@interface NotificationReceiver : NSObject
+@interface EV3NotificationReceiver : NSObject
 @end
 
-@implementation NotificationReceiver
+@implementation EV3NotificationReceiver
 {
 	ConnectionFactory* _factory;
 }
@@ -65,14 +73,14 @@ using namespace SBJ::EV3;
 @end
 
 // We cheet with a global variable here instead of a c++ pimpl.
-static NotificationReceiver* _notificationReceiver = nil;
+static EV3NotificationReceiver* _notificationReceiver = nil;
 
 ConnectionFactory::ConnectionFactory(Log& log)
 : _log(log)
 {
 #if (TARGET_IPHONE_SIMULATOR)
 #else
-	_notificationReceiver = [[NotificationReceiver alloc] initWithFactory: this];
+	_notificationReceiver = [[EV3NotificationReceiver alloc] initWithFactory: this];
 #endif
 }
 
@@ -142,6 +150,64 @@ void ConnectionFactory::handleChangeInAccessoryConnection()
 	}
 }
 
+std::unique_ptr<Connection> ConnectionFactory::findConnection(DeviceIdentifier& identifier)
+{
+	EV3ConnectionImplObjC* impl = nil;
+	auto method = identifier.connect;
+	
+	if (method || DeviceIdentifier::ConnectMethod::only)
+	{
+		if (method || DeviceIdentifier::ConnectMethod::bluetoothFirst)
+		{
+			impl = findConnectionBluetooth(_log, identifier);
+		}
+		else if (method || DeviceIdentifier::ConnectMethod::wifiFirst)
+		{
+			impl = findConnectionWifi(_log, identifier);
+		}
+		else if (method || DeviceIdentifier::ConnectMethod::usbFirst)
+		{
+			impl = findConnectionUsb(_log, identifier);
+		}
+	}
+	else
+	{
+		if (impl == nil and (method || DeviceIdentifier::ConnectMethod::bluetoothFirst))
+		{
+			impl = findConnectionBluetooth(_log, identifier);
+		}
+		if (impl == nil and (method || DeviceIdentifier::ConnectMethod::wifiFirst))
+		{
+			impl = findConnectionWifi(_log, identifier);
+		}
+		if (impl == nil and (method || DeviceIdentifier::ConnectMethod::usbFirst))
+		{
+			impl = findConnectionUsb(_log, identifier);
+		}
+	}
+	if (impl)
+	{
+		return std::unique_ptr<Connection>(new ConnectionObjC(impl));
+	}
+	return nullptr;
+}
+
+#pragma mark - Find Connection Impls
+
+static EV3ConnectionImplObjC* findConnectionUsb(Log& log, DeviceIdentifier& identifier)
+{
+	return nil;
+}
+
+static EV3ConnectionImplObjC* findConnectionWifi(Log& log, DeviceIdentifier& identifier)
+{
+	EV3WifiAccessory* accessory = [[EV3WifiAccessory alloc] init];
+	accessory.serial = @"00123456789";
+	accessory.host = @"10.0.1.2";
+	accessory.port = 5555;
+	return [[EV3WifiConnectionImplIOS alloc] init: log withAccessory: accessory];
+}
+
 std::string fetchNameFromAccessory(EAAccessory* accessory)
 {
 // TODO: EAAccessory is lying
@@ -154,17 +220,8 @@ std::string fetchSerialFromAccessory(EAAccessory* accessory)
 	return accessory.serialNumber.UTF8String;
 }
 
-std::unique_ptr<Connection> ConnectionFactory::findConnection(DeviceIdentifier& identifier)
+static EV3ConnectionImplObjC* findConnectionBluetooth(Log& log, DeviceIdentifier& identifier)
 {
-#if (TARGET_IPHONE_SIMULATOR)
-	identifier.name = "Simulated";
-	return std::unique_ptr<Connection>(new BluetoothConnectionIOS(_log, nullptr));
-#else
-	if (identifier.connect == DeviceIdentifier::ConnectMethod::usbOnly)
-	{
-		return nullptr;
-	}
-	
 	__block std::string foundName;
 	__block std::string foundSerial;
 	
@@ -244,8 +301,7 @@ std::unique_ptr<Connection> ConnectionFactory::findConnection(DeviceIdentifier& 
 		EAAccessory* accessory = accessories[foundIt];
 		identifier.name = foundName;
 		identifier.serial = foundSerial;
-		return std::unique_ptr<Connection>(new BluetoothConnectionIOS(_log, accessory));
+		return [[EV3BluetoothConnectionImplIOS alloc] init: log withAccessory: accessory];
 	}
-	return nullptr;
-#endif
+	return nil;
 }

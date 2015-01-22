@@ -52,7 +52,6 @@ private:
 	Log& _log;
 	
 	std::unique_ptr<Connection> findConnection(DeviceIdentifier& identifier);
-	
 };
 
 }

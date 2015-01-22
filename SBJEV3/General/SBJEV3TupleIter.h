@@ -40,19 +40,19 @@ constexpr inline bool tuple_function_at(Function function)
 	return function(size_type<N>(), entity);
 }
 
-template <size_t N, typename Tuple, typename Function, std::enable_if_t<(N >= std::tuple_size<Tuple>::value)>* = nullptr>
+template <size_t N, typename Tuple, typename Function, std::enable_if_t<(std::tuple_size<Tuple>::value == 0)>* = nullptr>
 constexpr inline bool tuple_for_each_at(Function function)
 {
 	return false;
 }
 
-template <size_t N, typename Tuple, typename Function, std::enable_if_t<(N == std::tuple_size<Tuple>::value-1 and std::tuple_size<Tuple>::value>0)>* = nullptr>
+template <size_t N, typename Tuple, typename Function, std::enable_if_t<(N == std::tuple_size<Tuple>::value-1 and std::tuple_size<Tuple>::value > 0)>* = nullptr>
 constexpr inline bool tuple_for_each_at(Function function)
 {
 	return tuple_function_at<N, Tuple>(function);
 }
 
-template <size_t N, typename Tuple, typename Function, std::enable_if_t<(N < std::tuple_size<Tuple>::value-1 and std::tuple_size<Tuple>::value>0)>* = nullptr>
+template <size_t N, typename Tuple, typename Function, std::enable_if_t<(N <  std::tuple_size<Tuple>::value-1 and std::tuple_size<Tuple>::value > 1)>* = nullptr>
 constexpr inline bool tuple_for_each_at(Function function)
 {
 	if (tuple_function_at<N, Tuple>(function))
@@ -78,19 +78,19 @@ inline bool tuple_function_at(const Tuple& tuple, Function function)
 	return function(size_type<N>(), entity);
 }
 
-template <size_t N, typename Tuple, typename Function, std::enable_if_t<(N >= std::tuple_size<Tuple>::value)>* = nullptr>
+template <size_t N, typename Tuple, typename Function, std::enable_if_t<(std::tuple_size<Tuple>::value == 0)>* = nullptr>
 inline bool tuple_for_each_at(const Tuple& tuple, Function function)
 {
 	return false;
 }
 
-template <size_t N, typename Tuple, typename Function, std::enable_if_t<(N == std::tuple_size<Tuple>::value-1 and std::tuple_size<Tuple>::value>0)>* = nullptr>
+template <size_t N, typename Tuple, typename Function, std::enable_if_t<(std::tuple_size<Tuple>::value > 0 and N == std::tuple_size<Tuple>::value-1)>* = nullptr>
 inline bool tuple_for_each_at(const Tuple& tuple, Function function)
 {
 	return tuple_function_at<N>(tuple, function);
 }
 
-template <size_t N, typename Tuple, typename Function, std::enable_if_t<(N < std::tuple_size<Tuple>::value-1 and std::tuple_size<Tuple>::value>0)>* = nullptr>
+template <size_t N, typename Tuple, typename Function, std::enable_if_t<(std::tuple_size<Tuple>::value > 1 and N <  std::tuple_size<Tuple>::value-1)>* = nullptr>
 inline bool tuple_for_each_at(const Tuple& tuple, Function function)
 {
 	if (tuple_function_at<N>(tuple, function))
@@ -116,19 +116,19 @@ inline bool tuple_function_at(Tuple& tuple, Function function)
 	return function(size_type<N>(), entity);
 }
 
-template <size_t N, typename Tuple, typename Function, std::enable_if_t<(N >= std::tuple_size<Tuple>::value)>* = nullptr>
+template <size_t N, typename Tuple, typename Function, std::enable_if_t<(std::tuple_size<Tuple>::value == 0)>* = nullptr>
 inline bool tuple_for_each_at(Tuple& tuple, Function function)
 {
 	return false;
 }
 
-template <size_t N, typename Tuple, typename Function, std::enable_if_t<(N == std::tuple_size<Tuple>::value-1 and std::tuple_size<Tuple>::value>0)>* = nullptr>
+template <size_t N, typename Tuple, typename Function, std::enable_if_t<(std::tuple_size<Tuple>::value > 0 and N == std::tuple_size<Tuple>::value-1)>* = nullptr>
 inline bool tuple_for_each_at(Tuple& tuple, Function function)
 {
 	return tuple_function_at<N>(tuple, function);
 }
 
-template <size_t N, typename Tuple, typename Function, std::enable_if_t<(N < std::tuple_size<Tuple>::value-1 and std::tuple_size<Tuple>::value>0)>* = nullptr>
+template <size_t N, typename Tuple, typename Function, std::enable_if_t<(std::tuple_size<Tuple>::value > 1 and N <  std::tuple_size<Tuple>::value-1)>* = nullptr>
 inline bool tuple_for_each_at(Tuple& tuple, Function function)
 {
 	if (tuple_function_at<N>(tuple, function))

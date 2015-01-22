@@ -7,10 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		550E28F91A715EC600A38E94 /* SBJEV3InvocationStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 550E28C61A715EC500A38E94 /* SBJEV3InvocationStack.cpp */; };
+		550E28FD1A715EC600A38E94 /* SBJEV3ConnectionToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 550E28D31A715EC500A38E94 /* SBJEV3ConnectionToken.cpp */; };
+		550E29011A715EC600A38E94 /* SBJEV3DirectoryEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 550E28E31A715EC500A38E94 /* SBJEV3DirectoryEntry.cpp */; };
+		550E29021A715EC600A38E94 /* SBJEV3FileUploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 550E28E61A715EC500A38E94 /* SBJEV3FileUploader.cpp */; };
+		550E29031A715EC600A38E94 /* SBJEV3Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 550E28ED1A715EC600A38E94 /* SBJEV3Log.cpp */; };
+		550E29181A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E290E1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm */; };
+		550E29191A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E290F1A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm */; };
+		550E291A1A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E29111A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm */; };
+		550E291B1A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E29131A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm */; };
+		550E291C1A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */; };
+		550E291D1A71610C00A38E94 /* UDPEchoIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E29171A71610C00A38E94 /* UDPEchoIOS.mm */; };
 		55781F741A62DB2C00BD0ABB /* FileViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55781F731A62DB2C00BD0ABB /* FileViewController.mm */; };
-		55781F7A1A6403E500BD0ABB /* SBJEV3DirectoryEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55781F781A6403E500BD0ABB /* SBJEV3DirectoryEntry.cpp */; };
-		55781F871A67F5E900BD0ABB /* SBJEV3FileUploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55781F861A67F5E900BD0ABB /* SBJEV3FileUploader.cpp */; };
-		5596B7601A56D7070079C403 /* SBJEV3Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */; };
 		55A7CB7A1A3E07130028553C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB791A3E07130028553C /* main.m */; };
 		55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7C1A3E07130028553C /* AppDelegate.mm */; };
 		55A7CB801A3E07130028553C /* ConnectivityViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7F1A3E07130028553C /* ConnectivityViewController.mm */; };
@@ -21,10 +29,6 @@
 		55A7CB971A3E07130028553C /* Jove_s_LandingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB961A3E07130028553C /* Jove_s_LandingTests.m */; };
 		55A7CBBF1A3E08B60028553C /* RailSwitch.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBBE1A3E08B60028553C /* RailSwitch.mm */; };
 		55A7CBD81A3E10860028553C /* SBJEV3Brick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */; };
-		55A7CBD91A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBC81A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm */; };
-		55A7CBDA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBCA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm */; };
-		55A7CBDB1A3E10860028553C /* SBJEV3ConnectionToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBCB1A3E10860028553C /* SBJEV3ConnectionToken.cpp */; };
-		55A7CBDC1A3E10860028553C /* SBJEV3InvocationStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */; };
 		55A7CBDE1A3E11350028553C /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A7CBDD1A3E11350028553C /* ExternalAccessory.framework */; };
 		55B04B9A1A607F41006265AB /* DirectoryListingViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55B04B991A607F41006265AB /* DirectoryListingViewController.mm */; };
 /* End PBXBuildFile section */
@@ -40,26 +44,55 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		550E28A31A6D6B8D00A38E94 /* SBJEV3Messenger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3Messenger.h; sourceTree = "<group>"; };
-		552D22F71A41083000F188A2 /* SBJEV3SystemInstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemInstruction.h; sourceTree = "<group>"; };
-		5574F01E1A6CC248007FE0FA /* SBJEV3DirectOpcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectOpcode.h; sourceTree = "<group>"; };
-		5574F01F1A6CC248007FE0FA /* SBJEV3TupleIter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3TupleIter.h; sourceTree = "<group>"; };
-		5574F0201A6CC248007FE0FA /* SBJEV3VariableSizedEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3VariableSizedEntity.h; sourceTree = "<group>"; };
-		5574F0221A6D52A7007FE0FA /* SBJEV3DeleteMethods.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3DeleteMethods.h; sourceTree = "<group>"; };
-		55781F661A61719200BD0ABB /* SBJEV3DirectResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectResults.h; sourceTree = "<group>"; };
-		55781F691A61720400BD0ABB /* SBJEV3SystemResults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemResults.h; sourceTree = "<group>"; };
-		55781F6C1A6175BE00BD0ABB /* SBJEV3DirectoryListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectoryListing.h; sourceTree = "<group>"; };
+		550E28C41A715EC500A38E94 /* SBJEV3Invocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Invocation.h; sourceTree = "<group>"; };
+		550E28C51A715EC500A38E94 /* SBJEV3InvocationReply.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3InvocationReply.h; sourceTree = "<group>"; };
+		550E28C61A715EC500A38E94 /* SBJEV3InvocationStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3InvocationStack.cpp; sourceTree = "<group>"; };
+		550E28C71A715EC500A38E94 /* SBJEV3InvocationStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3InvocationStack.h; sourceTree = "<group>"; };
+		550E28C81A715EC500A38E94 /* SBJEV3Messenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Messenger.h; sourceTree = "<group>"; };
+		550E28C91A715EC500A38E94 /* SBJEV3Results.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Results.h; sourceTree = "<group>"; };
+		550E28CD1A715EC500A38E94 /* SBJEV3Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Connection.h; sourceTree = "<group>"; };
+		550E28CE1A715EC500A38E94 /* SBJEV3ConnectionFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionFactory.h; sourceTree = "<group>"; };
+		550E28D31A715EC500A38E94 /* SBJEV3ConnectionToken.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3ConnectionToken.cpp; sourceTree = "<group>"; };
+		550E28D41A715EC500A38E94 /* SBJEV3ConnectionToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionToken.h; sourceTree = "<group>"; };
+		550E28DC1A715EC500A38E94 /* SBJEV3DirectCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectCommand.h; sourceTree = "<group>"; };
+		550E28DD1A715EC500A38E94 /* SBJEV3DirectInstructions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectInstructions.h; sourceTree = "<group>"; };
+		550E28DE1A715EC500A38E94 /* SBJEV3DirectOpcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectOpcode.h; sourceTree = "<group>"; };
+		550E28DF1A715EC500A38E94 /* SBJEV3DirectOpcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectOpcodes.h; sourceTree = "<group>"; };
+		550E28E01A715EC500A38E94 /* SBJEV3DirectResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectResults.h; sourceTree = "<group>"; };
+		550E28E11A715EC500A38E94 /* SBJEV3Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Enums.h; sourceTree = "<group>"; };
+		550E28E31A715EC500A38E94 /* SBJEV3DirectoryEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3DirectoryEntry.cpp; sourceTree = "<group>"; };
+		550E28E41A715EC500A38E94 /* SBJEV3DirectoryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectoryEntry.h; sourceTree = "<group>"; };
+		550E28E51A715EC500A38E94 /* SBJEV3DirectoryListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectoryListing.h; sourceTree = "<group>"; };
+		550E28E61A715EC500A38E94 /* SBJEV3FileUploader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3FileUploader.cpp; sourceTree = "<group>"; };
+		550E28E71A715EC500A38E94 /* SBJEV3FileUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3FileUploader.h; sourceTree = "<group>"; };
+		550E28E91A715EC500A38E94 /* SBJEV3Chunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Chunk.h; sourceTree = "<group>"; };
+		550E28EA1A715EC600A38E94 /* SBJEV3DeleteMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DeleteMethods.h; sourceTree = "<group>"; };
+		550E28EB1A715EC600A38E94 /* SBJEV3FlagOperatorOverloads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3FlagOperatorOverloads.h; sourceTree = "<group>"; };
+		550E28EC1A715EC600A38E94 /* SBJEV3Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Hex.h; sourceTree = "<group>"; };
+		550E28ED1A715EC600A38E94 /* SBJEV3Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3Log.cpp; sourceTree = "<group>"; };
+		550E28EE1A715EC600A38E94 /* SBJEV3Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Log.h; sourceTree = "<group>"; };
+		550E28EF1A715EC600A38E94 /* SBJEV3TupleIter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3TupleIter.h; sourceTree = "<group>"; };
+		550E28F01A715EC600A38E94 /* SBJEV3VariableSizedEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3VariableSizedEntity.h; sourceTree = "<group>"; };
+		550E28F51A715EC600A38E94 /* SBJEV3SystemCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemCommand.h; sourceTree = "<group>"; };
+		550E28F61A715EC600A38E94 /* SBJEV3SystemInstruction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemInstruction.h; sourceTree = "<group>"; };
+		550E28F71A715EC600A38E94 /* SBJEV3SystemOpcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemOpcodes.h; sourceTree = "<group>"; };
+		550E28F81A715EC600A38E94 /* SBJEV3SystemResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemResults.h; sourceTree = "<group>"; };
+		550E29061A715F6100A38E94 /* SBJEV3DeviceIdentifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3DeviceIdentifier.h; sourceTree = "<group>"; };
+		550E290D1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3BluetoothConnectionImplIOS.h; sourceTree = "<group>"; };
+		550E290E1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3BluetoothConnectionImplIOS.mm; sourceTree = "<group>"; };
+		550E290F1A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3ConnectionFactoryIOS.mm; sourceTree = "<group>"; };
+		550E29101A71610C00A38E94 /* SBJEV3ConnectionImplObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionImplObjC.h; sourceTree = "<group>"; };
+		550E29111A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3ConnectionImplObjC.mm; sourceTree = "<group>"; };
+		550E29121A71610C00A38E94 /* SBJEV3ConnectionObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionObjC.h; sourceTree = "<group>"; };
+		550E29131A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3EV3ConnectionObjC.mm; sourceTree = "<group>"; };
+		550E29141A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3WifiConnectionImplObjC.h; sourceTree = "<group>"; };
+		550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3WifiConnectionImplObjC.mm; sourceTree = "<group>"; };
+		550E29161A71610C00A38E94 /* UDPEchoIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPEchoIOS.h; sourceTree = "<group>"; };
+		550E29171A71610C00A38E94 /* UDPEchoIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UDPEchoIOS.mm; sourceTree = "<group>"; };
+		550E291E1A7162A100A38E94 /* SBJEV3ByteCodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3ByteCodes.h; sourceTree = "<group>"; };
 		55781F721A62DB2C00BD0ABB /* FileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileViewController.h; sourceTree = "<group>"; };
 		55781F731A62DB2C00BD0ABB /* FileViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FileViewController.mm; sourceTree = "<group>"; };
-		55781F751A62E20C00BD0ABB /* SBJEV3Hex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3Hex.h; sourceTree = "<group>"; };
-		55781F781A6403E500BD0ABB /* SBJEV3DirectoryEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3DirectoryEntry.cpp; sourceTree = "<group>"; };
-		55781F791A6403E500BD0ABB /* SBJEV3DirectoryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectoryEntry.h; sourceTree = "<group>"; };
 		55781F7B1A640D1800BD0ABB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		55781F7E1A66C9BB00BD0ABB /* SBJEV3Chunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Chunk.h; sourceTree = "<group>"; };
-		55781F811A672D8D00BD0ABB /* SBJEV3FileUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3FileUploader.h; sourceTree = "<group>"; };
-		55781F861A67F5E900BD0ABB /* SBJEV3FileUploader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3FileUploader.cpp; sourceTree = "<group>"; };
-		5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3Log.cpp; sourceTree = "<group>"; };
-		5596B75F1A56D7070079C403 /* SBJEV3Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Log.h; sourceTree = "<group>"; };
 		55A7CB741A3E07130028553C /* Jove's Landing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jove's Landing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55A7CB781A3E07130028553C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55A7CB791A3E07130028553C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -79,27 +112,7 @@
 		55A7CBBE1A3E08B60028553C /* RailSwitch.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RailSwitch.mm; sourceTree = "<group>"; };
 		55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3Brick.cpp; sourceTree = "<group>"; };
 		55A7CBC41A3E10860028553C /* SBJEV3Brick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Brick.h; sourceTree = "<group>"; };
-		55A7CBC51A3E10860028553C /* SBJEV3ByteCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ByteCodes.h; sourceTree = "<group>"; };
-		55A7CBC61A3E10860028553C /* SBJEV3Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Connection.h; sourceTree = "<group>"; };
-		55A7CBC71A3E10860028553C /* SBJEV3ConnectionFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionFactory.h; sourceTree = "<group>"; };
-		55A7CBC81A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3ConnectionFactoryIOS.mm; sourceTree = "<group>"; };
-		55A7CBC91A3E10860028553C /* SBJEV3BluetoothConnectionIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3BluetoothConnectionIOS.h; sourceTree = "<group>"; };
-		55A7CBCA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3BluetoothConnectionIOS.mm; sourceTree = "<group>"; };
-		55A7CBCB1A3E10860028553C /* SBJEV3ConnectionToken.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3ConnectionToken.cpp; sourceTree = "<group>"; };
-		55A7CBCC1A3E10860028553C /* SBJEV3ConnectionToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionToken.h; sourceTree = "<group>"; };
-		55A7CBCD1A3E10860028553C /* SBJEV3DeviceIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DeviceIdentifier.h; sourceTree = "<group>"; };
-		55A7CBCE1A3E10860028553C /* SBJEV3DirectCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectCommand.h; sourceTree = "<group>"; };
-		55A7CBCF1A3E10860028553C /* SBJEV3DirectInstructions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectInstructions.h; sourceTree = "<group>"; };
-		55A7CBD01A3E10860028553C /* SBJEV3InvocationReply.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3InvocationReply.h; sourceTree = "<group>"; };
-		55A7CBD11A3E10860028553C /* SBJEV3Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Enums.h; sourceTree = "<group>"; };
-		55A7CBD21A3E10860028553C /* SBJEV3Invocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Invocation.h; sourceTree = "<group>"; };
-		55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3InvocationStack.cpp; sourceTree = "<group>"; };
-		55A7CBD41A3E10860028553C /* SBJEV3InvocationStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3InvocationStack.h; sourceTree = "<group>"; };
-		55A7CBD51A3E10860028553C /* SBJEV3DirectOpcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectOpcodes.h; sourceTree = "<group>"; };
-		55A7CBD61A3E10860028553C /* SBJEV3Results.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Results.h; sourceTree = "<group>"; };
 		55A7CBDD1A3E11350028553C /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
-		55ADBE001A5D6E9F00A608DC /* SBJEV3SystemOpcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemOpcodes.h; sourceTree = "<group>"; };
-		55ADBE041A5D720B00A608DC /* SBJEV3SystemCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemCommand.h; sourceTree = "<group>"; };
 		55B04B981A607F41006265AB /* DirectoryListingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryListingViewController.h; sourceTree = "<group>"; };
 		55B04B991A607F41006265AB /* DirectoryListingViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DirectoryListingViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,83 +136,100 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		552D221A1A407DBC00F188A2 /* Connection Management */ = {
+		550E28C31A715EC500A38E94 /* Commands */ = {
 			isa = PBXGroup;
 			children = (
-				55A7CBCD1A3E10860028553C /* SBJEV3DeviceIdentifier.h */,
-				55A7CBC71A3E10860028553C /* SBJEV3ConnectionFactory.h */,
-				55A7CBC81A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm */,
-				55A7CBCC1A3E10860028553C /* SBJEV3ConnectionToken.h */,
-				55A7CBCB1A3E10860028553C /* SBJEV3ConnectionToken.cpp */,
-				55A7CBC61A3E10860028553C /* SBJEV3Connection.h */,
-				55A7CBC91A3E10860028553C /* SBJEV3BluetoothConnectionIOS.h */,
-				55A7CBCA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm */,
+				550E291E1A7162A100A38E94 /* SBJEV3ByteCodes.h */,
+				550E28C91A715EC500A38E94 /* SBJEV3Results.h */,
+				550E28C41A715EC500A38E94 /* SBJEV3Invocation.h */,
+				550E28C51A715EC500A38E94 /* SBJEV3InvocationReply.h */,
+				550E28C71A715EC500A38E94 /* SBJEV3InvocationStack.h */,
+				550E28C61A715EC500A38E94 /* SBJEV3InvocationStack.cpp */,
+				550E28C81A715EC500A38E94 /* SBJEV3Messenger.h */,
 			);
-			name = "Connection Management";
+			path = Commands;
 			sourceTree = "<group>";
 		};
-		5574F0211A6CC7A1007FE0FA /* Util */ = {
+		550E28CA1A715EC500A38E94 /* Connections */ = {
 			isa = PBXGroup;
 			children = (
-				5574F0221A6D52A7007FE0FA /* SBJEV3DeleteMethods.h */,
-				5574F01F1A6CC248007FE0FA /* SBJEV3TupleIter.h */,
-				5574F0201A6CC248007FE0FA /* SBJEV3VariableSizedEntity.h */,
-				55781F751A62E20C00BD0ABB /* SBJEV3Hex.h */,
-				55781F7E1A66C9BB00BD0ABB /* SBJEV3Chunk.h */,
-				5596B75F1A56D7070079C403 /* SBJEV3Log.h */,
-				5596B75E1A56D7070079C403 /* SBJEV3Log.cpp */,
+				550E29061A715F6100A38E94 /* SBJEV3DeviceIdentifier.h */,
+				550E28CD1A715EC500A38E94 /* SBJEV3Connection.h */,
+				550E28CE1A715EC500A38E94 /* SBJEV3ConnectionFactory.h */,
+				550E28D41A715EC500A38E94 /* SBJEV3ConnectionToken.h */,
+				550E28D31A715EC500A38E94 /* SBJEV3ConnectionToken.cpp */,
+				550E290C1A71610C00A38E94 /* ObjC */,
 			);
-			name = Util;
+			path = Connections;
 			sourceTree = "<group>";
 		};
-		55781F671A61719A00BD0ABB /* Direct Commands */ = {
+		550E28DA1A715EC500A38E94 /* DirectCommands */ = {
 			isa = PBXGroup;
 			children = (
-				55781F661A61719200BD0ABB /* SBJEV3DirectResults.h */,
-				5574F01E1A6CC248007FE0FA /* SBJEV3DirectOpcode.h */,
-				55A7CBD51A3E10860028553C /* SBJEV3DirectOpcodes.h */,
-				55A7CBCF1A3E10860028553C /* SBJEV3DirectInstructions.h */,
-				55A7CBCE1A3E10860028553C /* SBJEV3DirectCommand.h */,
+				550E28E11A715EC500A38E94 /* SBJEV3Enums.h */,
+				550E28DE1A715EC500A38E94 /* SBJEV3DirectOpcode.h */,
+				550E28DF1A715EC500A38E94 /* SBJEV3DirectOpcodes.h */,
+				550E28E01A715EC500A38E94 /* SBJEV3DirectResults.h */,
+				550E28DD1A715EC500A38E94 /* SBJEV3DirectInstructions.h */,
+				550E28DC1A715EC500A38E94 /* SBJEV3DirectCommand.h */,
 			);
-			name = "Direct Commands";
+			path = DirectCommands;
 			sourceTree = "<group>";
 		};
-		55781F681A6171BF00BD0ABB /* System Commands */ = {
+		550E28E21A715EC500A38E94 /* FileSystem */ = {
 			isa = PBXGroup;
 			children = (
-				55781F691A61720400BD0ABB /* SBJEV3SystemResults.h */,
-				55ADBE001A5D6E9F00A608DC /* SBJEV3SystemOpcodes.h */,
-				552D22F71A41083000F188A2 /* SBJEV3SystemInstruction.h */,
-				55ADBE041A5D720B00A608DC /* SBJEV3SystemCommand.h */,
+				550E28E41A715EC500A38E94 /* SBJEV3DirectoryEntry.h */,
+				550E28E31A715EC500A38E94 /* SBJEV3DirectoryEntry.cpp */,
+				550E28E51A715EC500A38E94 /* SBJEV3DirectoryListing.h */,
+				550E28E71A715EC500A38E94 /* SBJEV3FileUploader.h */,
+				550E28E61A715EC500A38E94 /* SBJEV3FileUploader.cpp */,
 			);
-			name = "System Commands";
+			path = FileSystem;
 			sourceTree = "<group>";
 		};
-		55781F6A1A61726400BD0ABB /* Commands */ = {
+		550E28E81A715EC500A38E94 /* General */ = {
 			isa = PBXGroup;
 			children = (
-				55A7CBD11A3E10860028553C /* SBJEV3Enums.h */,
-				55A7CBC51A3E10860028553C /* SBJEV3ByteCodes.h */,
-				55A7CBD61A3E10860028553C /* SBJEV3Results.h */,
-				55A7CBD21A3E10860028553C /* SBJEV3Invocation.h */,
-				55A7CBD41A3E10860028553C /* SBJEV3InvocationStack.h */,
-				55A7CBD31A3E10860028553C /* SBJEV3InvocationStack.cpp */,
-				55A7CBD01A3E10860028553C /* SBJEV3InvocationReply.h */,
-				550E28A31A6D6B8D00A38E94 /* SBJEV3Messenger.h */,
+				550E28E91A715EC500A38E94 /* SBJEV3Chunk.h */,
+				550E28EA1A715EC600A38E94 /* SBJEV3DeleteMethods.h */,
+				550E28EB1A715EC600A38E94 /* SBJEV3FlagOperatorOverloads.h */,
+				550E28EC1A715EC600A38E94 /* SBJEV3Hex.h */,
+				550E28EE1A715EC600A38E94 /* SBJEV3Log.h */,
+				550E28ED1A715EC600A38E94 /* SBJEV3Log.cpp */,
+				550E28EF1A715EC600A38E94 /* SBJEV3TupleIter.h */,
+				550E28F01A715EC600A38E94 /* SBJEV3VariableSizedEntity.h */,
 			);
-			name = Commands;
+			path = General;
 			sourceTree = "<group>";
 		};
-		55781F831A67311A00BD0ABB /* File System */ = {
+		550E28F41A715EC600A38E94 /* SystemCommands */ = {
 			isa = PBXGroup;
 			children = (
-				55781F791A6403E500BD0ABB /* SBJEV3DirectoryEntry.h */,
-				55781F781A6403E500BD0ABB /* SBJEV3DirectoryEntry.cpp */,
-				55781F6C1A6175BE00BD0ABB /* SBJEV3DirectoryListing.h */,
-				55781F811A672D8D00BD0ABB /* SBJEV3FileUploader.h */,
-				55781F861A67F5E900BD0ABB /* SBJEV3FileUploader.cpp */,
+				550E28F81A715EC600A38E94 /* SBJEV3SystemResults.h */,
+				550E28F71A715EC600A38E94 /* SBJEV3SystemOpcodes.h */,
+				550E28F61A715EC600A38E94 /* SBJEV3SystemInstruction.h */,
+				550E28F51A715EC600A38E94 /* SBJEV3SystemCommand.h */,
 			);
-			name = "File System";
+			path = SystemCommands;
+			sourceTree = "<group>";
+		};
+		550E290C1A71610C00A38E94 /* ObjC */ = {
+			isa = PBXGroup;
+			children = (
+				550E290D1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.h */,
+				550E290E1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm */,
+				550E290F1A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm */,
+				550E29101A71610C00A38E94 /* SBJEV3ConnectionImplObjC.h */,
+				550E29111A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm */,
+				550E29121A71610C00A38E94 /* SBJEV3ConnectionObjC.h */,
+				550E29131A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm */,
+				550E29141A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.h */,
+				550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */,
+				550E29161A71610C00A38E94 /* UDPEchoIOS.h */,
+				550E29171A71610C00A38E94 /* UDPEchoIOS.mm */,
+			);
+			path = ObjC;
 			sourceTree = "<group>";
 		};
 		55A7CB6B1A3E07130028553C = {
@@ -277,12 +307,12 @@
 			children = (
 				55A7CBC41A3E10860028553C /* SBJEV3Brick.h */,
 				55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */,
-				5574F0211A6CC7A1007FE0FA /* Util */,
-				552D221A1A407DBC00F188A2 /* Connection Management */,
-				55781F6A1A61726400BD0ABB /* Commands */,
-				55781F671A61719A00BD0ABB /* Direct Commands */,
-				55781F681A6171BF00BD0ABB /* System Commands */,
-				55781F831A67311A00BD0ABB /* File System */,
+				550E28CA1A715EC500A38E94 /* Connections */,
+				550E28C31A715EC500A38E94 /* Commands */,
+				550E28DA1A715EC500A38E94 /* DirectCommands */,
+				550E28F41A715EC600A38E94 /* SystemCommands */,
+				550E28E21A715EC500A38E94 /* FileSystem */,
+				550E28E81A715EC500A38E94 /* General */,
 			);
 			name = SBJEV3;
 			path = ../SBJEV3;
@@ -388,21 +418,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55781F7A1A6403E500BD0ABB /* SBJEV3DirectoryEntry.cpp in Sources */,
 				55A7CB831A3E07130028553C /* RailSwitchViewController.mm in Sources */,
-				5596B7601A56D7070079C403 /* SBJEV3Log.cpp in Sources */,
+				550E29191A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm in Sources */,
 				55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */,
 				55A7CB801A3E07130028553C /* ConnectivityViewController.mm in Sources */,
 				55B04B9A1A607F41006265AB /* DirectoryListingViewController.mm in Sources */,
 				55A7CBBF1A3E08B60028553C /* RailSwitch.mm in Sources */,
-				55A7CBDB1A3E10860028553C /* SBJEV3ConnectionToken.cpp in Sources */,
+				550E291A1A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm in Sources */,
+				550E29031A715EC600A38E94 /* SBJEV3Log.cpp in Sources */,
+				550E291D1A71610C00A38E94 /* UDPEchoIOS.mm in Sources */,
 				55781F741A62DB2C00BD0ABB /* FileViewController.mm in Sources */,
-				55A7CBDC1A3E10860028553C /* SBJEV3InvocationStack.cpp in Sources */,
-				55781F871A67F5E900BD0ABB /* SBJEV3FileUploader.cpp in Sources */,
-				55A7CBD91A3E10860028553C /* SBJEV3ConnectionFactoryIOS.mm in Sources */,
+				550E29181A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm in Sources */,
+				550E29021A715EC600A38E94 /* SBJEV3FileUploader.cpp in Sources */,
 				55A7CBD81A3E10860028553C /* SBJEV3Brick.cpp in Sources */,
+				550E28FD1A715EC600A38E94 /* SBJEV3ConnectionToken.cpp in Sources */,
+				550E28F91A715EC600A38E94 /* SBJEV3InvocationStack.cpp in Sources */,
+				550E291C1A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm in Sources */,
+				550E29011A715EC600A38E94 /* SBJEV3DirectoryEntry.cpp in Sources */,
 				55A7CB7A1A3E07130028553C /* main.m in Sources */,
-				55A7CBDA1A3E10860028553C /* SBJEV3BluetoothConnectionIOS.mm in Sources */,
+				550E291B1A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
