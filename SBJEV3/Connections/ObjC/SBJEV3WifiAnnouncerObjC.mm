@@ -28,11 +28,13 @@
 	accessory.host = @"10.0.1.2";
 	accessory.port = 5555;
 	accessory.protocol = @"EV3";
-	if ([accessory connect: log])
+	
+	EV3WifiConnectionImpl* impl = [[EV3WifiConnectionImpl alloc] init: log withAccessory: accessory];
+	if ([accessory connect: impl] == false)
 	{
-		return [[EV3WifiConnectionImpl alloc] init: log withAccessory: accessory];
+		impl = nil;
 	}
-	return nil;
+	return impl;
 }
 
 - (void) prompt: (SBJ::EV3::PromptAccessoryErrored) errored

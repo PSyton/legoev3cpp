@@ -18,12 +18,9 @@ static const std::string LogDomian = "Connect";
 	std::condition_variable _isReady;
 }
 
-- (bool) connect: (SBJ::EV3::Log&) log
+- (bool) connect: (EV3WifiConnectionImpl*) impl
 {
-	log.write(LogDomian, "Wifi Open Lock");
-	
-	EV3WifiConnectionImpl* open = [[EV3WifiConnectionImpl alloc] init: log withAccessory: self];
-	[open start: ^(const uint8_t* data, size_t size)
+	[impl start: ^(const uint8_t* data, size_t size)
 // Response
 	{
 		char response[17];
@@ -45,20 +42,19 @@ static const std::string LogDomian = "Connect";
 	
 // Request
 	NSString* str = [NSString stringWithFormat: @"GET /target?sn=%@VMTP1.0\x0d\x0aProtocol:%@\x0d\x0a", _serial, _protocol];
-	[open write: (const uint8_t*)str.UTF8String len: str.length];
+	const char* data = str.UTF8String;
+	[impl write: (const uint8_t*)data len: str.length];
 	
 // Resolve
 	{
 		std::unique_lock<std::mutex> lock(_mutex);
 		_isReady.wait_for(lock, std::chrono::milliseconds(2000), ^{return _acceptance != nil;});
-		[open close];
-		if (_acceptance != nil)
+		if (_acceptance == nil)
 		{
-			log.write(LogDomian, "Wifi Unlocked ", _acceptance);
-			return true;
+			[impl close];
+			return false;
 		}
-		log.write(LogDomian, "Wifi failed to unlock ");
-		return false;
+		return true;
 	}
 }
 

@@ -54,6 +54,8 @@ static const std::string LogDomian = "Stream";
 {
 	[self closeStream: self.inputStream];
 	[self closeStream: self.outputStream];
+	_thread = nil;
+	_runLoop = nil;
 }
 
 - (void) closeStream: (NSStream*) stream
@@ -71,14 +73,21 @@ static const std::string LogDomian = "Stream";
 - (void) start: (Connection::Read) read
 {
 	_read = read;
-	_thread = [[NSThread alloc] initWithTarget: self selector: @selector(createSession) object: nil];
-	_thread.qualityOfService = NSQualityOfServiceUserInteractive;
-	[_thread start];
+	if (_thread == nil)
 	{
-		std::unique_lock<std::mutex> lock(_mutex);
-		_isReady.wait_for(lock, std::chrono::milliseconds(1000), ^{return _openStreams == 3;});
+		_thread = [[NSThread alloc] initWithTarget: self selector: @selector(createSession) object: nil];
+		_thread.qualityOfService = NSQualityOfServiceUserInteractive;
+		[_thread start];
+		{
+			std::unique_lock<std::mutex> lock(_mutex);
+			_isReady.wait_for(lock, std::chrono::milliseconds(1000), ^{return _openStreams == 3;});
+		}
+		_log->write(LogDomian, "Started");
 	}
-	_log->write(LogDomian, "Ready");
+	else
+	{
+		_log->write(LogDomian, "Rebound");
+	}
 }
 
 - (void) createSession

@@ -8,6 +8,8 @@
 
 #import "SBJEV3ConnectionImplObjC.h"
 
+@class EV3WifiConnectionImpl;
+
 @interface EV3WifiAccessory : NSObject
 
 @property (nonatomic) NSString* host;
@@ -17,7 +19,7 @@
 @property (nonatomic) NSString* name;
 @property (nonatomic) NSString* acceptance;
 
-- (bool) connect: (SBJ::EV3::Log&) log;
+- (bool) connect: (EV3WifiConnectionImpl*) impl;
 
 @end
 
