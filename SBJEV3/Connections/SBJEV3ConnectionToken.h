@@ -57,6 +57,8 @@ public:
 	
 	void prompt(PromptAccessoryErrored errored = PromptAccessoryErrored());
 	
+	void prompt(ConnectionTransport transport, PromptAccessoryErrored errored = PromptAccessoryErrored());
+	
 	void disconnect();
 	
 private:

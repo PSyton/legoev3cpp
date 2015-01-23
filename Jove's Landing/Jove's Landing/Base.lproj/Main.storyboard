@@ -16,6 +16,69 @@
                         <sections>
                             <tableViewSection headerTitle="Connectivity" id="Hx1-l6-Ffu">
                                 <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="95d-5f-OBC">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="95d-5f-OBC" id="W1r-Bq-ive">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WjC-dv-Lfh">
+                                                    <rect key="frame" x="15" y="12" width="51" height="19.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cRd-Ab-5uO">
+                                                    <rect key="frame" x="442" y="2" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="YLs-q2-wo5"/>
+                                                        <constraint firstAttribute="width" constant="40" id="xeb-rq-gQS"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button" image="WIFI">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="promptWifi:" destination="jrb-Wm-Z5x" eventType="touchUpInside" id="qWi-xY-hjI"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mYS-Im-KDU">
+                                                    <rect key="frame" x="492" y="2" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="bq3-eA-WF4"/>
+                                                        <constraint firstAttribute="height" constant="40" id="ktH-9G-vx5"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button" image="Bluetooth">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="promptBluetooth:" destination="jrb-Wm-Z5x" eventType="touchUpInside" id="Ltm-dx-97E"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1vx-gA-0zQ">
+                                                    <rect key="frame" x="542" y="2" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="O5X-xh-brt"/>
+                                                        <constraint firstAttribute="width" constant="40" id="pT9-uc-dJu"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button" image="USB">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="promptUSB:" destination="jrb-Wm-Z5x" eventType="touchUpInside" id="pXu-Oq-21B"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="1vx-gA-0zQ" firstAttribute="leading" secondItem="mYS-Im-KDU" secondAttribute="trailing" constant="10" id="3pw-bU-zvN"/>
+                                                <constraint firstAttribute="centerY" secondItem="cRd-Ab-5uO" secondAttribute="centerY" constant="-0.25" id="4Hg-xO-5tf"/>
+                                                <constraint firstAttribute="centerY" secondItem="mYS-Im-KDU" secondAttribute="centerY" constant="-0.25" id="Fuf-e9-jQN"/>
+                                                <constraint firstItem="1vx-gA-0zQ" firstAttribute="trailing" secondItem="W1r-Bq-ive" secondAttribute="trailingMargin" constant="-10" id="Uv9-uA-RAI"/>
+                                                <constraint firstItem="mYS-Im-KDU" firstAttribute="leading" secondItem="cRd-Ab-5uO" secondAttribute="trailing" constant="10" id="Y4A-hd-7LX"/>
+                                                <constraint firstItem="WjC-dv-Lfh" firstAttribute="leading" secondItem="W1r-Bq-ive" secondAttribute="leadingMargin" constant="7" id="bZd-0T-GGi"/>
+                                                <constraint firstAttribute="centerY" secondItem="WjC-dv-Lfh" secondAttribute="centerY" constant="0.25" id="f28-Dq-d8C"/>
+                                                <constraint firstAttribute="centerY" secondItem="1vx-gA-0zQ" secondAttribute="centerY" constant="-0.25" id="yfr-VM-7EP"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="ceo-nE-Van">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ceo-nE-Van" id="b1q-Iq-xve">
@@ -512,7 +575,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Bluetooth" width="93" height="135"/>
         <image name="RailTabItem" width="22" height="22"/>
+        <image name="USB" width="77" height="112"/>
+        <image name="WIFI" width="127" height="99"/>
         <image name="document.*" width="22" height="22"/>
         <image name="document.dir" width="22" height="22"/>
         <image name="document.rbf" width="22" height="22"/>

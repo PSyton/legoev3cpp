@@ -64,6 +64,14 @@ void Brick::prompt(PromptAccessoryErrored errored)
 	});
 }
 
+void Brick::prompt(ConnectionTransport transport, PromptAccessoryErrored errored)
+{
+	_token->prompt(transport, [this, errored](auto error)
+	{
+		if (errored) errored(*this, error);
+	});
+}
+
 void Brick::disconnect()
 {
 	_token->disconnect();

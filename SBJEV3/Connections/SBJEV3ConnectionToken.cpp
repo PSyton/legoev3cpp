@@ -34,6 +34,16 @@ void ConnectionToken::prompt(PromptAccessoryErrored errored)
 	}
 }
 
+void ConnectionToken::prompt(ConnectionTransport transport, PromptAccessoryErrored errored)
+{
+	_identifier.connection.makePriority(transport);
+	if (_connected == true)
+	{
+		disconnect();
+	}
+	prompt(errored);
+}
+
 void ConnectionToken::makeConnection(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection)
 {
 	if ((connection != nullptr) != (_connected == true))

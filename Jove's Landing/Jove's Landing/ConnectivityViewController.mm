@@ -66,6 +66,31 @@ using namespace SBJ::EV3;
 	}
 }
 
+- (IBAction)promptBluetooth:(id)sender
+{
+	_brick->prompt(ConnectionTransport::bluetooth, ^(Brick& brick, PromptAccessoryError error)
+	{
+		[self updateUI];
+	});
+}
+
+- (IBAction)promptWifi:(id)sender
+{
+	_brick->prompt(ConnectionTransport::wifi, ^(Brick& brick, PromptAccessoryError error)
+	{
+		[self updateUI];
+	});
+}
+
+- (IBAction)promptUSB:(id)sender
+{
+
+	_brick->prompt(ConnectionTransport::usb, ^(Brick& brick, PromptAccessoryError error)
+	{
+		[self updateUI];
+	});
+}
+
 - (void) renameBrick: (UITapGestureRecognizer*) recognizer
 {
 	if (_brick and _brick->isConnected())

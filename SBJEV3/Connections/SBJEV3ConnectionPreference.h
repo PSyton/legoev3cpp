@@ -29,8 +29,13 @@ public:
 #if (TARGET_IPHONE_SIMULATOR)
 	: _transport{ConnectionTransport::wifi, ConnectionTransport::bluetooth, ConnectionTransport::usb}
 #else
-	: _transport{ConnectionTransport::usb, ConnectionTransport::bluetooth, ConnectionTransport::wifi}
+	: _transport{ConnectionTransport::usb, ConnectionTransport::wifi, ConnectionTransport::bluetooth}
 #endif
+	{
+	}
+	
+	ConnectionPreference(ConnectionTransport transport)
+	: _transport{transport, ConnectionTransport::none, ConnectionTransport::none}
 	{
 	}
 	

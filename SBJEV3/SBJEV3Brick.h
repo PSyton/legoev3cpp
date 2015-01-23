@@ -79,6 +79,8 @@ public:
 	
 	void prompt(PromptAccessoryErrored errored);
 	
+	void prompt(ConnectionTransport transport, PromptAccessoryErrored errored);
+	
 	void disconnect();
 
 	const DeviceIdentifier& identifier() const

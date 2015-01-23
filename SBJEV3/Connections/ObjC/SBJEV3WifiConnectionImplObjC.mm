@@ -24,6 +24,7 @@ static const std::string LogDomian = "Connect";
 	
 	EV3WifiConnectionImpl* open = [[EV3WifiConnectionImpl alloc] init: log withAccessory: self];
 	[open start: ^(const uint8_t* data, size_t size)
+// Response
 	{
 		char response[17];
 		response[16] = 0;
@@ -32,7 +33,8 @@ static const std::string LogDomian = "Connect";
 		if (memcmp(response, "Accept:", 7) == 0)
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
-			_acceptance = [NSString stringWithUTF8String: response + 7];
+			_acceptance = [[NSString stringWithUTF8String: response + 7] stringByTrimmingCharactersInSet:
+                              [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 			accepted = true;
 		}
 		if (accepted)
@@ -41,12 +43,14 @@ static const std::string LogDomian = "Connect";
 		}
 	}];
 	
+// Request
 	NSString* str = [NSString stringWithFormat: @"GET /target?sn=%@VMTP1.0\x0d\x0aProtocol:%@\x0d\x0a", _serial, _protocol];
 	[open write: (const uint8_t*)str.UTF8String len: str.length];
 	
+// Resolve
 	{
 		std::unique_lock<std::mutex> lock(_mutex);
-		_isReady.wait_for(lock, std::chrono::milliseconds(3000), ^{return _acceptance != nil;});
+		_isReady.wait_for(lock, std::chrono::milliseconds(2000), ^{return _acceptance != nil;});
 		[open close];
 		if (_acceptance != nil)
 		{
