@@ -20,7 +20,7 @@ FileUploader::FileUploader(Brick& brick, std::string file)
 void FileUploader::perform(Upload uploadTask)
 {
 	// TODO why timeouts on large numbers and some files?
-	BeginUpload<128> begin;
+	BeginUpload<1024> begin;
 	begin.resource = _path;
 	auto file = _brick.systemCommand(60, begin);
 	

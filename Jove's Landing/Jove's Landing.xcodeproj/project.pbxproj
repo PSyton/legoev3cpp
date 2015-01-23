@@ -33,6 +33,7 @@
 		55B04B9A1A607F41006265AB /* DirectoryListingViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55B04B991A607F41006265AB /* DirectoryListingViewController.mm */; };
 		55C770521A71C648006F6FE4 /* SBJEV3BluetoothAnounceriOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55C770511A71C648006F6FE4 /* SBJEV3BluetoothAnounceriOS.mm */; };
 		55C770551A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55C770541A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.mm */; };
+		55DC41271A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55DC41261A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,8 @@
 		55C770531A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3WifiAnnouncerObjC.h; sourceTree = "<group>"; };
 		55C770541A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3WifiAnnouncerObjC.mm; sourceTree = "<group>"; };
 		55C770561A7208FB006F6FE4 /* SBJEV3ConnectionPreference.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionPreference.h; sourceTree = "<group>"; };
+		55DC41251A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3WifiAccessoriesViewControllerIOS.h; sourceTree = "<group>"; };
+		55DC41261A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3WifiAccessoriesViewControllerIOS.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +241,8 @@
 				550E290E1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm */,
 				550E29141A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.h */,
 				550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */,
+				55DC41251A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.h */,
+				55DC41261A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm */,
 				550E29161A71610C00A38E94 /* UDPEchoIOS.h */,
 				550E29171A71610C00A38E94 /* UDPEchoIOS.mm */,
 			);
@@ -434,6 +439,7 @@
 				550E29191A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm in Sources */,
 				55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */,
 				55A7CB801A3E07130028553C /* ConnectivityViewController.mm in Sources */,
+				55DC41271A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm in Sources */,
 				55B04B9A1A607F41006265AB /* DirectoryListingViewController.mm in Sources */,
 				55A7CBBF1A3E08B60028553C /* RailSwitch.mm in Sources */,
 				550E291A1A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm in Sources */,

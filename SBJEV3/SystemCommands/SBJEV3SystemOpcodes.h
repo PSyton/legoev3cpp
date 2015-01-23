@@ -78,7 +78,7 @@ template <UBYTE CmdCode, UWORD ChunkSize, typename ResultType>
 struct ContinueOpcode
 {
 	const UBYTE code = CmdCode;
-	UWORD handle = 0;
+	UBYTE handle = 0;
 	const UWORD readSize = ChunkSize;
 	
 	using Result = ResultType;

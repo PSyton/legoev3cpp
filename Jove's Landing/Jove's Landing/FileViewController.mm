@@ -91,7 +91,7 @@ using namespace SBJ::EV3;
 		{
 			file.append(data, size);
 		});
-		_brick->log().hexDump(_file.name(), file, file.size());
+		//_brick->log().hexDump(_file.name(), file, file.size());
 	}
 }
 
