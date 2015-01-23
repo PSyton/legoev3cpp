@@ -11,7 +11,7 @@
 
 using namespace SBJ::EV3;
 
-ConnectionObjC::ConnectionObjC(EV3ConnectionImplObjC* impl)
+ConnectionObjC::ConnectionObjC(EV3ConnectionImpl* impl)
 : _impl(impl)
 {
 }
@@ -22,9 +22,9 @@ ConnectionObjC::~ConnectionObjC()
 	_impl = nil;
 }
 
-Connection::Type ConnectionObjC::type() const
+ConnectionTransport ConnectionObjC::transport() const
 {
-	return _impl.type;
+	return _impl.transport;
 }
 
 void ConnectionObjC::start(Read read)

@@ -27,7 +27,7 @@ struct is_objc_class<T, std::enable_if_t<std::is_convertible<T, id>::value, bool
 template <class T, class = std::enable_if_t<is_objc_class<T>::value>>
 std::ostream& operator << (std::ostream& stream, T const & t)
 {
-    stream << [[t description] UTF8String];
+	if (t) stream << [[t description] UTF8String];
     return stream;
 }
 

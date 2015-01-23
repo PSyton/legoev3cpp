@@ -9,13 +9,19 @@
 #import "SBJEV3ConnectionImplObjC.h"
 
 @interface EV3WifiAccessory : NSObject
+
 @property (nonatomic) NSString* host;
+@property (nonatomic) unsigned int port;
+@property (nonatomic) NSString* protocol;
 @property (nonatomic) NSString* serial;
 @property (nonatomic) NSString* name;
-@property (nonatomic) unsigned int port;
+@property (nonatomic) NSString* acceptance;
+
+- (bool) connect: (SBJ::EV3::Log&) log;
+
 @end
 
-@interface EV3WifiConnectionImplIOS : EV3ConnectionImplObjC
+@interface EV3WifiConnectionImpl : EV3ConnectionImpl
 
 - (id) init: (SBJ::EV3::Log&) log withAccessory: (EV3WifiAccessory*) accessory;
 

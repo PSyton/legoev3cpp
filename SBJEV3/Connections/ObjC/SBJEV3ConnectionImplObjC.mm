@@ -1,5 +1,5 @@
 //
-//  EV3ConnectionImplObjC.m
+//  EV3ConnectionImplObjC.mm
 //  Jove's Landing
 //
 //  Created by David Giovannini on 1/21/15.
@@ -13,7 +13,7 @@
 
 using namespace SBJ::EV3;
 
-static const std::string LogDomian = "Connection";
+static const std::string LogDomian = "Stream";
 
 @interface SendPackage : NSObject
 @property (nonatomic) NSData* data;
@@ -23,7 +23,7 @@ static const std::string LogDomian = "Connection";
 @implementation SendPackage
 @end
 
-@interface EV3ConnectionImplObjC()<NSStreamDelegate>
+@interface EV3ConnectionImpl()<NSStreamDelegate>
 {
 	std::mutex _mutex;
 	std::condition_variable _isReady;
@@ -36,7 +36,7 @@ static const std::string LogDomian = "Connection";
 
 @end
 
-@implementation EV3ConnectionImplObjC
+@implementation EV3ConnectionImpl
 
 - (id) init: (Log&) log
 {
@@ -63,9 +63,9 @@ static const std::string LogDomian = "Connection";
 	stream.delegate = nil;
 }
 
-- (Connection::Type) type
+- (ConnectionTransport) transport
 {
-	return Connection::Type::simulator;
+	return ConnectionTransport::none;
 }
 
 - (void) start: (Connection::Read) read

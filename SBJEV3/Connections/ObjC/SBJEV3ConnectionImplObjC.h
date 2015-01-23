@@ -1,5 +1,5 @@
 //
-//  EV3ConnectionImplObjC.h
+//  SBJEV3ConnectionImplObjC.h
 //  Jove's Landing
 //
 //  Created by David Giovannini on 1/21/15.
@@ -10,10 +10,10 @@
 #import "SBJEV3Connection.h"
 #include "SBJEV3Log.h"
 
-@interface EV3ConnectionImplObjC : NSObject
+@interface EV3ConnectionImpl : NSObject
 
 - (id) init: (SBJ::EV3::Log&) log;
-- (SBJ::EV3::Connection::Type) type;
+- (SBJ::EV3::ConnectionTransport) transport;
 - (void) start: (SBJ::EV3::Connection::Read) read;
 - (bool) write: (const uint8_t*) buffer len: (size_t) len;
 - (void) close;

@@ -12,7 +12,7 @@
 
 extern "C" NSString* const LEGOAccessoryProtocol;
 
-@interface EV3BluetoothConnectionImplIOS : EV3ConnectionImplObjC
+@interface EV3BluetoothConnectionImpl : EV3ConnectionImpl
 
 - (id) init: (SBJ::EV3::Log&) log withAccessory: (EAAccessory*) accessory;
 

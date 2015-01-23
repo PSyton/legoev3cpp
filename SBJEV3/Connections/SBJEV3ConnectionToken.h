@@ -19,10 +19,10 @@ namespace SBJ
 namespace EV3
 {
 
-enum class PromptBluetoothError
+enum class PromptAccessoryError
 {
 	canceled,
-	noBluetooth,
+	noConnectivity,
 	failureToConnect
 };
 
@@ -30,7 +30,7 @@ class ConnectionFactory;
 class Connection;
 
 using ConnectionChanged = std::function<void(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection)>;
-using PromptBluetoothErrored = std::function<void(PromptBluetoothError error)>;
+using PromptAccessoryErrored = std::function<void(PromptAccessoryError error)>;
 
 /*
  * ConnectionToken is an RAII connection change registration token
@@ -55,7 +55,7 @@ public:
 	
 	void makeConnection(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection);
 	
-	void promptBluetooth(PromptBluetoothErrored errored = PromptBluetoothErrored());
+	void prompt(PromptAccessoryErrored errored = PromptAccessoryErrored());
 	
 	void disconnect();
 	

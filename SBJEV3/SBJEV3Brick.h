@@ -9,7 +9,7 @@
 #pragma once
 
 #include "SBJEV3Messenger.h"
-#include "SBJEV3Connection.h"
+#include "SBJEV3ConnectionPreference.h"
 #include "SBJEV3DeviceIdentifier.h"
 #include "SBJEV3DeleteMethods.h"
 
@@ -22,7 +22,7 @@ namespace EV3
 
 class ConnectionFactory;
 class ConnectionToken;
-enum class PromptBluetoothError : int;
+enum class PromptAccessoryError : int;
 	
 /*
  * The brick is the high-level object that represents an EV3.
@@ -67,7 +67,7 @@ public:
 	};
 
 	using ConnectionChanged = std::function<void(Brick& brick)>;
-	using PromptBluetoothErrored =  std::function<void(Brick& brick, PromptBluetoothError error)>;
+	using PromptAccessoryErrored =  std::function<void(Brick& brick, PromptAccessoryError error)>;
 
 	Brick(ConnectionFactory& factory, const DeviceIdentifier& identifier = DeviceIdentifier());
 	
@@ -77,7 +77,7 @@ public:
 	
 	bool isConnected() const;
 	
-	void promptForBluetooth(PromptBluetoothErrored errored);
+	void prompt(PromptAccessoryErrored errored);
 	
 	void disconnect();
 
@@ -86,9 +86,9 @@ public:
 		return _identifier;
 	}
 	
-	Connection::Type connectionType() const
+	ConnectionTransport connectionType() const
 	{
-		return _connectionType;
+		return _connectionTransport;
 	}
 	
 	const std::string& name() const
@@ -123,7 +123,7 @@ private:
 	DeviceIdentifier _identifier;
 	std::string _name;
 	Version _version;
-	Connection::Type _connectionType = Connection::Type::none;
+	ConnectionTransport _connectionTransport = ConnectionTransport::none;
 	std::unique_ptr<ConnectionToken> _token;
 	
 	void handleConnectionChange(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection);

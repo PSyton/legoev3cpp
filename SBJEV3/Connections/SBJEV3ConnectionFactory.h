@@ -8,8 +8,10 @@
 
 #pragma once
 
-#include <set>
 #include "SBJEV3ConnectionToken.h"
+#include "SBJEV3ConnectionPreference.h"
+
+#include <set>
 
 namespace SBJ
 {
@@ -39,7 +41,7 @@ public:
 		return _log;
 	}
 	
-	void promptBluetooth(DeviceIdentifier identifier = DeviceIdentifier(), PromptBluetoothErrored errored = PromptBluetoothErrored());
+	void prompt(ConnectionPreference method, PromptAccessoryErrored errored = PromptAccessoryErrored());
 		
 	void registerNotification(ConnectionToken* token);
 	

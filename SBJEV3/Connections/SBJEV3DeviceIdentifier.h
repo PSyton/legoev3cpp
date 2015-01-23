@@ -8,10 +8,9 @@
 
 #pragma once
 
-#include "SBJEV3FlagOperatorOverloads.h"
+#include "SBJEV3ConnectionPreference.h"
 
 #include <string>
-#include <functional>
 
 namespace SBJ
 {
@@ -25,16 +24,6 @@ namespace EV3
 
 struct DeviceIdentifier
 {
-	enum class ConnectMethod : int
-	{
-		only = 0x10,
-		usbOnly = 0x11,
-		usbFirst = 0x01,
-		bluetoothOnly = 0x12,
-		bluetoothFirst = 0x02,
-		wifiOnly = 0x14,
-		wifiFirst = 0x04,
-	};
 	
 	enum class SearchMethod
 	{
@@ -47,15 +36,9 @@ struct DeviceIdentifier
 	
 	std::string name;
 	std::string serial;
-#if (TARGET_IPHONE_SIMULATOR)
-	ConnectMethod connect = ConnectMethod::wifiFirst;
-#else
-	ConnectMethod connect = ConnectMethod::bluetoothOnly;
-#endif
+	ConnectionPreference connection;
 	SearchMethod search = SearchMethod::anyDevice;
 };
-
-FlagOperatorOverloads(DeviceIdentifier::ConnectMethod);
 
 }
 }

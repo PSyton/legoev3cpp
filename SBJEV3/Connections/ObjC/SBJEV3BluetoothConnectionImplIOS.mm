@@ -14,7 +14,7 @@ NSString* const LEGOAccessoryProtocol = @"COM.LEGO.MINDSTORMS.EV3";
 
 using namespace SBJ::EV3;
 
-@implementation EV3BluetoothConnectionImplIOS
+@implementation EV3BluetoothConnectionImpl
 {
 	EAAccessory* _accessory;
 	EASession* _session;
@@ -27,9 +27,9 @@ using namespace SBJ::EV3;
 	return self;
 }
 
-- (Connection::Type) type
+- (SBJ::EV3::ConnectionTransport) transport
 {
-	return Connection::Type::bluetooth;
+	return ConnectionTransport::bluetooth;
 }
 
 - (void) close

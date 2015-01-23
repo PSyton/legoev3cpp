@@ -55,7 +55,7 @@ using namespace SBJ::EV3;
 {
 	if (_connected.isOn)
 	{
-		_brick->promptForBluetooth(^(Brick& brick, PromptBluetoothError error)
+		_brick->prompt(^(Brick& brick, PromptAccessoryError error)
 		{
 			[self updateUI];
 		});
@@ -98,19 +98,16 @@ using namespace SBJ::EV3;
 		_serial.detailTextLabel.text = [NSString stringWithUTF8String: _brick->identifier().serial.c_str()];
 		switch (_brick->connectionType())
 		{
-			case Connection::Type::usb:
+			case ConnectionTransport::usb:
 				_connectType.image = [UIImage imageNamed: @"USB"];
 				break;
-			case Connection::Type::bluetooth:
+			case ConnectionTransport::bluetooth:
 				_connectType.image = [UIImage imageNamed: @"Bluetooth"];
 				break;
-			case Connection::Type::wifi:
+			case ConnectionTransport::wifi:
 				_connectType.image = [UIImage imageNamed: @"WIFI"];
 				break;
-			case Connection::Type::simulator:
-				_connectType.image = [UIImage imageNamed: @"Simulator"];
-				break;
-			case Connection::Type::none:
+			case ConnectionTransport::none:
 				_connectType.image = [UIImage imageNamed: @"None"];
 				break;
 		}

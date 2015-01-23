@@ -61,7 +61,7 @@ Log mylog(std::cout);
 
 - (void) reactivate
 {
-	_brick->promptForBluetooth(^(Brick& brick, PromptBluetoothError error)
+	_brick->prompt(^(Brick& brick, PromptAccessoryError error)
 	{
 		[self updateUI];
 	});

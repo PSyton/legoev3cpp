@@ -8,6 +8,7 @@
 
 #include "SBJEV3Brick.h"
 #include "SBJEV3ConnectionFactory.h"
+#include "SBJEV3Connection.h"
 
 using namespace SBJ::EV3;
 
@@ -55,9 +56,9 @@ bool Brick::isConnected() const
 	return _token->isConnected();
 }
 
-void Brick::promptForBluetooth(PromptBluetoothErrored errored)
+void Brick::prompt(PromptAccessoryErrored errored)
 {
-	_token->promptBluetooth([this, errored](auto error)
+	_token->prompt([this, errored](auto error)
 	{
 		if (errored) errored(*this, error);
 	});
@@ -71,9 +72,9 @@ void Brick::disconnect()
 void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection)
 {
 	_identifier = updatedIdentifier;
-	_connectionType = connection ? connection->type() : Connection::Type::none;
+	_connectionTransport = connection ? connection->transport() : ConnectionTransport::none;
 	_messenger.connectionChange(connection);
-	if (_connectionType != Connection::Type::none)
+	if (_connectionTransport != ConnectionTransport::none)
 	{
 		// TODO: why timeouts?
 		// - const length in opcodes could be -1

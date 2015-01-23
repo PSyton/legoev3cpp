@@ -11,7 +11,7 @@
 #import <ExternalAccessory/ExternalAccessory.h>
 #import "SBJEV3Connection.h"
 
-@class EV3ConnectionImplObjC;
+@class EV3ConnectionImpl;
 
 namespace SBJ
 {
@@ -19,24 +19,24 @@ namespace EV3
 {
 
 /*
- * This is the iOS specicific connection class
+ * This is the Obj-C specicific connection class. It uses an Obj-C impl.
  */
 
 class ConnectionObjC : public Connection
 {
 public:
-	ConnectionObjC(EV3ConnectionImplObjC* impl);
+	ConnectionObjC(EV3ConnectionImpl* impl);
 	
 	~ConnectionObjC() override;
 	
-	Type type() const override;
+	ConnectionTransport transport() const override;
 	
 	void start(Read read) override;
 	
 	bool write(const uint8_t* buffer, size_t len) override;
 	
 private:
-	EV3ConnectionImplObjC* _impl;
+	EV3ConnectionImpl* _impl;
 };
 	
 }
