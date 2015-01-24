@@ -24,9 +24,9 @@ ConnectionFactory::ConnectionFactory(Log& log)
 	{
 		handleChangeInAccessoryConnection();
 	}];
-	_wifi = [[EV3WifiAnnouncer alloc] initWithChange: ^(NSString* serialNumber, EV3WifiAccessory*)
+	_wifi = [[EV3WifiAnnouncer alloc] initWithChange: ^(WifiAccessory::Ptr&)
 	{
-		handleChangeInAccessoryConnection();
+		//handleChangeInAccessoryConnection();
 	}];
 }
 

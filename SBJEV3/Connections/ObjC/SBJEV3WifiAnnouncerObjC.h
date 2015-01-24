@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 
 #include "SBJEV3Log.h"
+#include "SBJEV3WifiAccessory.h"
 #include "SBJEV3ConnectionToken.h"
 
-@class EV3WifiAccessory;
 @class EV3ConnectionImpl;
 
-typedef void(^SBJEV3WifiAnnouncerChange)(NSString* serialNumber, EV3WifiAccessory*);
+typedef void(^SBJEV3WifiAnnouncerChange)(SBJ::EV3::WifiAccessory::Ptr&);
 
 @interface EV3WifiAnnouncer : NSObject
 

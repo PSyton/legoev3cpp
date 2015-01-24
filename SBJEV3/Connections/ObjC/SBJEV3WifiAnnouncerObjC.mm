@@ -9,6 +9,8 @@
 #import "SBJEV3WifiAnnouncerObjC.h"
 #import "SBJEV3WifiConnectionImplObjC.h"
 
+using namespace SBJ::EV3;
+
 @implementation EV3WifiAnnouncer
 {
 	SBJEV3WifiAnnouncerChange _change;
@@ -23,14 +25,13 @@
 
 - (EV3ConnectionImpl*) findConnection: (SBJ::EV3::Log&)log identifier: (SBJ::EV3::DeviceIdentifier&) identifier
 {
-	EV3WifiAccessory* accessory = [[EV3WifiAccessory alloc] init];
-	accessory.serial = @"0016533d3414";
-	accessory.host = @"10.0.1.2";
-	accessory.port = 5555;
-	accessory.protocol = @"EV3";
+	std::string udpPacket = "Serial-Number: 0016533d3414\x0d\x0aPort: 5555\x0d\x0aName: EV3\x0d\x0aProtocol: EV3\x0d\x0a";
+	WifiAccessory::Ptr accessory(new WifiAccessory(
+		"10.0.1.2",
+		(const uint8_t*)udpPacket.c_str(), udpPacket.size()));
 	
 	EV3WifiConnectionImpl* impl = [[EV3WifiConnectionImpl alloc] init: log withAccessory: accessory];
-	if ([accessory connect: impl] == false)
+	if ([impl lockConnection] == false)
 	{
 		impl = nil;
 	}
@@ -39,13 +40,12 @@
 
 - (void) prompt: (SBJ::EV3::PromptAccessoryErrored) errored
 {
-	EV3WifiAccessory* accessory = [[EV3WifiAccessory alloc] init];
-	accessory.serial = @"0016533d3414";
-	accessory.host = @"10.0.1.2";
-	accessory.port = 5555;
-	accessory.protocol = @"EV3";
+	std::string udpPacket = "Serial-Number: 0016533d3414\x0d\x0aPort: 5555\x0d\x0aName: EV3\x0d\x0aProtocol: EV3\x0d\x0a";
+	WifiAccessory::Ptr accessory(new WifiAccessory(
+		"10.0.1.2",
+		(const uint8_t*)udpPacket.c_str(), udpPacket.size()));
 	
-	_change(accessory.serial, accessory);
+	_change(accessory);
 }
 
 @end
