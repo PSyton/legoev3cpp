@@ -20,13 +20,19 @@ static EV3WifiAnnouncer* _wifi = nil;
 ConnectionFactory::ConnectionFactory(Log& log)
 : _log(log)
 {
-	_bluetooth = [[EV3BluetoothAnouncer alloc] initWithChange: ^
+	_bluetooth = [[EV3BluetoothAnouncer alloc] init];
+	_wifi = [[EV3WifiAnnouncer alloc] init];
+}
+
+void ConnectionFactory::start()
+{
+	[_bluetooth start: ^
 	{
-		handleChangeInAccessoryConnection();
+		handleChangeInAccessoryConnection(ConnectionTransport::bluetooth);
 	}];
-	_wifi = [[EV3WifiAnnouncer alloc] initWithChange: ^(WifiAccessory::Ptr&)
+	[_wifi start: ^(const std::string&, WifiAccessory::Ptr)
 	{
-		//handleChangeInAccessoryConnection();
+		handleChangeInAccessoryConnection(ConnectionTransport::wifi);
 	}];
 }
 
@@ -60,7 +66,7 @@ void ConnectionFactory::registerNotification(ConnectionToken* token)
 {
 	_tokens.insert(token);
 	DeviceIdentifier identifier = token->identifier();
-	std::unique_ptr<Connection> testConnection(findConnection(identifier));
+	std::unique_ptr<Connection> testConnection(findConnection(ConnectionTransport::none, identifier));
 	token->makeConnection(identifier, testConnection);
 }
 
@@ -69,12 +75,12 @@ void ConnectionFactory::unregisterNotification(ConnectionToken* token)
 	_tokens.erase(token);
 }
 
-void ConnectionFactory::handleChangeInAccessoryConnection()
+void ConnectionFactory::handleChangeInAccessoryConnection(ConnectionTransport transport)
 {
 	for (auto item = _tokens.begin(); item != _tokens.end(); item++)
 	{
 		DeviceIdentifier identifier = (*item)->identifier();
-		__block std::unique_ptr<Connection> testConnection(findConnection(identifier));
+		__block std::unique_ptr<Connection> testConnection(findConnection(transport, identifier));
 		dispatch_async(dispatch_get_main_queue(), ^
 		{
 			(*item)->makeConnection(identifier, testConnection);
@@ -82,7 +88,7 @@ void ConnectionFactory::handleChangeInAccessoryConnection()
 	}
 }
 
-std::unique_ptr<Connection> ConnectionFactory::findConnection(DeviceIdentifier& identifier)
+std::unique_ptr<Connection> ConnectionFactory::findConnection(ConnectionTransport filter, DeviceIdentifier& identifier)
 {
 	EV3ConnectionImpl* impl = nil;
 	ConnectionPreference method = identifier.connection;
@@ -92,10 +98,16 @@ std::unique_ptr<Connection> ConnectionFactory::findConnection(DeviceIdentifier& 
 		switch (i)
 		{
 			case ConnectionTransport::bluetooth:
-				impl = [_bluetooth findConnection: _log identifier: identifier];
+				if (filter == ConnectionTransport::none or filter == ConnectionTransport::bluetooth)
+				{
+					impl = [_bluetooth findConnection: _log identifier: identifier];
+				}
 				break;
 			case ConnectionTransport::wifi:
-				impl = [_wifi findConnection: _log identifier: identifier];
+				if (filter == ConnectionTransport::none or filter == ConnectionTransport::wifi)
+				{
+					impl = [_wifi findConnection: _log identifier: identifier];
+				}
 				break;
 			case ConnectionTransport::usb:
 				break;

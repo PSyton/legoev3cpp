@@ -41,19 +41,21 @@ public:
 		return _log;
 	}
 	
+	void start();
+	
 	void prompt(ConnectionPreference method, PromptAccessoryErrored errored = PromptAccessoryErrored());
 		
 	void registerNotification(ConnectionToken* token);
 	
 	void unregisterNotification(ConnectionToken* token);
 	
-	void handleChangeInAccessoryConnection();
+	void handleChangeInAccessoryConnection(ConnectionTransport transport);
 	
 private:
 	std::set<ConnectionToken*> _tokens;
 	Log& _log;
 	
-	std::unique_ptr<Connection> findConnection(DeviceIdentifier& identifier);
+	std::unique_ptr<Connection> findConnection(ConnectionTransport filter, DeviceIdentifier& identifier);
 };
 
 }

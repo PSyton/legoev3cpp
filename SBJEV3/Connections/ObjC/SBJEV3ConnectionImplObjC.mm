@@ -80,7 +80,7 @@ static const std::string LogDomian = "Stream";
 		[_thread start];
 		{
 			std::unique_lock<std::mutex> lock(_mutex);
-			_isReady.wait_for(lock, std::chrono::milliseconds(1000), ^{return _openStreams == 3;});
+			_isReady.wait_for(lock, std::chrono::milliseconds(3000), ^{return _openStreams == 3;});
 		}
 		_log->write(LogDomian, "Started");
 	}
@@ -150,7 +150,7 @@ static const std::string LogDomian = "Stream";
 	package.sent = (bytesToWrite == 0);
 }
 
-#define ExtendedLogging 0
+#define ExtendedLogging 1
 
 - (void)stream:(NSStream*)theStream handleEvent:(NSStreamEvent)streamEvent
 {

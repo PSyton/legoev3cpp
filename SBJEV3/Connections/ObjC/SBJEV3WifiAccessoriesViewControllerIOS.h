@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#include "SBJEV3WifiAccessory.h"
 
 @interface EV3WifiAccessoriesViewController : UIViewController
 

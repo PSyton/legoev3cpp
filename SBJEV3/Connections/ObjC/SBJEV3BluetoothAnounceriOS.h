@@ -21,7 +21,7 @@ typedef void(^EV3BluetoothAnouncerChange)(void);
 
 @interface EV3BluetoothAnouncer : NSObject
 
-- (id) initWithChange: (EV3BluetoothAnouncerChange) change;
+- (void) start: (EV3BluetoothAnouncerChange) change;
 
 - (EV3ConnectionImpl*) findConnection: (SBJ::EV3::Log&)log identifier: (SBJ::EV3::DeviceIdentifier&) identifier;
 

@@ -14,11 +14,11 @@
 
 @class EV3ConnectionImpl;
 
-typedef void(^SBJEV3WifiAnnouncerChange)(SBJ::EV3::WifiAccessory::Ptr&);
+typedef void(^SBJEV3WifiAnnouncerChange)(const std::string&, SBJ::EV3::WifiAccessory::Ptr);
 
 @interface EV3WifiAnnouncer : NSObject
 
-- (id) initWithChange: (SBJEV3WifiAnnouncerChange) change;
+- (void) start: (SBJEV3WifiAnnouncerChange) change;
 
 - (EV3ConnectionImpl*) findConnection: (SBJ::EV3::Log&)log identifier: (SBJ::EV3::DeviceIdentifier&) identifier;
 

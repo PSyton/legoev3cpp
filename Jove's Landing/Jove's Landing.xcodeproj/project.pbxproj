@@ -17,7 +17,6 @@
 		550E291A1A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E29111A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm */; };
 		550E291B1A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E29131A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm */; };
 		550E291C1A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */; };
-		550E291D1A71610C00A38E94 /* UDPEchoIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E29171A71610C00A38E94 /* UDPEchoIOS.mm */; };
 		55781F741A62DB2C00BD0ABB /* FileViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55781F731A62DB2C00BD0ABB /* FileViewController.mm */; };
 		55A7CB7A1A3E07130028553C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB791A3E07130028553C /* main.m */; };
 		55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7C1A3E07130028553C /* AppDelegate.mm */; };
@@ -35,6 +34,8 @@
 		55C770551A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55C770541A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.mm */; };
 		55DC41271A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55DC41261A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm */; };
 		55DC412A1A7302F10017035E /* SBJEV3WifiAccessory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55DC41281A7302F10017035E /* SBJEV3WifiAccessory.cpp */; };
+		55DC41321A73E52B0017035E /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DC412F1A73E52B0017035E /* AsyncSocket.m */; };
+		55DC41331A73E52B0017035E /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DC41311A73E52B0017035E /* AsyncUdpSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,8 +92,6 @@
 		550E29131A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3EV3ConnectionObjC.mm; sourceTree = "<group>"; };
 		550E29141A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3WifiConnectionImplObjC.h; sourceTree = "<group>"; };
 		550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3WifiConnectionImplObjC.mm; sourceTree = "<group>"; };
-		550E29161A71610C00A38E94 /* UDPEchoIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPEchoIOS.h; sourceTree = "<group>"; };
-		550E29171A71610C00A38E94 /* UDPEchoIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UDPEchoIOS.mm; sourceTree = "<group>"; };
 		550E291E1A7162A100A38E94 /* SBJEV3ByteCodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3ByteCodes.h; sourceTree = "<group>"; };
 		55781F721A62DB2C00BD0ABB /* FileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileViewController.h; sourceTree = "<group>"; };
 		55781F731A62DB2C00BD0ABB /* FileViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FileViewController.mm; sourceTree = "<group>"; };
@@ -128,6 +127,10 @@
 		55DC41261A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3WifiAccessoriesViewControllerIOS.mm; sourceTree = "<group>"; };
 		55DC41281A7302F10017035E /* SBJEV3WifiAccessory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3WifiAccessory.cpp; sourceTree = "<group>"; };
 		55DC41291A7302F10017035E /* SBJEV3WifiAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3WifiAccessory.h; sourceTree = "<group>"; };
+		55DC412E1A73E52B0017035E /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncSocket.h; path = ../../../../CocoaAsyncSocket/RunLoop/AsyncSocket.h; sourceTree = "<group>"; };
+		55DC412F1A73E52B0017035E /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncSocket.m; path = ../../../../CocoaAsyncSocket/RunLoop/AsyncSocket.m; sourceTree = "<group>"; };
+		55DC41301A73E52B0017035E /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncUdpSocket.h; path = ../../../../CocoaAsyncSocket/RunLoop/AsyncUdpSocket.h; sourceTree = "<group>"; };
+		55DC41311A73E52B0017035E /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncUdpSocket.m; path = ../../../../CocoaAsyncSocket/RunLoop/AsyncUdpSocket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,8 +251,10 @@
 				550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */,
 				55DC41251A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.h */,
 				55DC41261A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm */,
-				550E29161A71610C00A38E94 /* UDPEchoIOS.h */,
-				550E29171A71610C00A38E94 /* UDPEchoIOS.mm */,
+				55DC412E1A73E52B0017035E /* AsyncSocket.h */,
+				55DC412F1A73E52B0017035E /* AsyncSocket.m */,
+				55DC41301A73E52B0017035E /* AsyncUdpSocket.h */,
+				55DC41311A73E52B0017035E /* AsyncUdpSocket.m */,
 			);
 			path = ObjC;
 			sourceTree = "<group>";
@@ -443,13 +448,14 @@
 				55A7CB831A3E07130028553C /* RailSwitchViewController.mm in Sources */,
 				550E29191A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm in Sources */,
 				55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */,
+				55DC41331A73E52B0017035E /* AsyncUdpSocket.m in Sources */,
 				55A7CB801A3E07130028553C /* ConnectivityViewController.mm in Sources */,
 				55DC41271A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm in Sources */,
+				55DC41321A73E52B0017035E /* AsyncSocket.m in Sources */,
 				55B04B9A1A607F41006265AB /* DirectoryListingViewController.mm in Sources */,
 				55A7CBBF1A3E08B60028553C /* RailSwitch.mm in Sources */,
 				550E291A1A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm in Sources */,
 				550E29031A715EC600A38E94 /* SBJEV3Log.cpp in Sources */,
-				550E291D1A71610C00A38E94 /* UDPEchoIOS.mm in Sources */,
 				55781F741A62DB2C00BD0ABB /* FileViewController.mm in Sources */,
 				550E29181A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm in Sources */,
 				550E29021A715EC600A38E94 /* SBJEV3FileUploader.cpp in Sources */,

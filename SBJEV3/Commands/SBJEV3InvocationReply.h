@@ -20,10 +20,6 @@ namespace SBJ
 namespace EV3
 {
 
-// TODO: use tupple for each. How do we pass N as a constexpr to the lambda?
-template <size_t s>
-using size_type = std::integral_constant<size_t, s>;
-	
 /*
  * InvocationReply receives a buffer response and extracts the requested results from the opcodes.
  * The reponse buffer is a snapshot of the global space for the mini-program.

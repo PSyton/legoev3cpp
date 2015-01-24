@@ -28,11 +28,10 @@ static const std::string LogDomian = "Connect";
 
 - (bool) lockConnection
 {
-	std::mutex _mutex;
 	[self start: ^(const uint8_t* data, size_t size)
 // Response
 	{
-		_accessory->tryUnlock(data, size);
+		_accessory->tryLock(data, size);
 	}];
 	
 // Request
@@ -41,14 +40,20 @@ static const std::string LogDomian = "Connect";
 	
 // Resolve
 	{
-		std::unique_lock<std::mutex> lock(_mutex);
-		if (_accessory->waitUnlocked() == false)
+		if (_accessory->waitForLock() == false)
 		{
 			[self close];
 			return false;
 		}
 		return true;
 	}
+}
+
+- (void) close
+{
+	[super close];
+	_accessory->unlock();
+	_accessory = nil;
 }
 
 - (ConnectionTransport) transport

@@ -17,15 +17,13 @@ using namespace SBJ::EV3;
 	EV3BluetoothAnouncerChange _change;
 }
 
-- (id) initWithChange: (EV3BluetoothAnouncerChange) change;
+- (void) start: (EV3BluetoothAnouncerChange) change
 {
-	self = [super init];
 	_change = [change copy];
 	EAAccessoryManager* mgr = [EAAccessoryManager sharedAccessoryManager];
 	[[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(accessoryDidConnect:) name: EAAccessoryDidConnectNotification object: nil];
 	[[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(accessoryDidDisconnect:) name: EAAccessoryDidDisconnectNotification object: nil];
 	[mgr registerForLocalNotifications];
-	return self;
 }
 
 - (void) dealloc

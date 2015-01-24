@@ -39,6 +39,8 @@ Log mylog(std::cout);
 	// Override point for customization after application launch.
 	
 	_factory.reset(new ConnectionFactory(mylog));
+	_factory->start();
+	
 	_brick.reset(new Brick(*_factory));
 	__weak decltype(self) weakSelf = self;
 	_brick->connectionEvent = ^(Brick& brick)

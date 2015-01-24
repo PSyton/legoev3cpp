@@ -10,6 +10,8 @@
 	<string>Jove's Landing</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>1C75F1C5CFCB95B3702F6F632FA05ED5244B519E</key>
+		<string>https://github.com/robbiehanson/CocoaAsyncSocket.git</string>
 		<key>DE25939B9E7EA8A8637EB86AA1905477A9313414</key>
 		<string>https://github.com/dsjove/legoev3cpp.git</string>
 	</dict>
@@ -17,6 +19,8 @@
 	<string>Jove's Landing/Jove's Landing.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>1C75F1C5CFCB95B3702F6F632FA05ED5244B519E</key>
+		<string>../../../../CocoaAsyncSocket</string>
 		<key>DE25939B9E7EA8A8637EB86AA1905477A9313414</key>
 		<string>../../..</string>
 	</dict>
@@ -28,6 +32,14 @@
 	<string>DE25939B9E7EA8A8637EB86AA1905477A9313414</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1C75F1C5CFCB95B3702F6F632FA05ED5244B519E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CocoaAsyncSocket</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
