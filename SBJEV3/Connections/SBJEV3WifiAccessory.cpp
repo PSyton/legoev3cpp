@@ -7,8 +7,10 @@
 //
 
 #include "SBJEV3WifiAccessory.h"
+#include "SBJEV3DeviceIdentifier.h"
 
 #include <stdlib.h>
+#include <algorithm>
 
 using namespace SBJ::EV3;
 
@@ -89,10 +91,13 @@ bool WifiAccessorySpec::unlockResponse(const uint8_t* response, size_t length)
 	return false;
 }
 
+#pragma mark -
+
 WifiAccessory::WifiAccessory(const WifiAccessorySpec& spec)
-: _spec(spec)
-, _ping(std::chrono::system_clock::now())
+: WifiAccessorySpec(spec)
+, _state(isValid() ? State::discovered : State::errored)
 {
+	udpPing();
 }
 
 bool WifiAccessory::tryLock(const uint8_t* response, size_t length)
@@ -100,7 +105,11 @@ bool WifiAccessory::tryLock(const uint8_t* response, size_t length)
 	bool locked = false;
 	{
 		std::unique_lock<std::mutex> lock(_mutex);
-		locked = _spec.unlockResponse(response, length);
+		locked = unlockResponse(response, length);
+		if (locked)
+		{
+			_state = State::locked;
+		}
 	}
 	if (locked)
 	{
@@ -112,15 +121,43 @@ bool WifiAccessory::tryLock(const uint8_t* response, size_t length)
 bool WifiAccessory::waitForLock()
 {
 	std::unique_lock<std::mutex> lock(_mutex);
-	_isReady.wait_for(lock, std::chrono::milliseconds(3000), ^{return _spec.isUnlocked() > 0;});
-	return _spec.isUnlocked();
+	_isReady.wait_for(lock, std::chrono::milliseconds(3000), ^{return isUnlocked() > 0;});
+	return isUnlocked();
 }
 	
-void WifiAccessory::unlock()
+void WifiAccessory::unlock(bool withError)
 {
 	std::unique_lock<std::mutex> lock(_mutex);
-	_spec.unlock();
+	forgetLock();
+	_state = withError ? State::errored : State::discovered;
 }
+
+WifiAccessory::State WifiAccessory::evaluateStaleness()
+{
+	std::unique_lock<std::mutex> lock(_mutex);
+	if (_state == State::discovered)
+	{
+		const auto stop = std::chrono::system_clock::now();
+		const auto d_actual = std::chrono::duration_cast<std::chrono::minutes>(stop - _ping).count();
+		if (d_actual >= 30)
+		{
+			_state = State::stale;
+		}
+	}
+	return _state;
+}
+
+void WifiAccessory::udpPing()
+{
+	std::unique_lock<std::mutex> lock(_mutex);
+	_ping = std::chrono::system_clock::now();
+	if (_state == State::stale)
+	{
+		_state = State::discovered;
+	}
+}
+
+#pragma mark -
 
 WifiAccessoryCollection::WifiAccessoryCollection()
 {
@@ -131,12 +168,12 @@ void WifiAccessoryCollection::start(Change change)
 	_change = change;
 }
 
-void WifiAccessoryCollection::ping()
+void WifiAccessoryCollection::evaluateStaleness()
 {
 	std::set<WifiAccessory::Ptr> stale;
 	for (auto a : _accessories)
 	{
-		auto state = a.second->state();
+		auto state = a.second->evaluateStaleness();
 		switch (state)
 		{
 			case WifiAccessory::State::discovered:
@@ -177,13 +214,57 @@ void WifiAccessoryCollection::onUdpPacket(const std::string& host, const uint8_t
 		}
 		else
 		{
-			f->second->ping();
+			f->second->udpPing();
 		}
 	}
 }
 
 WifiAccessory::Ptr WifiAccessoryCollection::findAccessory(DeviceIdentifier& identifier)
 {
-	return _accessories.size() ? _accessories.begin()->second : WifiAccessory::Ptr();
+	WifiAccessory::Ptr accessory;
+	
+	if (_accessories.empty()) return accessory;
+
+	auto byName = [identifier](const auto& i)
+	{
+		return i.second->name() == identifier.name;
+	};
+	
+	auto bySerial = [identifier](const auto& i)
+	{
+		return i.second->serial() == identifier.serial;
+	};
+	
+	auto f = _accessories.end();
+	switch (identifier.search)
+	{
+		case DeviceIdentifier::SearchMethod::anyDevice:
+			f = _accessories.begin();
+			break;
+		case DeviceIdentifier::SearchMethod::nameOnly:
+			f = std::find_if(_accessories.begin(), _accessories.end(), byName);
+			break;
+		case DeviceIdentifier::SearchMethod::serialOnly:
+			f = std::find_if(_accessories.begin(), _accessories.end(), bySerial);
+			break;
+		case DeviceIdentifier::SearchMethod::nameFirst:
+			f = std::find_if(_accessories.begin(), _accessories.end(), byName);
+			if (f == _accessories.end()) f = std::find_if(_accessories.begin(), _accessories.end(), bySerial);
+			break;
+		case DeviceIdentifier::SearchMethod::serialFirst:
+			auto f = std::find_if(_accessories.begin(), _accessories.end(), bySerial);
+			if (f == _accessories.end()) f = std::find_if(_accessories.begin(), _accessories.end(), byName);
+			break;
+	}
+	
+	if (f != _accessories.end())
+	{
+		accessory = f->second;
+		identifier.name = accessory->name();
+		identifier.serial = accessory->serial();
+		identifier.connection.makePriority(ConnectionTransport::wifi);
+	}
+	
+	return accessory;
 }
 

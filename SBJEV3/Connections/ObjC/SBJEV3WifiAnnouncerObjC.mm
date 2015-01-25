@@ -16,6 +16,7 @@ using namespace SBJ::EV3;
 {
 	GCDAsyncUdpSocket* _udpSocket;
 	WifiAccessoryCollection _collection;
+	NSTimer* _timer;
 }
 @end
 
@@ -38,11 +39,13 @@ using namespace SBJ::EV3;
 	NSError* error = nil;
 	[_udpSocket bindToPort: 3015 error:&error];
 	[_udpSocket beginReceiving:&error];
+	
+	_timer = [NSTimer scheduledTimerWithTimeInterval: 10.0 target:self selector:@selector(onTimer:) userInfo:nil repeats:NO];
 }
 
-- (void) onTimer
+- (void) onTimer: (NSObject*) userInfo
 {
-	_collection.ping();
+	_collection.evaluateStaleness();
 }
 
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data

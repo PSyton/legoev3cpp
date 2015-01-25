@@ -32,15 +32,7 @@ public:
 		return (_key.empty() == false);
 	}
 	
-	bool isUnlocked() const
-	{
-		return (_acceptance.empty() == false);
-	}
-	
-	void unlock()
-	{
-		_acceptance.clear();
-	}
+	std::string unlockRequest() const;
 	
 	const std::string& key() const
 	{
@@ -57,9 +49,15 @@ public:
 		return _port;
 	}
 	
-	std::string unlockRequest() const;
+	const std::string& name()
+	{
+		return _name;
+	}
 	
-	bool unlockResponse(const uint8_t* response, size_t length);
+	const std::string& serial()
+	{
+		return _serial;
+	}
 	
 private:
 	std::string _host;
@@ -69,64 +67,52 @@ private:
 	std::string _name;
 	std::string _acceptance;
 	std::string _key;
+	
+protected:
+	
+	bool unlockResponse(const uint8_t* response, size_t length);
+	
+	bool isUnlocked() const
+	{
+		return (_acceptance.empty() == false);
+	}
+	
+	void forgetLock()
+	{
+		_acceptance.clear();
+	}
+	
 };
 
-class WifiAccessory
+class WifiAccessory : public WifiAccessorySpec
 {
 public:
 	enum class State
 	{
-		discovered,
-		locked,
-		stale,
-		errored
+		discovered, // created
+		locked, //locked
+		errored, // i/o discovered disconnect
+		stale // unused
 	};
 
 	using Ptr = std::shared_ptr<WifiAccessory>;
 	
 	WifiAccessory(const WifiAccessorySpec& spec);
 	
-	const std::string& key() const
-	{
-		return _spec.key();
-	}
-	
-	const std::string& host()
-	{
-		return _spec.host();
-	}
-	
-	const int port()
-	{
-		return _spec.port();
-	}
-	
-	std::string unlockRequest() const
-	{
-		return _spec.unlockRequest();
-	}
-	
 	bool tryLock(const uint8_t* response, size_t length);
 	
 	bool waitForLock();
 	
-	void unlock();
+	void unlock(bool withError);
 	
-	State state() const
-	{
-		return _state;
-	}
+	State evaluateStaleness();
 	
-	void ping()
-	{
-		_ping = std::chrono::system_clock::now();
-	}
+	void udpPing();
 	
 private:
 	std::mutex _mutex;
 	std::condition_variable _isReady;
 	std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-	WifiAccessorySpec _spec;
 	State _state;
 	std::chrono::system_clock::time_point _ping;
 };
@@ -140,7 +126,7 @@ public:
 	
 	void start(Change change);
 	
-	void ping();
+	void evaluateStaleness();
 	
 	void onUdpPacket(const std::string& host, const uint8_t* data, size_t length);
 	

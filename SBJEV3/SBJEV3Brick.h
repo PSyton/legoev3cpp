@@ -98,6 +98,11 @@ public:
 		return _name;
 	}
 	
+	const std::string& serialNumber() const
+	{
+		return _identifier.serial;
+	}
+	
 	Battery battery();
 	
 	Log& log() const

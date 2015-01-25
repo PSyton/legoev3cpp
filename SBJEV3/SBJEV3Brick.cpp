@@ -39,14 +39,6 @@ void Brick::setName(const std::string& name)
 	
 Brick::Battery Brick::battery()
 {
-/*
-	directCommand(0.0, playTone((unsigned char)100, (unsigned short)200, (unsigned short)300));
-	PlayTone p;
-	p.volume = 100;
-	p.freq = 200;
-	p.duration = 300;
-	directCommand(0.0, p);
-*/
 	auto result = directCommand(1.0, BatteryLevel(), BatteryVoltage(), BatteryCurrent(), BatteryTempuratureRise());
 	return { std::get<0>(result), std::get<1>(result), std::get<2>(result), std::get<3>(result) };
 }
@@ -94,7 +86,6 @@ void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, st
 			FullVersion()
 			);
 		_name = std::get<0>(result);
-		// TODO: serial number
 		_version = { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<4>(result), std::get<5>(result), std::get<6>(result) };
 	}
 	else

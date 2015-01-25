@@ -42,17 +42,17 @@ static const std::string LogDomian = "Connect";
 	{
 		if (_accessory->waitForLock() == false)
 		{
-			[self close];
+			[self closeWithError: [NSError errorWithDomain: @"" code: 0 userInfo: nil]];
 			return false;
 		}
 		return true;
 	}
 }
 
-- (void) close
+- (void) closeWithError: (NSError*) error
 {
-	[super close];
-	_accessory->unlock();
+	[super closeWithError: error];
+	_accessory->unlock(error != nil);
 	_accessory = nil;
 }
 

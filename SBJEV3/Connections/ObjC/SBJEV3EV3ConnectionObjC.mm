@@ -18,7 +18,7 @@ ConnectionObjC::ConnectionObjC(EV3ConnectionImpl* impl)
 
 ConnectionObjC::~ConnectionObjC()
 {
-	[_impl close];
+	[_impl closeWithError: nil];
 	_impl = nil;
 }
 

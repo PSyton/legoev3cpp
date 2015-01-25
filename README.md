@@ -5,7 +5,7 @@ This is a light-weight cross-platform C++14 API for remote control of the LEGO E
 
 The following are on the TODO list...
 1) Variable dereferencing in opcodes.
-	- There is a sizeof() problem with DirecOpcode
+	- There is a sizeof() problem with DirecOpcode and itemized params
 	- Optionally pushing consexpr string size limits to params
 2) Finish implementing all direct opcode structures.
 3) Finish implementing all system opcode structures.
@@ -13,6 +13,7 @@ The following are on the TODO list...
 4) Fetching extended brick info timeouts
 5) Finish WIFI connections
 6) Create more platform specific connection classes
+7) Redo some connection workflow to create a single "discovered" entity across transports
 
 This project is dependent on the ev3 sources with the minor header changes made in the dsjove fork (pull request has been made). I have a fork of both ev3 source trees with the changes. You do NOT need to change the firmware on the EV3. The header files are only for desktop compilation.
 

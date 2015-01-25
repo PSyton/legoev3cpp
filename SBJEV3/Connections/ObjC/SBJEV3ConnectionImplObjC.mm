@@ -47,10 +47,10 @@ static const std::string LogDomian = "Stream";
 
 - (void) dealloc
 {
-	[self close];
+	[self closeWithError: nil];
 }
 
-- (void) close
+- (void) closeWithError: (NSError*) error
 {
 	[self closeStream: self.inputStream];
 	[self closeStream: self.outputStream];
@@ -150,7 +150,7 @@ static const std::string LogDomian = "Stream";
 	package.sent = (bytesToWrite == 0);
 }
 
-#define ExtendedLogging 1
+#define ExtendedLogging 0
 
 - (void)stream:(NSStream*)theStream handleEvent:(NSStreamEvent)streamEvent
 {
@@ -206,7 +206,7 @@ static const std::string LogDomian = "Stream";
 		{
 			NSError* theError = [theStream streamError];
 			_log->write(LogDomian, theStream.class.description, " - Error(", theError.code, ") ", theError.localizedDescription);
-			[self close];
+			[self closeWithError: theError];
 			break;
 		}
 	}

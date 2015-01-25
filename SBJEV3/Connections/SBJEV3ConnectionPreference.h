@@ -54,6 +54,30 @@ public:
 		}
 	}
 	
+	void addTransport(ConnectionTransport transport)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			if (_transport[i] == ConnectionTransport::none)
+			{
+				_transport[i] = transport;
+				return;
+			}
+		}
+	}
+	
+	void removeTransport(ConnectionTransport transport)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			if (_transport[i] == transport)
+			{
+				_transport[i] = ConnectionTransport::none;
+				return;
+			}
+		}
+	}
+	
 	const ConnectionTransport* begin() const
 	{
 		return _transport;

@@ -32,9 +32,9 @@ using namespace SBJ::EV3;
 	return ConnectionTransport::bluetooth;
 }
 
-- (void) close
+- (void) closeWithError: (NSError*) error
 {
-	[super close];
+	[super closeWithError: error];
 	_session = nil;
 	_accessory = nil;
 }
