@@ -8,13 +8,13 @@
 
 #import "SBJEV3WifiAnnouncerObjC.h"
 #import "SBJEV3WifiConnectionImplObjC.h"
-#import "AsyncUdpSocket.h"
+#import "GCDAsyncUdpSocket.h"
 
 using namespace SBJ::EV3;
 
-@interface EV3WifiAnnouncer()<AsyncUdpSocketDelegate>
+@interface EV3WifiAnnouncer()<GCDAsyncUdpSocketDelegate>
 {
-	AsyncUdpSocket* _socket;
+	GCDAsyncUdpSocket* _udpSocket;
 	WifiAccessoryCollection _collection;
 }
 @end
@@ -24,7 +24,7 @@ using namespace SBJ::EV3;
 - (id) init
 {
 	self = [super init];
-	_socket = [[AsyncUdpSocket alloc] initWithDelegate:self];
+	_udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
 	return self;
 }
 
@@ -35,9 +35,9 @@ using namespace SBJ::EV3;
 		change(key, accessory);
 	});
 	
-	std::string udpPacket = "Serial-Number: 0016533d3414\x0d\x0aPort: 5555\x0d\x0aName: EV3\x0d\x0aProtocol: EV3\x0d\x0a";
-	NSData* data = [NSData dataWithBytes: udpPacket.c_str() length: udpPacket.size()];
-	[self onUdpSocket: _socket didReceiveData: data withTag: 0 fromHost: @"10.0.1.2" port: 12345];
+	NSError* error = nil;
+	[_udpSocket bindToPort: 3015 error:&error];
+	[_udpSocket beginReceiving:&error];
 }
 
 - (void) onTimer
@@ -45,14 +45,14 @@ using namespace SBJ::EV3;
 	_collection.ping();
 }
 
-- (BOOL)onUdpSocket:(AsyncUdpSocket *)sock
-     didReceiveData:(NSData *)data
-            withTag:(long)tag
-           fromHost:(NSString *)host
-               port:(UInt16)port
+- (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data
+                                             fromAddress:(NSData *)address
+                                       withFilterContext:(id)filterContext;
 {
-	WifiAccessory::State discovered = _collection.onUdpPacket(host.UTF8String, (const uint8_t*)data.bytes, data.length);
-	return discovered != WifiAccessory::State::errored;
+	NSString *host = nil;
+	uint16_t port = 0;
+	[GCDAsyncUdpSocket getHost:&host port:&port fromAddress:address];
+	_collection.onUdpPacket(host.UTF8String, (const uint8_t*)data.bytes, data.length);
 }
 
 - (EV3ConnectionImpl*) findConnection: (SBJ::EV3::Log&)log identifier: (SBJ::EV3::DeviceIdentifier&) identifier

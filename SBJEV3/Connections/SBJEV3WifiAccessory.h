@@ -142,7 +142,7 @@ public:
 	
 	void ping();
 	
-	WifiAccessory::State onUdpPacket(const std::string& host, const uint8_t* data, size_t length);
+	void onUdpPacket(const std::string& host, const uint8_t* data, size_t length);
 	
 	WifiAccessory::Ptr findAccessory(DeviceIdentifier& identifier);
 	

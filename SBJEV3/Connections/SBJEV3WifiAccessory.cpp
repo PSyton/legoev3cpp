@@ -64,7 +64,7 @@ WifiAccessorySpec::WifiAccessorySpec(const std::string& host, const uint8_t* udp
 	_port = ::atoi(port);
 	_name = name;
 	_protocol = protocol;
-	_key = _serial + "->" + _host;
+	_key = _serial;
 }
 
 std::string WifiAccessorySpec::unlockRequest() const
@@ -162,7 +162,7 @@ void WifiAccessoryCollection::ping()
 	}
 }
 
-WifiAccessory::State WifiAccessoryCollection::onUdpPacket(const std::string& host, const uint8_t* data, size_t length)
+void WifiAccessoryCollection::onUdpPacket(const std::string& host, const uint8_t* data, size_t length)
 {
 	WifiAccessorySpec spec(host, data, length);
 	WifiAccessory::Ptr accessory;
@@ -174,12 +174,12 @@ WifiAccessory::State WifiAccessoryCollection::onUdpPacket(const std::string& hos
 			accessory.reset(new WifiAccessory(spec));
 			_accessories[spec.key()] = accessory;
 			_change(accessory->key(), accessory);
-			return WifiAccessory::State::discovered;
 		}
-		f->second->ping();
-		return WifiAccessory::State::stale;
+		else
+		{
+			f->second->ping();
+		}
 	}
-	return WifiAccessory::State::errored;
 }
 
 WifiAccessory::Ptr WifiAccessoryCollection::findAccessory(DeviceIdentifier& identifier)
