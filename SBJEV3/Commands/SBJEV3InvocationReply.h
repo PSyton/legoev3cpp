@@ -148,7 +148,8 @@ private:
 			
 			// Convert the low level value to the requested high level type
 			auto& result = std::get<N>(_results);
-			converter.convert((InputType*)buffer+size, result, maxLen);
+			converter.convert((InputType*)buffer, result, maxLen);
+			buffer+=size;
 			return true;
 		});
 	}
