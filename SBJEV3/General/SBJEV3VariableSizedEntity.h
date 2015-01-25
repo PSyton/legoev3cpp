@@ -52,10 +52,13 @@ inline size_t packEntity(const Entity& entity, uint8_t* buffer)
 template <typename Tuple>
 constexpr bool isVariableSizedTuple()
 {
-	return !tuple_for_each<Tuple>([](auto N, auto T)
+	bool isVariableSized = false;
+	tuple_for_each<Tuple>([&isVariableSized](auto N, auto T)
 	{
-		return !isVariableSizedEntity<typename decltype(T)::type>();
+		isVariableSized = isVariableSizedEntity<typename decltype(T)::type>();
+		return true;
 	});
+	return isVariableSized;
 }
 
 template <typename Tuple>

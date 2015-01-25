@@ -84,23 +84,18 @@ void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, st
 	_messenger.connectionChange(connection);
 	if (_connectionTransport != ConnectionTransport::none)
 	{
-		// TODO: why timeouts?
-		// - const length in opcodes could be -1
-		// - max lengths maybe incorrect size
-		// - replies have to be byte(4) aligned
-		// - max length constant wrong byte code type
 		auto result = directCommand(5.0,
 			GetBrickName<>(),
 			HardwareVersion(),
-			//FirmwareVersion(), // timeout
+			FirmwareVersion(),
 			FirmwareBuild(),
-			//OSVersion(), // timeout
-			//OSBuild(), // timeout
+			OSVersion(),
+			OSBuild(),
 			FullVersion()
 			);
 		_name = std::get<0>(result);
 		// TODO: serial number
-		_version = { std::get<1>(result), /*std::get<2>(result)*/"", std::get<2>(result), /*std::get<4>(result)*/"", /*std::get<5>(result)*/"", std::get<3>(result) };
+		_version = { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<4>(result), std::get<5>(result), std::get<6>(result) };
 	}
 	else
 	{
