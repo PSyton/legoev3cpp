@@ -36,6 +36,11 @@ public:
 	InvocationStack(Log& log, ReplyKey replyKey);
 	
 	~InvocationStack();
+	
+	bool isConnected() const
+	{
+		return (bool)_connection;
+	}
 		
 	void connectionChange(std::unique_ptr<Connection>& connection);
 	

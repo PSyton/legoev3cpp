@@ -8,10 +8,9 @@
 
 #pragma once
 
-#include "SBJEV3Messenger.h"
-#include "SBJEV3ConnectionPreference.h"
-#include "SBJEV3DeviceIdentifier.h"
+#include "SBJEV3DiscoveredDevice.h"
 #include "SBJEV3DeleteMethods.h"
+#include "SBJEV3DeviceIdentifier.h"
 
 #include <memory>
 
@@ -21,12 +20,10 @@ namespace EV3
 {
 
 class ConnectionFactory;
-class ConnectionToken;
-enum class PromptAccessoryError : int;
+class DeviceIdentifier;
 	
 /*
- * The brick is the high-level object that represents an EV3.
- * It knows how to respond to connection events and create direct commands.
+ * The brick is the high-level object that pairs a discovered device and a singular transport
  */
  
 class Brick
@@ -65,32 +62,25 @@ public:
 			fullVersion.clear();
 		}
 	};
-
-	using ConnectionChanged = std::function<void(Brick& brick)>;
-	using PromptAccessoryErrored =  std::function<void(Brick& brick, PromptAccessoryError error)>;
-
-	Brick(ConnectionFactory& factory, const DeviceIdentifier& identifier = DeviceIdentifier());
+	
+	Brick(ConnectionFactory& factory);
 	
 	~Brick();
 	
-	ConnectionChanged connectionEvent;
-	
-	bool isConnected() const;
-	
-	void prompt(PromptAccessoryErrored errored);
-	
-	void prompt(ConnectionTransport transport, PromptAccessoryErrored errored);
-	
-	void disconnect();
-
-	const DeviceIdentifier& identifier() const
+	void fetchDevice(const DeviceIdentifier& identifier = DeviceIdentifier());
+		
+	bool isConnected() const
 	{
-		return _identifier;
+		if (auto device = _device.lock())
+		{
+			return device->isConnected(_activeTransport);
+		}
+		return false;
 	}
 	
-	ConnectionTransport connectionType() const
+	ConnectionTransport activeTransport() const
 	{
-		return _connectionTransport;
+		return _activeTransport;
 	}
 	
 	const std::string& name() const
@@ -98,42 +88,45 @@ public:
 		return _name;
 	}
 	
-	const std::string& serialNumber() const
-	{
-		return _identifier.serial;
-	}
+	std::string serialNumber() const;
 	
 	Battery battery();
-	
-	Log& log() const
-	{
-		return _log;
-	}
 	
 	void setName(const std::string& name);
 
 	template <typename...  Opcodes>
 	typename DirectCommand<Opcodes...>::Results directCommand(float timeout, Opcodes... opcodes)
 	{
-		return _messenger.directCommand(timeout, opcodes...);
+		if (auto device = _device.lock())
+		{
+			if (device->isConnected(_activeTransport))
+			{
+				return device->messenger().directCommand(_activeTransport, timeout, opcodes...);
+			}
+		}
+		return typename DirectCommand<Opcodes...>::Results();
 	}
 
 	template <typename  Opcode>
 	typename SystemCommand<Opcode>::Results systemCommand(float timeout, Opcode opcode)
 	{
-		return _messenger.systemCommand(timeout, opcode);
+		if (auto device = _device.lock())
+		{
+			if (device->isConnected(_activeTransport))
+			{
+				return device->messenger().systemCommand(_activeTransport, timeout, opcode);
+			}
+		}
+		return typename SystemCommand<Opcode>::Results();
 	}
 
 private:
-	Log& _log;
-	Messenger _messenger;
-	DeviceIdentifier _identifier;
+	ConnectionFactory& _factory;
 	std::string _name;
 	Version _version;
-	ConnectionTransport _connectionTransport = ConnectionTransport::none;
-	std::unique_ptr<ConnectionToken> _token;
-	
-	void handleConnectionChange(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection);
+	ConnectionTransport _activeTransport = ConnectionTransport::none;
+	std::weak_ptr<DiscoveredDevice> _device;
+	void fetchBrickInfo();
 };
 	
 }

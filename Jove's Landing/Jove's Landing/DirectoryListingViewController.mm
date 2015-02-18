@@ -25,8 +25,7 @@ using namespace SBJ::EV3;
 	_listing = new DirectoryListing(*brick);
 	if (self.isViewLoaded)
 	{
-		_listing->refresh();
-		[self.tableView reloadData];
+		[self updateUI];
 	}
 }
 
@@ -41,9 +40,14 @@ using namespace SBJ::EV3;
 	[super viewWillAppear:animated];
 	if (_listing)
 	{
-		_listing->refresh();
-		[self.tableView reloadData];
+		[self updateUI];
 	}
+}
+
+- (void) updateUI
+{
+	_listing->refresh();
+	[self.tableView reloadData];
 }
 
 #pragma mark - Table view data source

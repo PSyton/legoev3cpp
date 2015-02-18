@@ -1,16 +1,20 @@
 //
 //  SBJEV3ConnectionFactory.h
-//  LEGO Control
+//  Jove's Landing
 //
-//  Created by David Giovannini on 12/1/14.
-//  Copyright (c) 2014 Software by Jove. All rights reserved.
+//  Created by David Giovannini on 1/25/15.
+//  Copyright (c) 2015 Software by Jove. All rights reserved.
 //
 
 #pragma once
 
+#include "SBJEV3DiscoveredDevice.h"
+#include "SBJEV3TransportListener.h"
 #include "SBJEV3ConnectionToken.h"
-#include "SBJEV3ConnectionPreference.h"
 
+#include <string>
+#include <map>
+#include <vector>
 #include <set>
 
 namespace SBJ
@@ -19,19 +23,16 @@ namespace EV3
 {
 
 class Log;
+class DeviceIdentifier;
+using DiscoveredDeviceChangeEvennt = std::function<void(DiscoveredDevice& device, DiscoveredDeviceChanged change)>;
 
 /*
- * ConnectionFactory creates connection events per device identifier registration when a device is connected (BT paired as well)
- * and ready for use. If the disconnect can be detected on the native platform, those events are broadcasted as well.
- *
- * The implementation file will be platform specific. The implementation can assume there is one and only one ConnectionFactory
- * instance.
+ * ConnectionFactory hosts the native implementations for connections and device discovery
  */
-
+	
 class ConnectionFactory
 {
 public:
-
 	ConnectionFactory(Log& log);
 	
 	~ConnectionFactory();
@@ -41,21 +42,31 @@ public:
 		return _log;
 	}
 	
-	void start();
+	void start(DiscoveredDeviceChangeEvennt deviceChangedEvent);
+
+	// Brick and UI accrssors
+	DiscoveredDevice::Ptr findDiscovered(DeviceIdentifier& identifier);
+	std::vector<DiscoveredDevice::Ptr> getDiscovered() const;
+	void promptBluetooth(PromptAccessoryErrored errored = PromptAccessoryErrored());
 	
-	void prompt(ConnectionPreference method, PromptAccessoryErrored errored = PromptAccessoryErrored());
-		
-	void registerNotification(ConnectionToken* token);
+	// ConnectionToken life cycle
+	void registerConnectionNotification(ConnectionToken* token);
+	void unregisterConnectionNotification(ConnectionToken* token);
 	
-	void unregisterNotification(ConnectionToken* token);
-	
-	void handleChangeInAccessoryConnection(ConnectionTransport transport);
+	// ConnectionToken connection requests
+	bool requestDisconnect(ConnectionToken& token);
+	bool requestConnect(ConnectionToken& token);
 	
 private:
+	DiscoveredDeviceChangeEvennt _deviceChangedEvent;
+	std::map<std::string, DiscoveredDevice::Ptr> _discovered;
+	std::map<ConnectionTransport, std::unique_ptr<TransportListener>> _transports;
 	std::set<ConnectionToken*> _tokens;
 	Log& _log;
 	
-	std::unique_ptr<Connection> findConnection(ConnectionTransport filter, DeviceIdentifier& identifier);
+	// Transport events
+	void discovered(ConnectionTransport transport, const std::string& serial, const std::string& name);
+	void undiscovered(ConnectionTransport transport, const std::string& serial);
 };
 
 }

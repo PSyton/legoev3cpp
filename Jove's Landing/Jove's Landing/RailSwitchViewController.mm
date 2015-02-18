@@ -40,6 +40,15 @@ using namespace SBJ::EV3;
 - (void) setBrick: (SBJ::EV3::Brick*) brick
 {
 	_brick = brick;
+	if (self.isViewLoaded)
+	{
+		[self updateUI];
+	}
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	[self updateUI];
 }
 

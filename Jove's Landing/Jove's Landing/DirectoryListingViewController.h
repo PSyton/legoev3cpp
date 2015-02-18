@@ -13,4 +13,6 @@
 
 - (void) setBrick: (SBJ::EV3::Brick*) brick;
 
+- (void) updateUI;
+
 @end

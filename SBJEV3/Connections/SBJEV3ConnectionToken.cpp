@@ -13,50 +13,35 @@
 
 using namespace SBJ::EV3;
 
-ConnectionToken::ConnectionToken(ConnectionFactory& factory, const DeviceIdentifier& identifier, ConnectionChanged action)
-: _factory(factory)
-, _identifier(identifier)
-, _action(action)
+ConnectionToken::ConnectionToken(const std::string& serial, ConnectionTransport transport, ConnectionFactory& factory, ConnectionChanged connectionChange)
+: _serial(serial)
+, _transport(transport)
+, _isConnected(false)
+, _factory(factory)
+, _connectionChange(connectionChange)
 {
-	_factory.registerNotification(this);
+	_factory.registerConnectionNotification(this);
 }
 
 ConnectionToken::~ConnectionToken()
 {
-	_factory.unregisterNotification(this);
+	_factory.unregisterConnectionNotification(this);
 }
 
-void ConnectionToken::prompt(PromptAccessoryErrored errored)
+void ConnectionToken::connectionHasBennMade(DiscoveredDevice::Ptr device, std::unique_ptr<Connection>& connection)
 {
-	if (_connected == false)
+	if ((connection == nullptr) != (_isConnected == false))
 	{
-		_factory.prompt(_identifier.connection, errored);
+		_isConnected = connection != nullptr;
+		if (_connectionChange) _connectionChange(device, connection);
 	}
 }
 
-void ConnectionToken::prompt(ConnectionTransport transport, PromptAccessoryErrored errored)
+bool ConnectionToken::setIsConnected(bool connected)
 {
-	_identifier.connection.makePriority(transport);
-	if (_connected == true)
+	if (connected)
 	{
-		disconnect();
+		return _factory.requestConnect(*this);
 	}
-	prompt(errored);
-}
-
-void ConnectionToken::makeConnection(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection)
-{
-	if ((connection != nullptr) != (_connected == true))
-	{
-		// keep our identifier the same but pass along the update
-		_connected = connection != nullptr;
-		if (_action) _action(updatedIdentifier, connection);
-	}
-}
-
-void ConnectionToken::disconnect()
-{
-	_connected = false;
-	std::unique_ptr<Connection> connection;
-	if (_action) _action(_identifier, connection);
+	return _factory.requestDisconnect(*this);
 }

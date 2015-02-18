@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "SBJEV3ConnectionPreference.h"
+#include "SBJEV3TransportSelection.h"
 
 #include <string>
 #include <functional>

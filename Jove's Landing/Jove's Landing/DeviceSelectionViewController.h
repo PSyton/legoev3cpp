@@ -1,5 +1,5 @@
 //
-//  FirstViewController.h
+//  DeviceSelectionViewController.h
 //  Jove's Landing
 //
 //  Created by David Giovannini on 12/14/14.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #include "SBJEV3Brick.h"
 
-@interface ConnectivityViewController : UITableViewController
+@interface DeviceSelectionViewController : UITableViewController
 
 - (void) setBrick: (SBJ::EV3::Brick*) brick;
 

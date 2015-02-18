@@ -13,15 +13,21 @@
 		550E29021A715EC600A38E94 /* SBJEV3FileUploader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 550E28E61A715EC500A38E94 /* SBJEV3FileUploader.cpp */; };
 		550E29031A715EC600A38E94 /* SBJEV3Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 550E28ED1A715EC600A38E94 /* SBJEV3Log.cpp */; };
 		550E29181A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E290E1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm */; };
-		550E29191A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E290F1A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm */; };
 		550E291A1A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E29111A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm */; };
 		550E291B1A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E29131A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm */; };
 		550E291C1A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */; };
-		5538B2971A7498F200EFB7ED /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2961A7498F200EFB7ED /* GCDAsyncUdpSocket.m */; };
+		5538B2AA1A75862300EFB7ED /* SBJEV3WifiAccessorySpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2A81A75862300EFB7ED /* SBJEV3WifiAccessorySpec.cpp */; };
+		5538B2B01A7587B700EFB7ED /* SBJEV3WifiTransportListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2AE1A7587B700EFB7ED /* SBJEV3WifiTransportListener.cpp */; };
+		5538B2D21A75C0CF00EFB7ED /* SBJEV3WifiAccessory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2D01A75C0CF00EFB7ED /* SBJEV3WifiAccessory.cpp */; };
+		5538B2D41A75C13900EFB7ED /* SBJEV3BluetoothTransportListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2D31A75C13900EFB7ED /* SBJEV3BluetoothTransportListener.mm */; };
+		5538B2D71A75C22300EFB7ED /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2D61A75C22300EFB7ED /* GCDAsyncUdpSocket.m */; };
+		5538B2D91A75C37600EFB7ED /* SBJEV3ConnectionFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2D81A75C37600EFB7ED /* SBJEV3ConnectionFactory.cpp */; };
+		5538B2DC1A75CB4000EFB7ED /* SBJEV3WifiTransportListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2DB1A75CB4000EFB7ED /* SBJEV3WifiTransportListener.mm */; };
 		55781F741A62DB2C00BD0ABB /* FileViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55781F731A62DB2C00BD0ABB /* FileViewController.mm */; };
+		557868F31A8CDF9000079D55 /* DiscoveredViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 557868F21A8CDF9000079D55 /* DiscoveredViewController.mm */; };
 		55A7CB7A1A3E07130028553C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB791A3E07130028553C /* main.m */; };
 		55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7C1A3E07130028553C /* AppDelegate.mm */; };
-		55A7CB801A3E07130028553C /* ConnectivityViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7F1A3E07130028553C /* ConnectivityViewController.mm */; };
+		55A7CB801A3E07130028553C /* DeviceSelectionViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7F1A3E07130028553C /* DeviceSelectionViewController.mm */; };
 		55A7CB831A3E07130028553C /* RailSwitchViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB821A3E07130028553C /* RailSwitchViewController.mm */; };
 		55A7CB861A3E07130028553C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55A7CB841A3E07130028553C /* Main.storyboard */; };
 		55A7CB881A3E07130028553C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55A7CB871A3E07130028553C /* Images.xcassets */; };
@@ -30,11 +36,8 @@
 		55A7CBBF1A3E08B60028553C /* RailSwitch.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBBE1A3E08B60028553C /* RailSwitch.mm */; };
 		55A7CBD81A3E10860028553C /* SBJEV3Brick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */; };
 		55A7CBDE1A3E11350028553C /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A7CBDD1A3E11350028553C /* ExternalAccessory.framework */; };
+		55AA79451A8E2B2800CBD6BB /* SBJEV3DiscoveredDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55AA79441A8E2B2800CBD6BB /* SBJEV3DiscoveredDevice.cpp */; };
 		55B04B9A1A607F41006265AB /* DirectoryListingViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55B04B991A607F41006265AB /* DirectoryListingViewController.mm */; };
-		55C770521A71C648006F6FE4 /* SBJEV3BluetoothAnounceriOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55C770511A71C648006F6FE4 /* SBJEV3BluetoothAnounceriOS.mm */; };
-		55C770551A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55C770541A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.mm */; };
-		55DC41271A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55DC41261A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm */; };
-		55DC412A1A7302F10017035E /* SBJEV3WifiAccessory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55DC41281A7302F10017035E /* SBJEV3WifiAccessory.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,10 +55,9 @@
 		550E28C51A715EC500A38E94 /* SBJEV3InvocationReply.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3InvocationReply.h; sourceTree = "<group>"; };
 		550E28C61A715EC500A38E94 /* SBJEV3InvocationStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3InvocationStack.cpp; sourceTree = "<group>"; };
 		550E28C71A715EC500A38E94 /* SBJEV3InvocationStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3InvocationStack.h; sourceTree = "<group>"; };
-		550E28C81A715EC500A38E94 /* SBJEV3Messenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Messenger.h; sourceTree = "<group>"; };
+		550E28C81A715EC500A38E94 /* SBJEV3Messenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJEV3Messenger.h; path = ../Commands/SBJEV3Messenger.h; sourceTree = "<group>"; };
 		550E28C91A715EC500A38E94 /* SBJEV3Results.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Results.h; sourceTree = "<group>"; };
 		550E28CD1A715EC500A38E94 /* SBJEV3Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Connection.h; sourceTree = "<group>"; };
-		550E28CE1A715EC500A38E94 /* SBJEV3ConnectionFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionFactory.h; sourceTree = "<group>"; };
 		550E28D31A715EC500A38E94 /* SBJEV3ConnectionToken.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3ConnectionToken.cpp; sourceTree = "<group>"; };
 		550E28D41A715EC500A38E94 /* SBJEV3ConnectionToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionToken.h; sourceTree = "<group>"; };
 		550E28DC1A715EC500A38E94 /* SBJEV3DirectCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DirectCommand.h; sourceTree = "<group>"; };
@@ -81,29 +83,43 @@
 		550E28F61A715EC600A38E94 /* SBJEV3SystemInstruction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemInstruction.h; sourceTree = "<group>"; };
 		550E28F71A715EC600A38E94 /* SBJEV3SystemOpcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemOpcodes.h; sourceTree = "<group>"; };
 		550E28F81A715EC600A38E94 /* SBJEV3SystemResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3SystemResults.h; sourceTree = "<group>"; };
-		550E29061A715F6100A38E94 /* SBJEV3DeviceIdentifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3DeviceIdentifier.h; sourceTree = "<group>"; };
-		550E290D1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3BluetoothConnectionImplIOS.h; sourceTree = "<group>"; };
-		550E290E1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3BluetoothConnectionImplIOS.mm; sourceTree = "<group>"; };
-		550E290F1A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3ConnectionFactoryIOS.mm; sourceTree = "<group>"; };
-		550E29101A71610C00A38E94 /* SBJEV3ConnectionImplObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionImplObjC.h; sourceTree = "<group>"; };
-		550E29111A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3ConnectionImplObjC.mm; sourceTree = "<group>"; };
-		550E29121A71610C00A38E94 /* SBJEV3ConnectionObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionObjC.h; sourceTree = "<group>"; };
-		550E29131A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3EV3ConnectionObjC.mm; sourceTree = "<group>"; };
-		550E29141A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3WifiConnectionImplObjC.h; sourceTree = "<group>"; };
-		550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3WifiConnectionImplObjC.mm; sourceTree = "<group>"; };
+		550E29061A715F6100A38E94 /* SBJEV3DeviceIdentifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJEV3DeviceIdentifier.h; path = Connections/SBJEV3DeviceIdentifier.h; sourceTree = "<group>"; };
+		550E290D1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJEV3BluetoothConnectionImplIOS.h; path = ObjC/SBJEV3BluetoothConnectionImplIOS.h; sourceTree = "<group>"; };
+		550E290E1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SBJEV3BluetoothConnectionImplIOS.mm; path = ObjC/SBJEV3BluetoothConnectionImplIOS.mm; sourceTree = "<group>"; };
+		550E29101A71610C00A38E94 /* SBJEV3ConnectionImplObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJEV3ConnectionImplObjC.h; path = ObjC/SBJEV3ConnectionImplObjC.h; sourceTree = "<group>"; };
+		550E29111A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SBJEV3ConnectionImplObjC.mm; path = ObjC/SBJEV3ConnectionImplObjC.mm; sourceTree = "<group>"; };
+		550E29121A71610C00A38E94 /* SBJEV3ConnectionObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJEV3ConnectionObjC.h; path = ObjC/SBJEV3ConnectionObjC.h; sourceTree = "<group>"; };
+		550E29131A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SBJEV3EV3ConnectionObjC.mm; path = ObjC/SBJEV3EV3ConnectionObjC.mm; sourceTree = "<group>"; };
+		550E29141A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJEV3WifiConnectionImplObjC.h; path = ObjC/SBJEV3WifiConnectionImplObjC.h; sourceTree = "<group>"; };
+		550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SBJEV3WifiConnectionImplObjC.mm; path = ObjC/SBJEV3WifiConnectionImplObjC.mm; sourceTree = "<group>"; };
 		550E291E1A7162A100A38E94 /* SBJEV3ByteCodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3ByteCodes.h; sourceTree = "<group>"; };
-		5538B2951A7498F200EFB7ED /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
-		5538B2961A7498F200EFB7ED /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		5538B2A81A75862300EFB7ED /* SBJEV3WifiAccessorySpec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SBJEV3WifiAccessorySpec.cpp; path = Wifi/SBJEV3WifiAccessorySpec.cpp; sourceTree = "<group>"; };
+		5538B2A91A75862300EFB7ED /* SBJEV3WifiAccessorySpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJEV3WifiAccessorySpec.h; path = Wifi/SBJEV3WifiAccessorySpec.h; sourceTree = "<group>"; };
+		5538B2AE1A7587B700EFB7ED /* SBJEV3WifiTransportListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SBJEV3WifiTransportListener.cpp; path = Wifi/SBJEV3WifiTransportListener.cpp; sourceTree = "<group>"; };
+		5538B2AF1A7587B700EFB7ED /* SBJEV3WifiTransportListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJEV3WifiTransportListener.h; path = Wifi/SBJEV3WifiTransportListener.h; sourceTree = "<group>"; };
+		5538B2B21A75880C00EFB7ED /* SBJEV3TransportListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3TransportListener.h; sourceTree = "<group>"; };
+		5538B2B51A758A8C00EFB7ED /* SBJEV3DiscoveredDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3DiscoveredDevice.h; sourceTree = "<group>"; };
+		5538B2B81A758AE400EFB7ED /* SBJEV3ConnectionFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionFactory.h; sourceTree = "<group>"; };
+		5538B2CB1A75AF3600EFB7ED /* SBJEV3BluetoothTransportListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJEV3BluetoothTransportListener.h; path = Bluetooth/SBJEV3BluetoothTransportListener.h; sourceTree = "<group>"; };
+		5538B2D01A75C0CF00EFB7ED /* SBJEV3WifiAccessory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3WifiAccessory.cpp; sourceTree = "<group>"; };
+		5538B2D11A75C0CF00EFB7ED /* SBJEV3WifiAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3WifiAccessory.h; sourceTree = "<group>"; };
+		5538B2D31A75C13900EFB7ED /* SBJEV3BluetoothTransportListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SBJEV3BluetoothTransportListener.mm; path = Bluetooth/SBJEV3BluetoothTransportListener.mm; sourceTree = "<group>"; };
+		5538B2D51A75C22300EFB7ED /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncUdpSocket.h; path = ObjC/GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
+		5538B2D61A75C22300EFB7ED /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = ObjC/GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		5538B2D81A75C37600EFB7ED /* SBJEV3ConnectionFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SBJEV3ConnectionFactory.cpp; path = ObjC/SBJEV3ConnectionFactory.cpp; sourceTree = "<group>"; };
+		5538B2DB1A75CB4000EFB7ED /* SBJEV3WifiTransportListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SBJEV3WifiTransportListener.mm; path = Wifi/SBJEV3WifiTransportListener.mm; sourceTree = "<group>"; };
 		55781F721A62DB2C00BD0ABB /* FileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileViewController.h; sourceTree = "<group>"; };
 		55781F731A62DB2C00BD0ABB /* FileViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FileViewController.mm; sourceTree = "<group>"; };
 		55781F7B1A640D1800BD0ABB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		557868F11A8CDF9000079D55 /* DiscoveredViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoveredViewController.h; sourceTree = "<group>"; };
+		557868F21A8CDF9000079D55 /* DiscoveredViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscoveredViewController.mm; sourceTree = "<group>"; };
 		55A7CB741A3E07130028553C /* Jove's Landing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jove's Landing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55A7CB781A3E07130028553C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55A7CB791A3E07130028553C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		55A7CB7B1A3E07130028553C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		55A7CB7C1A3E07130028553C /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
-		55A7CB7E1A3E07130028553C /* ConnectivityViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectivityViewController.h; sourceTree = "<group>"; };
-		55A7CB7F1A3E07130028553C /* ConnectivityViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ConnectivityViewController.mm; sourceTree = "<group>"; };
+		55A7CB7E1A3E07130028553C /* DeviceSelectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceSelectionViewController.h; sourceTree = "<group>"; };
+		55A7CB7F1A3E07130028553C /* DeviceSelectionViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DeviceSelectionViewController.mm; sourceTree = "<group>"; };
 		55A7CB811A3E07130028553C /* RailSwitchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RailSwitchViewController.h; sourceTree = "<group>"; };
 		55A7CB821A3E07130028553C /* RailSwitchViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RailSwitchViewController.mm; sourceTree = "<group>"; };
 		55A7CB851A3E07130028553C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -117,17 +133,11 @@
 		55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3Brick.cpp; sourceTree = "<group>"; };
 		55A7CBC41A3E10860028553C /* SBJEV3Brick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3Brick.h; sourceTree = "<group>"; };
 		55A7CBDD1A3E11350028553C /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		55AA79441A8E2B2800CBD6BB /* SBJEV3DiscoveredDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3DiscoveredDevice.cpp; sourceTree = "<group>"; };
+		55AA79461A8F910700CBD6BB /* SBJEV3FlagOperatorOverloads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJEV3FlagOperatorOverloads.h; path = General/SBJEV3FlagOperatorOverloads.h; sourceTree = "<group>"; };
 		55B04B981A607F41006265AB /* DirectoryListingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryListingViewController.h; sourceTree = "<group>"; };
 		55B04B991A607F41006265AB /* DirectoryListingViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DirectoryListingViewController.mm; sourceTree = "<group>"; };
-		55C770501A71C648006F6FE4 /* SBJEV3BluetoothAnounceriOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3BluetoothAnounceriOS.h; sourceTree = "<group>"; };
-		55C770511A71C648006F6FE4 /* SBJEV3BluetoothAnounceriOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3BluetoothAnounceriOS.mm; sourceTree = "<group>"; };
-		55C770531A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3WifiAnnouncerObjC.h; sourceTree = "<group>"; };
-		55C770541A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3WifiAnnouncerObjC.mm; sourceTree = "<group>"; };
-		55C770561A7208FB006F6FE4 /* SBJEV3ConnectionPreference.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3ConnectionPreference.h; sourceTree = "<group>"; };
-		55DC41251A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3WifiAccessoriesViewControllerIOS.h; sourceTree = "<group>"; };
-		55DC41261A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SBJEV3WifiAccessoriesViewControllerIOS.mm; sourceTree = "<group>"; };
-		55DC41281A7302F10017035E /* SBJEV3WifiAccessory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3WifiAccessory.cpp; sourceTree = "<group>"; };
-		55DC41291A7302F10017035E /* SBJEV3WifiAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3WifiAccessory.h; sourceTree = "<group>"; };
+		55C770561A7208FB006F6FE4 /* SBJEV3TransportSelection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3TransportSelection.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,7 +168,6 @@
 				550E28C51A715EC500A38E94 /* SBJEV3InvocationReply.h */,
 				550E28C71A715EC500A38E94 /* SBJEV3InvocationStack.h */,
 				550E28C61A715EC500A38E94 /* SBJEV3InvocationStack.cpp */,
-				550E28C81A715EC500A38E94 /* SBJEV3Messenger.h */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -166,15 +175,19 @@
 		550E28CA1A715EC500A38E94 /* Connections */ = {
 			isa = PBXGroup;
 			children = (
-				55C770561A7208FB006F6FE4 /* SBJEV3ConnectionPreference.h */,
-				550E29061A715F6100A38E94 /* SBJEV3DeviceIdentifier.h */,
-				550E28CD1A715EC500A38E94 /* SBJEV3Connection.h */,
-				550E28CE1A715EC500A38E94 /* SBJEV3ConnectionFactory.h */,
+				55C770561A7208FB006F6FE4 /* SBJEV3TransportSelection.h */,
+				5538B2B51A758A8C00EFB7ED /* SBJEV3DiscoveredDevice.h */,
+				55AA79441A8E2B2800CBD6BB /* SBJEV3DiscoveredDevice.cpp */,
 				550E28D41A715EC500A38E94 /* SBJEV3ConnectionToken.h */,
 				550E28D31A715EC500A38E94 /* SBJEV3ConnectionToken.cpp */,
-				55DC41291A7302F10017035E /* SBJEV3WifiAccessory.h */,
-				55DC41281A7302F10017035E /* SBJEV3WifiAccessory.cpp */,
-				550E290C1A71610C00A38E94 /* ObjC */,
+				5538B2B81A758AE400EFB7ED /* SBJEV3ConnectionFactory.h */,
+				5538B2D81A75C37600EFB7ED /* SBJEV3ConnectionFactory.cpp */,
+				5538B2B21A75880C00EFB7ED /* SBJEV3TransportListener.h */,
+				550E28C81A715EC500A38E94 /* SBJEV3Messenger.h */,
+				5538B2DA1A75C4BC00EFB7ED /* USB */,
+				5538B2A71A7585F900EFB7ED /* Wifi */,
+				5538B2C91A75AEEE00EFB7ED /* Bluetooth */,
+				5538B2C61A75A2B100EFB7ED /* Connections */,
 			);
 			path = Connections;
 			sourceTree = "<group>";
@@ -230,28 +243,52 @@
 			path = SystemCommands;
 			sourceTree = "<group>";
 		};
-		550E290C1A71610C00A38E94 /* ObjC */ = {
+		5538B2A71A7585F900EFB7ED /* Wifi */ = {
 			isa = PBXGroup;
 			children = (
-				550E290F1A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm */,
-				55C770501A71C648006F6FE4 /* SBJEV3BluetoothAnounceriOS.h */,
-				55C770511A71C648006F6FE4 /* SBJEV3BluetoothAnounceriOS.mm */,
-				55C770531A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.h */,
-				55C770541A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.mm */,
+				5538B2A91A75862300EFB7ED /* SBJEV3WifiAccessorySpec.h */,
+				5538B2A81A75862300EFB7ED /* SBJEV3WifiAccessorySpec.cpp */,
+				5538B2D11A75C0CF00EFB7ED /* SBJEV3WifiAccessory.h */,
+				5538B2D01A75C0CF00EFB7ED /* SBJEV3WifiAccessory.cpp */,
+				5538B2AF1A7587B700EFB7ED /* SBJEV3WifiTransportListener.h */,
+				5538B2AE1A7587B700EFB7ED /* SBJEV3WifiTransportListener.cpp */,
+				5538B2DB1A75CB4000EFB7ED /* SBJEV3WifiTransportListener.mm */,
+				550E29141A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.h */,
+				550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */,
+				5538B2D51A75C22300EFB7ED /* GCDAsyncUdpSocket.h */,
+				5538B2D61A75C22300EFB7ED /* GCDAsyncUdpSocket.m */,
+			);
+			name = Wifi;
+			sourceTree = "<group>";
+		};
+		5538B2C61A75A2B100EFB7ED /* Connections */ = {
+			isa = PBXGroup;
+			children = (
+				550E28CD1A715EC500A38E94 /* SBJEV3Connection.h */,
 				550E29121A71610C00A38E94 /* SBJEV3ConnectionObjC.h */,
 				550E29131A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm */,
 				550E29101A71610C00A38E94 /* SBJEV3ConnectionImplObjC.h */,
 				550E29111A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm */,
+			);
+			name = Connections;
+			sourceTree = "<group>";
+		};
+		5538B2C91A75AEEE00EFB7ED /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				5538B2CB1A75AF3600EFB7ED /* SBJEV3BluetoothTransportListener.h */,
+				5538B2D31A75C13900EFB7ED /* SBJEV3BluetoothTransportListener.mm */,
 				550E290D1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.h */,
 				550E290E1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm */,
-				550E29141A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.h */,
-				550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */,
-				55DC41251A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.h */,
-				55DC41261A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm */,
-				5538B2951A7498F200EFB7ED /* GCDAsyncUdpSocket.h */,
-				5538B2961A7498F200EFB7ED /* GCDAsyncUdpSocket.m */,
 			);
-			path = ObjC;
+			name = Bluetooth;
+			sourceTree = "<group>";
+		};
+		5538B2DA1A75C4BC00EFB7ED /* USB */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = USB;
 			sourceTree = "<group>";
 		};
 		55A7CB6B1A3E07130028553C = {
@@ -279,12 +316,14 @@
 			children = (
 				55A7CB7B1A3E07130028553C /* AppDelegate.h */,
 				55A7CB7C1A3E07130028553C /* AppDelegate.mm */,
-				55A7CB7E1A3E07130028553C /* ConnectivityViewController.h */,
-				55A7CB7F1A3E07130028553C /* ConnectivityViewController.mm */,
-				55B04B981A607F41006265AB /* DirectoryListingViewController.h */,
-				55B04B991A607F41006265AB /* DirectoryListingViewController.mm */,
+				557868F11A8CDF9000079D55 /* DiscoveredViewController.h */,
+				557868F21A8CDF9000079D55 /* DiscoveredViewController.mm */,
+				55A7CB7E1A3E07130028553C /* DeviceSelectionViewController.h */,
+				55A7CB7F1A3E07130028553C /* DeviceSelectionViewController.mm */,
 				55A7CB811A3E07130028553C /* RailSwitchViewController.h */,
 				55A7CB821A3E07130028553C /* RailSwitchViewController.mm */,
+				55B04B981A607F41006265AB /* DirectoryListingViewController.h */,
+				55B04B991A607F41006265AB /* DirectoryListingViewController.mm */,
 				55781F721A62DB2C00BD0ABB /* FileViewController.h */,
 				55781F731A62DB2C00BD0ABB /* FileViewController.mm */,
 				55A7CBBD1A3E08B60028553C /* RailSwitch.h */,
@@ -327,8 +366,10 @@
 		55A7CBC01A3E10860028553C /* SBJEV3 */ = {
 			isa = PBXGroup;
 			children = (
+				550E29061A715F6100A38E94 /* SBJEV3DeviceIdentifier.h */,
 				55A7CBC41A3E10860028553C /* SBJEV3Brick.h */,
 				55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */,
+				55AA79461A8F910700CBD6BB /* SBJEV3FlagOperatorOverloads.h */,
 				550E28CA1A715EC500A38E94 /* Connections */,
 				550E28C31A715EC500A38E94 /* Commands */,
 				550E28DA1A715EC500A38E94 /* DirectCommands */,
@@ -440,26 +481,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5538B2B01A7587B700EFB7ED /* SBJEV3WifiTransportListener.cpp in Sources */,
 				55A7CB831A3E07130028553C /* RailSwitchViewController.mm in Sources */,
-				550E29191A71610C00A38E94 /* SBJEV3ConnectionFactoryIOS.mm in Sources */,
+				55AA79451A8E2B2800CBD6BB /* SBJEV3DiscoveredDevice.cpp in Sources */,
+				5538B2AA1A75862300EFB7ED /* SBJEV3WifiAccessorySpec.cpp in Sources */,
+				5538B2D71A75C22300EFB7ED /* GCDAsyncUdpSocket.m in Sources */,
 				55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */,
-				5538B2971A7498F200EFB7ED /* GCDAsyncUdpSocket.m in Sources */,
-				55A7CB801A3E07130028553C /* ConnectivityViewController.mm in Sources */,
-				55DC41271A72F7060017035E /* SBJEV3WifiAccessoriesViewControllerIOS.mm in Sources */,
+				55A7CB801A3E07130028553C /* DeviceSelectionViewController.mm in Sources */,
 				55B04B9A1A607F41006265AB /* DirectoryListingViewController.mm in Sources */,
+				5538B2D91A75C37600EFB7ED /* SBJEV3ConnectionFactory.cpp in Sources */,
 				55A7CBBF1A3E08B60028553C /* RailSwitch.mm in Sources */,
 				550E291A1A71610C00A38E94 /* SBJEV3ConnectionImplObjC.mm in Sources */,
 				550E29031A715EC600A38E94 /* SBJEV3Log.cpp in Sources */,
 				55781F741A62DB2C00BD0ABB /* FileViewController.mm in Sources */,
 				550E29181A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm in Sources */,
 				550E29021A715EC600A38E94 /* SBJEV3FileUploader.cpp in Sources */,
-				55C770551A71C8E6006F6FE4 /* SBJEV3WifiAnnouncerObjC.mm in Sources */,
-				55C770521A71C648006F6FE4 /* SBJEV3BluetoothAnounceriOS.mm in Sources */,
 				55A7CBD81A3E10860028553C /* SBJEV3Brick.cpp in Sources */,
-				55DC412A1A7302F10017035E /* SBJEV3WifiAccessory.cpp in Sources */,
 				550E28FD1A715EC600A38E94 /* SBJEV3ConnectionToken.cpp in Sources */,
 				550E28F91A715EC600A38E94 /* SBJEV3InvocationStack.cpp in Sources */,
+				557868F31A8CDF9000079D55 /* DiscoveredViewController.mm in Sources */,
+				5538B2D21A75C0CF00EFB7ED /* SBJEV3WifiAccessory.cpp in Sources */,
+				5538B2D41A75C13900EFB7ED /* SBJEV3BluetoothTransportListener.mm in Sources */,
 				550E291C1A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm in Sources */,
+				5538B2DC1A75CB4000EFB7ED /* SBJEV3WifiTransportListener.mm in Sources */,
 				550E29011A715EC600A38E94 /* SBJEV3DirectoryEntry.cpp in Sources */,
 				55A7CB7A1A3E07130028553C /* main.m in Sources */,
 				550E291B1A71610C00A38E94 /* SBJEV3EV3ConnectionObjC.mm in Sources */,

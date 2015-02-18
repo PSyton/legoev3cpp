@@ -1,26 +1,29 @@
 //
-//  SBJEV3WifiAnnouncerObjC.mm
+//  SBJEV3WifiTransportListener.cpp
 //  Jove's Landing
 //
-//  Created by David Giovannini on 1/22/15.
+//  Created by David Giovannini on 1/25/15.
 //  Copyright (c) 2015 Software by Jove. All rights reserved.
 //
 
-#import "SBJEV3WifiAnnouncerObjC.h"
+#include "SBJEV3WifiTransportListener.h"
+#include "SBJEV3DeviceIdentifier.h"
+#include "SBJEV3ConnectionObjC.h"
+#include "SBJEV3Connection.h"
 #import "SBJEV3WifiConnectionImplObjC.h"
 #import "GCDAsyncUdpSocket.h"
 
 using namespace SBJ::EV3;
 
-@interface EV3WifiAnnouncer()<GCDAsyncUdpSocketDelegate>
+@interface EV3WifiTransportListenerDelegate : NSObject
 {
+	WifiTransportListener* _callback;
 	GCDAsyncUdpSocket* _udpSocket;
-	WifiAccessoryCollection _collection;
 	NSTimer* _timer;
 }
 @end
 
-@implementation EV3WifiAnnouncer
+@implementation EV3WifiTransportListenerDelegate
 
 - (id) init
 {
@@ -29,12 +32,9 @@ using namespace SBJ::EV3;
 	return self;
 }
 
-- (void) start: (SBJEV3WifiAnnouncerChange) change
+- (void) startWithcallback: (WifiTransportListener*) callback
 {
-	_collection.start([change](auto key, auto accessory)
-	{
-		change(key, accessory);
-	});
+	_callback = callback;
 	
 	NSError* error = nil;
 	[_udpSocket bindToPort: 3015 error:&error];
@@ -45,7 +45,7 @@ using namespace SBJ::EV3;
 
 - (void) onTimer: (NSObject*) userInfo
 {
-	_collection.evaluateStaleness();
+	_callback->evaluateStaleness();
 }
 
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data
@@ -55,12 +55,33 @@ using namespace SBJ::EV3;
 	NSString *host = nil;
 	uint16_t port = 0;
 	[GCDAsyncUdpSocket getHost:&host port:&port fromAddress:address];
-	_collection.onUdpPacket(host.UTF8String, (const uint8_t*)data.bytes, data.length);
+	_callback->onUdpPacket(host.UTF8String, (const uint8_t*)data.bytes, data.length);
 }
 
-- (EV3ConnectionImpl*) findConnection: (SBJ::EV3::Log&)log identifier: (SBJ::EV3::DeviceIdentifier&) identifier
+@end
+
+static EV3WifiTransportListenerDelegate* _delegate;
+
+WifiTransportListener::WifiTransportListener()
 {
-	WifiAccessory::Ptr accessory = _collection.findAccessory(identifier);
+	_delegate = [[EV3WifiTransportListenerDelegate alloc] init];
+}
+
+void WifiTransportListener::startWithDiscovery(Discovery discovery)
+{
+	_discovery = discovery;
+	[_delegate startWithcallback: this];
+}
+
+WifiTransportListener::~WifiTransportListener()
+{
+	_delegate = nil;
+}
+
+std::unique_ptr<Connection> WifiTransportListener::createConnection(Log& log, const std::string& serial)
+{
+	WifiAccessory::Ptr accessory(_accessories[serial]);
+
 	EV3WifiConnectionImpl* impl = nil;
 	if (accessory)
 	{
@@ -70,12 +91,5 @@ using namespace SBJ::EV3;
 			impl = nil;
 		}
 	}
-	return impl;
+	return std::unique_ptr<Connection>(new ConnectionObjC(impl));
 }
-
-- (void) prompt: (SBJ::EV3::PromptAccessoryErrored) errored
-{
-	auto m = _collection.accessories();
-}
-
-@end

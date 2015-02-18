@@ -10,6 +10,10 @@
 #import "SBJEV3Connection.h"
 #include "SBJEV3Log.h"
 
+/*
+ * EV3ConnectionImpl manages the lycycle and use of NSStreams
+ */
+
 @interface EV3ConnectionImpl : NSObject
 
 - (id) init: (SBJ::EV3::Log&) log;

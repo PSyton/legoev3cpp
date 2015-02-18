@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "SBJEV3DeviceIdentifier.h"
+#include "SBJEV3DiscoveredDevice.h"
 
 #include <string>
 #include <functional>
@@ -29,7 +29,7 @@ enum class PromptAccessoryError
 class ConnectionFactory;
 class Connection;
 
-using ConnectionChanged = std::function<void(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection)>;
+using ConnectionChanged = std::function<void(DiscoveredDevice::Ptr device, std::unique_ptr<Connection>& connection)>;
 using PromptAccessoryErrored = std::function<void(PromptAccessoryError error)>;
 
 /*
@@ -39,33 +39,35 @@ using PromptAccessoryErrored = std::function<void(PromptAccessoryError error)>;
 class ConnectionToken
 {
 public:
-	ConnectionToken(ConnectionFactory& factory, const DeviceIdentifier& identifier, ConnectionChanged action);
-	
+	ConnectionToken(const std::string& serial, ConnectionTransport transport, ConnectionFactory& factory, ConnectionChanged connectionChange);
+
 	~ConnectionToken();
 	
-	const DeviceIdentifier& identifier() const
+	const std::string& serial() const
 	{
-		return _identifier;
+		return _serial;
 	}
 	
 	bool isConnected() const
 	{
-		return _connected;
+		return _isConnected;
 	}
 	
-	void makeConnection(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection);
+	ConnectionTransport transport() const
+	{
+		return _transport;
+	}
 	
-	void prompt(PromptAccessoryErrored errored = PromptAccessoryErrored());
+	void connectionHasBennMade(DiscoveredDevice::Ptr device, std::unique_ptr<Connection>& connection);
 	
-	void prompt(ConnectionTransport transport, PromptAccessoryErrored errored = PromptAccessoryErrored());
-	
-	void disconnect();
+	bool setIsConnected(bool connected);
 	
 private:
+	std::string _serial;
 	ConnectionFactory& _factory;
-	DeviceIdentifier _identifier;
-	ConnectionChanged _action;
-	bool _connected = false;
+	ConnectionChanged _connectionChange;
+	ConnectionTransport _transport;
+	bool _isConnected;
 };
 
 

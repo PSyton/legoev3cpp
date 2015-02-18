@@ -13,7 +13,8 @@
 #include "SBJEV3Log.h"
 #import "RailSwitch.h"
 
-#import "ConnectivityViewController.h"
+#import "DiscoveredViewController.h"
+#import "DeviceSelectionViewController.h"
 #import "RailSwitchViewController.h"
 #import "DirectoryListingViewController.h"
 
@@ -25,7 +26,8 @@ Log mylog(std::cout);
 {
 	std::unique_ptr<ConnectionFactory> _factory;
 	std::unique_ptr<Brick> _brick;
-	__weak ConnectivityViewController* _connectivity;
+	__weak DiscoveredViewController* _discovered;
+	__weak DeviceSelectionViewController* _connectivity;
 	__weak RailSwitchViewController* _rails;
 	__weak DirectoryListingViewController* _dirListing;
 	
@@ -38,22 +40,25 @@ Log mylog(std::cout);
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
 	
-	_factory.reset(new ConnectionFactory(mylog));
-	_factory->start();
-	
-	_brick.reset(new Brick(*_factory));
 	__weak decltype(self) weakSelf = self;
-	_brick->connectionEvent = ^(Brick& brick)
+	
+	_factory.reset(new ConnectionFactory(mylog));
+	_factory->start(^(DiscoveredDevice& device, DiscoveredDeviceChanged change)
 	{
 		[weakSelf updateUI];
-	};
+	});
+	
+	_brick.reset(new Brick(*_factory));
+	
 	[RailSwitch installOnBrick: _brick.get()];
 		
 	UITabBarController* controller = (UITabBarController*)self.window.rootViewController;
-	_connectivity = controller.viewControllers[0];
-	_rails = controller.viewControllers[1];
-	_dirListing = controller.viewControllers[2];
+	_discovered = controller.viewControllers[0];
+	_connectivity = controller.viewControllers[1];
+	_rails = controller.viewControllers[2];
+	_dirListing = controller.viewControllers[3];
 	
+	[_discovered setConnectionFactory: _factory.get()];
 	[_connectivity setBrick: _brick.get()];
 	[_rails setBrick: _brick.get()];
 	[_dirListing setBrick: _brick.get()];
@@ -61,16 +66,9 @@ Log mylog(std::cout);
 	return YES;
 }
 
-- (void) reactivate
-{
-	_brick->prompt(^(Brick& brick, PromptAccessoryError error)
-	{
-		[self updateUI];
-	});
-}
-
 - (void) updateUI
 {
+	[_discovered updateUI];
 	[_connectivity updateUI];
 	[_rails updateUI];
 }
@@ -91,7 +89,7 @@ Log mylog(std::cout);
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-	[self reactivate];
+	[self updateUI];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

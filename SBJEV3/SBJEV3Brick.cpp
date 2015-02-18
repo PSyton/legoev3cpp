@@ -12,21 +12,33 @@
 
 using namespace SBJ::EV3;
 
-Brick::Brick(ConnectionFactory& factory, const DeviceIdentifier& identifier)
-: _log(factory.log())
-, _identifier(identifier)
-, _messenger(_log, [](auto buffer) { return((const COMRPL*)buffer)->MsgCnt; })
+Brick::Brick(ConnectionFactory& factory)
+: _factory(factory)
 {
-	_token.reset((
-		new ConnectionToken(factory, identifier,
-		  [this](DeviceIdentifier updatedIdentifier, std::unique_ptr<Connection>& connection)
-		  {
-			  handleConnectionChange(updatedIdentifier, connection);
-		  })));
 }
 
 Brick::~Brick()
 {
+}
+
+void Brick::fetchDevice(const DeviceIdentifier& identifier)
+{
+	DeviceIdentifier resolved = identifier;
+	_device = _factory.findDiscovered(resolved);
+	if (auto device = _device.lock())
+	{
+		_activeTransport = *resolved.transports.begin();
+		if (device->setIsConnected(_activeTransport, true) == false)
+		{
+			_activeTransport = ConnectionTransport::none;
+		}
+		fetchBrickInfo();
+	}
+	else
+	{
+		_activeTransport = ConnectionTransport::none;
+		fetchBrickInfo();
+	}
 }
 
 void Brick::setName(const std::string& name)
@@ -36,62 +48,50 @@ void Brick::setName(const std::string& name)
 	directCommand(0.0, set);
 	_name = name;
 }
-	
+
+std::string Brick::serialNumber() const
+{
+	if (auto device = _device.lock())
+	{
+		return device->serial();
+	}
+	return "";
+}
+
 Brick::Battery Brick::battery()
 {
 	auto result = directCommand(1.0, BatteryLevel(), BatteryVoltage(), BatteryCurrent(), BatteryTempuratureRise());
 	return { std::get<0>(result), std::get<1>(result), std::get<2>(result), std::get<3>(result) };
 }
 
-bool Brick::isConnected() const
+void Brick::fetchBrickInfo()
 {
-	return _token->isConnected();
-}
-
-void Brick::prompt(PromptAccessoryErrored errored)
-{
-	_token->prompt([this, errored](auto error)
+	// TODO: WTF?
+	if (_activeTransport == ConnectionTransport::bluetooth)
 	{
-		if (errored) errored(*this, error);
-	});
-}
-
-void Brick::prompt(ConnectionTransport transport, PromptAccessoryErrored errored)
-{
-	_token->prompt(transport, [this, errored](auto error)
-	{
-		if (errored) errored(*this, error);
-	});
-}
-
-void Brick::disconnect()
-{
-	_token->disconnect();
-}
-
-void Brick::handleConnectionChange(const DeviceIdentifier& updatedIdentifier, std::unique_ptr<Connection>& connection)
-{
-	_identifier = updatedIdentifier;
-	_connectionTransport = connection ? connection->transport() : ConnectionTransport::none;
-	_messenger.connectionChange(connection);
-	if (_connectionTransport != ConnectionTransport::none)
-	{
-		auto result = directCommand(5.0,
+		auto result = directCommand(1.0,
 			GetBrickName<>(),
 			HardwareVersion(),
-			FirmwareVersion(),
+			//FirmwareVersion(), // timeout
 			FirmwareBuild(),
-			OSVersion(),
-			OSBuild(),
+			//OSVersion(), // timeout
+			//OSBuild(), // timeout
 			FullVersion()
 			);
 		_name = std::get<0>(result);
-		_version = { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<4>(result), std::get<5>(result), std::get<6>(result) };
+		// TODO: serial number
+		_version = { std::get<1>(result), /*std::get<2>(result)*/"", std::get<2>(result), /*std::get<4>(result)*/"", /*std::get<5>(result)*/"", std::get<3>(result) };
+		return;
 	}
-	else
-	{
-		_name.clear();
-		_version.clear();
-	}
-	if (connectionEvent) connectionEvent(*this);
+	auto result = directCommand(1.0,
+		GetBrickName<>(),
+		HardwareVersion(),
+		FirmwareVersion(),
+		FirmwareBuild(),
+		OSVersion(),
+		OSBuild(),
+		FullVersion()
+		);
+	_name = std::get<0>(result);
+	_version = { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<4>(result), std::get<5>(result), std::get<6>(result) };
 }

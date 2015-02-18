@@ -1,5 +1,5 @@
 //
-//  ConnectionPreference.h
+//  TransportSelection.h
 //  Jove's Landing
 //
 //  Created by David Giovannini on 1/22/15.
@@ -13,19 +13,23 @@ namespace SBJ
 namespace EV3
 {
 
-enum class ConnectionTransport : char
+enum class ConnectionTransport
 {
-	none = '\0',
-	bluetooth = 'b',
-	wifi = 'w',
-	usb = 'u',
+	none = 0,
+	bluetooth,
+	wifi,
+	usb,
 };
+#define ConnectionTransportCount 4
 
-class ConnectionPreference
+/*
+ * TransportSelection is an ordered list of ConnectionTransports used for flagging availability and preference
+ */
+
+class TransportSelection
 {
 public:
-
-	ConnectionPreference()
+	TransportSelection()
 #if (TARGET_IPHONE_SIMULATOR)
 	: _transport{ConnectionTransport::wifi, ConnectionTransport::bluetooth, ConnectionTransport::usb}
 #else
@@ -34,7 +38,7 @@ public:
 	{
 	}
 	
-	ConnectionPreference(ConnectionTransport transport)
+	TransportSelection(ConnectionTransport transport)
 	: _transport{transport, ConnectionTransport::none, ConnectionTransport::none}
 	{
 	}
@@ -54,7 +58,7 @@ public:
 		}
 	}
 	
-	void addTransport(ConnectionTransport transport)
+	void insert(ConnectionTransport transport)
 	{
 		for (int i = 0; i < 3; i++)
 		{
@@ -66,16 +70,45 @@ public:
 		}
 	}
 	
-	void removeTransport(ConnectionTransport transport)
+	bool erase(ConnectionTransport transport)
 	{
+		bool stillGotOne = false;
 		for (int i = 0; i < 3; i++)
 		{
 			if (_transport[i] == transport)
 			{
 				_transport[i] = ConnectionTransport::none;
-				return;
+			}
+			else if (_transport[i] != ConnectionTransport::none)
+			{
+				stillGotOne |= true;
 			}
 		}
+		return stillGotOne;
+	}
+	
+	bool find(ConnectionTransport transport) const
+	{
+		for (auto i : *this)
+		{
+			if (i == transport)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	bool findAny() const
+	{
+		for (auto i : *this)
+		{
+			if (i != ConnectionTransport::none)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	const ConnectionTransport* begin() const
