@@ -21,9 +21,9 @@ ConnectionFactory::ConnectionFactory(Log& log)
 : _log(log)
 {
 	_transports[ConnectionTransport::none].reset(new TransportListener());
+	_transports[ConnectionTransport::usb].reset(new TransportListener());
 	_transports[ConnectionTransport::wifi].reset(new WifiTransportListener());
 	_transports[ConnectionTransport::bluetooth].reset(new BluetoothTransportListener());
-	_transports[ConnectionTransport::usb].reset(new TransportListener());
 }
 
 ConnectionFactory::~ConnectionFactory()

@@ -22,9 +22,9 @@ using namespace SBJ::EV3;
 	
 	IBOutlet UITableViewCell* _selectName;
 	IBOutlet UITableViewCell* _selectSerial;
+	IBOutlet UITableViewCell* _selectUsb;
 	IBOutlet UITableViewCell* _selectWifi;
 	IBOutlet UITableViewCell* _selectBluetooth;
-	IBOutlet UITableViewCell* _selectUsb;
 }
 
 @end
@@ -46,7 +46,49 @@ using namespace SBJ::EV3;
     self.refreshControl.tintColor = [UIColor whiteColor];
     [self.refreshControl addTarget:self action:@selector(selectDevice) forControlEvents:UIControlEventValueChanged];
 
-	[self setUIFromIdentifier: DeviceIdentifier()];
+	 [self load];
+}
+
+- (void) load
+{
+	DeviceIdentifier identifier;
+	TransportSelection selection(ConnectionTransport::none);
+	NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+	NSDictionary* identifierValues = [userDefaults objectForKey: @"identifierValues"];
+	if (identifierValues.count)
+	{
+		identifier.name = [identifierValues[@"name"] UTF8String];
+		identifier.serial = [identifierValues[@"serial"] UTF8String];
+		identifier.search = (DeviceIdentifier::SearchMethod)[identifierValues[@"search"] integerValue];
+		NSArray* transports = identifierValues[@"transports"];
+		for (NSNumber* transport in transports)
+		{
+			selection.insert((ConnectionTransport)transport.integerValue);
+		}
+		identifier.transports = selection;
+	}
+	[self setUIFromIdentifier: identifier];
+}
+
+- (DeviceIdentifier) save
+{
+	DeviceIdentifier identifier = [self buildIdentifier];
+	NSDictionary* identifierValues = @
+	{
+		@"name" : [NSString stringWithUTF8String: identifier.name.c_str()],
+		@"serial" : [NSString stringWithUTF8String: identifier.serial.c_str()],
+		@"search" : @((int)identifier.search),
+		@"transports" : @
+		[
+			@((int)identifier.transports[0]),
+			@((int)identifier.transports[1]),
+			@((int)identifier.transports[2]),
+		]
+	};
+	NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+	[userDefaults setObject: identifierValues forKey: @"identifierValues"];
+	[userDefaults synchronize];
+	return identifier;
 }
 
 - (void) setBrick: (SBJ::EV3::Brick*) brick
@@ -75,17 +117,17 @@ using namespace SBJ::EV3;
 		_serial.detailTextLabel.text = [NSString stringWithUTF8String: (_brick->serialNumber() + " ").c_str()];
 		switch (_brick->activeTransport())
 		{
+			case ConnectionTransport::none:
+				_connectType.image = [UIImage imageNamed: @"None"];
+				break;
 			case ConnectionTransport::usb:
 				_connectType.image = [UIImage imageNamed: @"USB"];
-				break;
-			case ConnectionTransport::bluetooth:
-				_connectType.image = [UIImage imageNamed: @"Bluetooth"];
 				break;
 			case ConnectionTransport::wifi:
 				_connectType.image = [UIImage imageNamed: @"WIFI"];
 				break;
-			case ConnectionTransport::none:
-				_connectType.image = [UIImage imageNamed: @"None"];
+			case ConnectionTransport::bluetooth:
+				_connectType.image = [UIImage imageNamed: @"Bluetooth"];
 				break;
 		}
 		if (_brick->isConnected())
@@ -157,17 +199,17 @@ using namespace SBJ::EV3;
 		UITableViewCell* test = [self.tableView cellForRowAtIndexPath: [NSIndexPath indexPathForRow: i inSection: 1]];
 		if ([(UISwitch*)[test viewWithTag: 1] isOn])
 		{
-			if (test == _selectBluetooth)
+			if (test == _selectUsb)
 			{
-				transports.insert(ConnectionTransport::bluetooth);
+				transports.insert(ConnectionTransport::usb);
 			}
 			else if (test == _selectWifi)
 			{
 				transports.insert(ConnectionTransport::wifi);
 			}
-			else if (test == _selectUsb)
+			else if (test == _selectBluetooth)
 			{
-				transports.insert(ConnectionTransport::usb);
+				transports.insert(ConnectionTransport::bluetooth);
 			}
 		}
 	}
@@ -187,9 +229,9 @@ using namespace SBJ::EV3;
 	[(UISwitch*)[_selectName viewWithTag: 1] setOn: checkName];
 	[(UISwitch*)[_selectSerial viewWithTag: 1] setOn: checkSerial];
 	
+	[(UISwitch*)[_selectUsb viewWithTag: 1] setOn: identifier.transports.find(ConnectionTransport::usb)];
 	[(UISwitch*)[_selectWifi viewWithTag: 1] setOn: identifier.transports.find(ConnectionTransport::wifi)];
 	[(UISwitch*)[_selectBluetooth viewWithTag: 1] setOn: identifier.transports.find(ConnectionTransport::bluetooth)];
-	[(UISwitch*)[_selectUsb viewWithTag: 1] setOn: identifier.transports.find(ConnectionTransport::usb)];
 	
 	if (serialFirst)
 	{
@@ -209,17 +251,17 @@ using namespace SBJ::EV3;
 		NSIndexPath* src = nil;
 		switch (transport)
 		{
-			case ConnectionTransport::bluetooth:
-				src = [self.tableView indexPathForCell: _selectBluetooth];
+			case ConnectionTransport::none:
+				continue;
+			case ConnectionTransport::usb:
+				src = [self.tableView indexPathForCell: _selectUsb];
 				break;
 			case ConnectionTransport::wifi:
 				src = [self.tableView indexPathForCell: _selectWifi];
 				break;
-			case ConnectionTransport::usb:
-				src = [self.tableView indexPathForCell: _selectUsb];
+			case ConnectionTransport::bluetooth:
+				src = [self.tableView indexPathForCell: _selectBluetooth];
 				break;
-			case ConnectionTransport::none:
-				continue;
 		}
 		[self.tableView moveRowAtIndexPath: src toIndexPath: dest];
 	}
@@ -228,8 +270,7 @@ using namespace SBJ::EV3;
 - (void) selectDevice
 {
 	[self.refreshControl beginRefreshing];
-	DeviceIdentifier identifier = [self buildIdentifier];
-	_brick->fetchDevice(identifier);
+	_brick->fetchDevice([self save]);
 	[self updateUI];
 	[self.refreshControl endRefreshing];
 }

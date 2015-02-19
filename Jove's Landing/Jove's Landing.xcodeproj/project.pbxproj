@@ -137,7 +137,7 @@
 		55AA79461A8F910700CBD6BB /* SBJEV3FlagOperatorOverloads.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJEV3FlagOperatorOverloads.h; path = General/SBJEV3FlagOperatorOverloads.h; sourceTree = "<group>"; };
 		55B04B981A607F41006265AB /* DirectoryListingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryListingViewController.h; sourceTree = "<group>"; };
 		55B04B991A607F41006265AB /* DirectoryListingViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DirectoryListingViewController.mm; sourceTree = "<group>"; };
-		55C770561A7208FB006F6FE4 /* SBJEV3TransportSelection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3TransportSelection.h; sourceTree = "<group>"; };
+		55C770561A7208FB006F6FE4 /* SBJEV3TransportSelection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJEV3TransportSelection.h; path = Connections/SBJEV3TransportSelection.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,7 +175,6 @@
 		550E28CA1A715EC500A38E94 /* Connections */ = {
 			isa = PBXGroup;
 			children = (
-				55C770561A7208FB006F6FE4 /* SBJEV3TransportSelection.h */,
 				5538B2B51A758A8C00EFB7ED /* SBJEV3DiscoveredDevice.h */,
 				55AA79441A8E2B2800CBD6BB /* SBJEV3DiscoveredDevice.cpp */,
 				550E28D41A715EC500A38E94 /* SBJEV3ConnectionToken.h */,
@@ -366,6 +365,7 @@
 		55A7CBC01A3E10860028553C /* SBJEV3 */ = {
 			isa = PBXGroup;
 			children = (
+				55C770561A7208FB006F6FE4 /* SBJEV3TransportSelection.h */,
 				550E29061A715F6100A38E94 /* SBJEV3DeviceIdentifier.h */,
 				55A7CBC41A3E10860028553C /* SBJEV3Brick.h */,
 				55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */,

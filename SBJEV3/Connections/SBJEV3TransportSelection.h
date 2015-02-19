@@ -16,9 +16,9 @@ namespace EV3
 enum class ConnectionTransport
 {
 	none = 0,
-	bluetooth,
-	wifi,
 	usb,
+	wifi,
+	bluetooth,
 };
 #define ConnectionTransportCount 4
 
@@ -30,11 +30,7 @@ class TransportSelection
 {
 public:
 	TransportSelection()
-#if (TARGET_IPHONE_SIMULATOR)
-	: _transport{ConnectionTransport::wifi, ConnectionTransport::bluetooth, ConnectionTransport::usb}
-#else
 	: _transport{ConnectionTransport::usb, ConnectionTransport::wifi, ConnectionTransport::bluetooth}
-#endif
 	{
 	}
 	
@@ -60,13 +56,21 @@ public:
 	
 	void insert(ConnectionTransport transport)
 	{
+		int place = -1;
 		for (int i = 0; i < 3; i++)
 		{
-			if (_transport[i] == ConnectionTransport::none)
+			if (_transport[i] == transport)
 			{
-				_transport[i] = transport;
 				return;
 			}
+			if (_transport[i] == ConnectionTransport::none)
+			{
+				place = i;
+			}
+		}
+		if (place != -1)
+		{
+			_transport[place] = transport;
 		}
 	}
 	
@@ -109,6 +113,11 @@ public:
 			}
 		}
 		return false;
+	}
+	
+	ConnectionTransport operator [] (int i) const
+	{
+		return _transport[i];
 	}
 	
 	const ConnectionTransport* begin() const
