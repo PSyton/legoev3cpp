@@ -63,7 +63,7 @@ public:
 			{
 				return;
 			}
-			if (_transport[i] == ConnectionTransport::none)
+			if (place == -1 && _transport[i] == ConnectionTransport::none)
 			{
 				place = i;
 			}
