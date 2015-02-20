@@ -58,6 +58,15 @@ std::string Brick::serialNumber() const
 	return "";
 }
 
+bool Brick::isConnected() const
+{
+	if (auto device = _device.lock())
+	{
+		return device->isConnected(_activeTransport);
+	}
+	return false;
+}
+
 Brick::Battery Brick::battery()
 {
 	auto result = directCommand(1.0, BatteryLevel(), BatteryVoltage(), BatteryCurrent(), BatteryTempuratureRise());
@@ -79,7 +88,6 @@ void Brick::fetchBrickInfo()
 			FullVersion()
 			);
 		_name = std::get<0>(result);
-		// TODO: serial number
 		_version = { std::get<1>(result), /*std::get<2>(result)*/"", std::get<2>(result), /*std::get<4>(result)*/"", /*std::get<5>(result)*/"", std::get<3>(result) };
 		return;
 	}

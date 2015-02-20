@@ -26,13 +26,13 @@ using namespace SBJ::EV3;
 
 std::string serialFromAccessory(EAAccessory* accessory)
 {
-	// accessory.serialNumber is empty!
+	// TODO: accessory.serialNumber is empty!
 	return std::to_string(accessory.connectionID);
 }
 
 std::string nameFromAccessory(EAAccessory* accessory)
 {
-	// accessory.name is always "MFI Accessory"!
+	// TODO: accessory.name is always "MFI Accessory"!
 	return "EV3 " + std::to_string(accessory.connectionID);
 }
 
@@ -166,8 +166,4 @@ std::unique_ptr<Connection> BluetoothTransportListener::createConnection(Log& lo
 		}
 	}
 	return std::unique_ptr<Connection>(new ConnectionObjC(impl));
-}
-	
-void BluetoothTransportListener::requestDisconnect(const std::string& serial)
-{
 }

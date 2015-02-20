@@ -28,9 +28,7 @@ public:
 	virtual void startWithDiscovery(Discovery discovery) override;
 	
 	virtual std::unique_ptr<Connection> createConnection(Log& log, const std::string& serial)  override;
-	
-	virtual void requestDisconnect(const std::string& serial) override;
-	
+		
 	static void prompt(PromptAccessoryErrored errored = PromptAccessoryErrored());
 	
 private:

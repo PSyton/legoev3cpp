@@ -58,12 +58,6 @@ using namespace SBJ::EV3;
 
 @implementation DiscoveredViewController
 
-- (void)viewDidLoad 
-{
-	[super viewDidLoad];
-	self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
-}
-
 - (void) setConnectionFactory: (SBJ::EV3::ConnectionFactory*) connectionFactory
 {
 	_connectionFactory = connectionFactory;

@@ -36,8 +36,6 @@ public:
 	virtual void startWithDiscovery(Discovery discovery) {}
 	
 	virtual std::unique_ptr<Connection> createConnection(Log& log, const std::string& serial)  { return std::unique_ptr<Connection>(); }
-	
-	virtual void requestDisconnect(const std::string& key) {}
 };
 
 }

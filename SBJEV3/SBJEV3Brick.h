@@ -68,15 +68,10 @@ public:
 	~Brick();
 	
 	void fetchDevice(const DeviceIdentifier& identifier = DeviceIdentifier());
+	
+	std::string serialNumber() const;
 		
-	bool isConnected() const
-	{
-		if (auto device = _device.lock())
-		{
-			return device->isConnected(_activeTransport);
-		}
-		return false;
-	}
+	bool isConnected() const;
 	
 	ConnectionTransport activeTransport() const
 	{
@@ -88,12 +83,15 @@ public:
 		return _name;
 	}
 	
-	std::string serialNumber() const;
+	void setName(const std::string& name);
+	
+	const Version& version() const
+	{
+		return _version;
+	}
 	
 	Battery battery();
 	
-	void setName(const std::string& name);
-
 	template <typename...  Opcodes>
 	typename DirectCommand<Opcodes...>::Results directCommand(float timeout, Opcodes... opcodes)
 	{
@@ -126,6 +124,7 @@ private:
 	Version _version;
 	ConnectionTransport _activeTransport = ConnectionTransport::none;
 	std::weak_ptr<DiscoveredDevice> _device;
+	
 	void fetchBrickInfo();
 };
 	

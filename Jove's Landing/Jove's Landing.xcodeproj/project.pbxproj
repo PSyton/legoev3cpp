@@ -25,13 +25,13 @@
 		5538B2DC1A75CB4000EFB7ED /* SBJEV3WifiTransportListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2DB1A75CB4000EFB7ED /* SBJEV3WifiTransportListener.mm */; };
 		55781F741A62DB2C00BD0ABB /* FileViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55781F731A62DB2C00BD0ABB /* FileViewController.mm */; };
 		557868F31A8CDF9000079D55 /* DiscoveredViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 557868F21A8CDF9000079D55 /* DiscoveredViewController.mm */; };
+		55A7940C1A9673DF00FC2811 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A7940A1A9673DF00FC2811 /* Launch Screen.xib */; };
 		55A7CB7A1A3E07130028553C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB791A3E07130028553C /* main.m */; };
 		55A7CB7D1A3E07130028553C /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7C1A3E07130028553C /* AppDelegate.mm */; };
 		55A7CB801A3E07130028553C /* DeviceSelectionViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB7F1A3E07130028553C /* DeviceSelectionViewController.mm */; };
 		55A7CB831A3E07130028553C /* RailSwitchViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB821A3E07130028553C /* RailSwitchViewController.mm */; };
 		55A7CB861A3E07130028553C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55A7CB841A3E07130028553C /* Main.storyboard */; };
 		55A7CB881A3E07130028553C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55A7CB871A3E07130028553C /* Images.xcassets */; };
-		55A7CB8B1A3E07130028553C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A7CB891A3E07130028553C /* LaunchScreen.xib */; };
 		55A7CB971A3E07130028553C /* Jove_s_LandingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CB961A3E07130028553C /* Jove_s_LandingTests.m */; };
 		55A7CBBF1A3E08B60028553C /* RailSwitch.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBBE1A3E08B60028553C /* RailSwitch.mm */; };
 		55A7CBD81A3E10860028553C /* SBJEV3Brick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55A7CBC31A3E10860028553C /* SBJEV3Brick.cpp */; };
@@ -113,6 +113,8 @@
 		55781F7B1A640D1800BD0ABB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		557868F11A8CDF9000079D55 /* DiscoveredViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoveredViewController.h; sourceTree = "<group>"; };
 		557868F21A8CDF9000079D55 /* DiscoveredViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscoveredViewController.mm; sourceTree = "<group>"; };
+		55A7940B1A9673DF00FC2811 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = "Base.lproj/Launch Screen.xib"; sourceTree = "<group>"; };
+		55A7940F1A96791A00FC2811 /* Jove's Landing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Jove's Landing.entitlements"; sourceTree = "<group>"; };
 		55A7CB741A3E07130028553C /* Jove's Landing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jove's Landing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55A7CB781A3E07130028553C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55A7CB791A3E07130028553C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -124,7 +126,6 @@
 		55A7CB821A3E07130028553C /* RailSwitchViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RailSwitchViewController.mm; sourceTree = "<group>"; };
 		55A7CB851A3E07130028553C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		55A7CB871A3E07130028553C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		55A7CB8A1A3E07130028553C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		55A7CB901A3E07130028553C /* Jove's LandingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Jove's LandingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55A7CB951A3E07130028553C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55A7CB961A3E07130028553C /* Jove_s_LandingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Jove_s_LandingTests.m; sourceTree = "<group>"; };
@@ -313,6 +314,7 @@
 		55A7CB761A3E07130028553C /* Jove's Landing */ = {
 			isa = PBXGroup;
 			children = (
+				55A7940F1A96791A00FC2811 /* Jove's Landing.entitlements */,
 				55A7CB7B1A3E07130028553C /* AppDelegate.h */,
 				55A7CB7C1A3E07130028553C /* AppDelegate.mm */,
 				557868F11A8CDF9000079D55 /* DiscoveredViewController.h */,
@@ -329,7 +331,7 @@
 				55A7CBBE1A3E08B60028553C /* RailSwitch.mm */,
 				55A7CB841A3E07130028553C /* Main.storyboard */,
 				55A7CB871A3E07130028553C /* Images.xcassets */,
-				55A7CB891A3E07130028553C /* LaunchScreen.xib */,
+				55A7940A1A9673DF00FC2811 /* Launch Screen.xib */,
 				55A7CB771A3E07130028553C /* Supporting Files */,
 			);
 			path = "Jove's Landing";
@@ -430,6 +432,12 @@
 				TargetAttributes = {
 					55A7CB731A3E07130028553C = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 4JYR7R4Y2M;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					55A7CB8F1A3E07130028553C = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -462,7 +470,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				55A7CB861A3E07130028553C /* Main.storyboard in Resources */,
-				55A7CB8B1A3E07130028553C /* LaunchScreen.xib in Resources */,
+				55A7940C1A9673DF00FC2811 /* Launch Screen.xib in Resources */,
 				55A7CB881A3E07130028553C /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -529,20 +537,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		55A7940A1A9673DF00FC2811 /* Launch Screen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				55A7940B1A9673DF00FC2811 /* Base */,
+			);
+			name = "Launch Screen.xib";
+			sourceTree = "<group>";
+		};
 		55A7CB841A3E07130028553C /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				55A7CB851A3E07130028553C /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		55A7CB891A3E07130028553C /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				55A7CB8A1A3E07130028553C /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -630,9 +638,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Jove's Landing/Jove's Landing.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Jove's Landing/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -640,9 +652,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Jove's Landing/Jove's Landing.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Jove's Landing/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

@@ -64,7 +64,3 @@ void WifiTransportListener::evaluateStaleness()
 		_discovery(ConnectionTransport::wifi, a->serial(), "");
 	}
 }
-	
-void WifiTransportListener::requestDisconnect(const std::string& serial)
-{
-}

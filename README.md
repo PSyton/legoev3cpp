@@ -11,9 +11,7 @@ The following are on the TODO list...
 3) Finish implementing all system opcode structures.
 	- There is a crash/deadlock with FileUploader
 4) Fetching extended brick info timeouts
-5) Finish WIFI connections
-6) Create more platform specific connection classes
-7) Redo some connection workflow to create a single "discovered" entity across transports
+5) Create more platform specific connection classes
 
 This project is dependent on the ev3 sources with the minor header changes made in the dsjove fork (pull request has been made). I have a fork of both ev3 source trees with the changes. You do NOT need to change the firmware on the EV3. The header files are only for desktop compilation.
 

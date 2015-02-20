@@ -17,6 +17,7 @@ using namespace SBJ::EV3;
 	Brick* _brick;
 	IBOutlet UITableViewCell* _name;
 	IBOutlet UITableViewCell* _serial;
+	IBOutlet UITableViewCell* _version;
 	IBOutlet UIProgressView* _battery;
 	IBOutlet UIImageView* _connectType;
 	
@@ -34,7 +35,6 @@ using namespace SBJ::EV3;
 - (void)viewDidLoad 
 {
 	[super viewDidLoad];
-	self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
 	
 	UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(renameBrick:)];
 	tap.numberOfTapsRequired = 2;
@@ -115,6 +115,7 @@ using namespace SBJ::EV3;
 		// Seriously Apple? Setting the text to empty string makes future setting invalid!
 		_name.detailTextLabel.text = [NSString stringWithUTF8String: (_brick->name() + " ").c_str()];
 		_serial.detailTextLabel.text = [NSString stringWithUTF8String: (_brick->serialNumber() + " ").c_str()];
+		_version.detailTextLabel.text = [NSString stringWithUTF8String: (_brick->version().fullVersion + " ").c_str()];
 		switch (_brick->activeTransport())
 		{
 			case ConnectionTransport::none:

@@ -204,7 +204,6 @@ bool ConnectionFactory::requestDisconnect(ConnectionToken& token)
 	if (findDiscovered != _discovered.end())
 	{
 		DiscoveredDevice::Ptr discovered = findDiscovered->second;
-		_transports[token.transport()]->requestDisconnect(serial);
 		std::unique_ptr<Connection> connection;
 		token.connectionHasBennMade(DiscoveredDevice::Ptr(), connection);
 		change |= DiscoveredDeviceChanged::disconnected;

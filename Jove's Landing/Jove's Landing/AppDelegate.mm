@@ -40,12 +40,9 @@ Log mylog(std::cout);
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
 	
-	__weak decltype(self) weakSelf = self;
-	
 	_factory.reset(new ConnectionFactory(mylog));
 	_factory->start(^(DiscoveredDevice& device, DiscoveredDeviceChanged change)
 	{
-		[weakSelf updateUI];
 	});
 	
 	_brick.reset(new Brick(*_factory));
@@ -53,6 +50,7 @@ Log mylog(std::cout);
 	[RailSwitch installOnBrick: _brick.get()];
 		
 	UITabBarController* controller = (UITabBarController*)self.window.rootViewController;
+	
 	_discovered = controller.viewControllers[0];
 	_connectivity = controller.viewControllers[1];
 	_rails = controller.viewControllers[2];
@@ -64,13 +62,6 @@ Log mylog(std::cout);
 	[_dirListing setBrick: _brick.get()];
 	
 	return YES;
-}
-
-- (void) updateUI
-{
-	[_discovered updateUI];
-	[_connectivity updateUI];
-	[_rails updateUI];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -89,7 +80,6 @@ Log mylog(std::cout);
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 	// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-	[self updateUI];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

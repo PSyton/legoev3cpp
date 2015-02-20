@@ -30,13 +30,6 @@ using namespace SBJ::EV3;
 
 @implementation RailSwitchViewController
 
-- (void)viewDidLoad
-{
-	[super viewDidLoad];
-	self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
-	[self updateUI];
-}
-
 - (void) setBrick: (SBJ::EV3::Brick*) brick
 {
 	_brick = brick;
