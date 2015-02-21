@@ -28,34 +28,51 @@ void Brick::fetchDevice(const DeviceIdentifier& identifier)
 	if (auto device = _device.lock())
 	{
 		_activeTransport = *resolved.transports.begin();
-		if (device->setIsConnected(_activeTransport, true) == false)
+		if (device->setIsConnected(_activeTransport, true))
 		{
-			_activeTransport = ConnectionTransport::none;
+			fetchBrickInfo(device);
+			return;
 		}
-		fetchBrickInfo();
-	}
-	else
-	{
 		_activeTransport = ConnectionTransport::none;
-		fetchBrickInfo();
 	}
+}
+
+std::string Brick::name() const
+{
+	if (auto device = _device.lock())
+	{
+		return device->info().name;
+	}
+	return "";
 }
 
 void Brick::setName(const std::string& name)
 {
-	SetBrickName set;
-	set.name = name;
-	directCommand(0.0, set);
-	_name = name;
+	if (auto device = _device.lock())
+	{
+		SetBrickName set;
+		set.name = name;
+		directCommand(0.0, set);
+		fetchBrickInfo(device);
+	}
 }
 
 std::string Brick::serialNumber() const
 {
 	if (auto device = _device.lock())
 	{
-		return device->serial();
+		return device->info().serial;
 	}
 	return "";
+}
+
+DeviceInfo Brick::version() const
+{
+	if (auto device = _device.lock())
+	{
+		return device->info();
+	}
+	return DeviceInfo();
 }
 
 bool Brick::isConnected() const
@@ -73,7 +90,7 @@ Brick::Battery Brick::battery()
 	return { std::get<0>(result), std::get<1>(result), std::get<2>(result), std::get<3>(result) };
 }
 
-void Brick::fetchBrickInfo()
+void Brick::fetchBrickInfo(DiscoveredDevice::Ptr device)
 {
 	// TODO: bluetooth vs. wifi - the full call in bluetooth kills the BT stack on the brick (EV3 reboot required)
 	if (_activeTransport == ConnectionTransport::bluetooth)
@@ -82,8 +99,13 @@ void Brick::fetchBrickInfo()
 			GetBrickName<>(),
 			FullVersion()
 			);
-		_name = std::get<0>(result);
-		_version = { "", "", "", "", "", std::get<1>(result) };
+		
+		DeviceInfo info;
+		info.serial = device->info().serial;
+		info.name = std::get<0>(result);
+		info.fullVersion = std::get<1>(result);
+		
+		_factory.updateDeviceInfo(info);
 	}
 	else
 	{
@@ -96,7 +118,17 @@ void Brick::fetchBrickInfo()
 			OSBuild(),
 			FullVersion()
 			);
-		_name = std::get<0>(result);
-		_version = { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<4>(result), std::get<5>(result), std::get<6>(result) };
+			
+		DeviceInfo info;
+		info.serial = device->info().serial;
+		info.name = std::get<0>(result);
+		info.hardwareVersion = std::get<1>(result);
+		info.firmwareVersion = std::get<2>(result);
+		info.firmwareBuild = std::get<3>(result);
+		info.oSVersion = std::get<4>(result);
+		info.oSBuild = std::get<5>(result);
+		info.fullVersion = std::get<6>(result);
+		
+		_factory.updateDeviceInfo(info);
 	}
 }

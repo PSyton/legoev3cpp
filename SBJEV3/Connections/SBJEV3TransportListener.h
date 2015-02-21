@@ -21,6 +21,7 @@ namespace EV3
 
 class Connection;
 class Log;
+class DeviceInfo;
 
 /*
  * TransportListener is an interface to abstact native implementation
@@ -29,7 +30,7 @@ class Log;
 class TransportListener
 {
 public:
-	using Discovery = std::function<void(ConnectionTransport transport, const std::string& serial, const std::string& name)>;
+	using Discovery = std::function<void(ConnectionTransport transport, const std::string& serial, const DeviceInfo* info)>;
 
 	virtual ~TransportListener() {}
 	

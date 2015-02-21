@@ -24,6 +24,20 @@ class ConnectionToken;
 class ConnectionFactory;
 class Messenger;
 class Log;
+	
+struct DeviceInfo
+{
+	std::string serial;
+	std::string name;
+	std::string hardwareVersion;
+	std::string firmwareVersion;
+	std::string firmwareBuild;
+	std::string oSVersion;
+	std::string oSBuild;
+	std::string fullVersion;
+	
+	bool update(const DeviceInfo& info, bool isTruth);
+};
 
 enum class DiscoveredDeviceChanged : int
 {
@@ -31,8 +45,7 @@ enum class DiscoveredDeviceChanged : int
 	added				= 0x1000,
 	transportAdded		= 0x0100,
 	connected			= 0x0010,
-	nameChange			= 0x0001,
-	serialChange		= 0x0002,
+	infoChange			= 0x0001,
 	disconnected		= 0x0020,
 	transportRemoved	= 0x0200,
 	removed				= 0x2000
@@ -57,7 +70,7 @@ public:
 		return _log;
 	}
 	
-	DiscoveredDeviceChanged addTransport(ConnectionFactory& factory, ConnectionTransport transport, const std::string& serial, const std::string& name);
+	DiscoveredDeviceChanged addTransport(ConnectionFactory& factory, ConnectionTransport transport, const std::string& serial, const DeviceInfo& info);
 	
 	DiscoveredDeviceChanged removeTransport(ConnectionTransport transport);
 	
@@ -75,15 +88,12 @@ public:
 	
 	bool setIsConnected(ConnectionTransport transport, bool connected);
 	
-	const std::string& name()
+	const DeviceInfo& info() const
 	{
-		return _name.size() ? _name : _serial;
+		return _info;
 	}
 	
-	const std::string& serial()
-	{
-		return _serial;
-	}
+	bool updateInfo(const DeviceInfo& info, bool isTruth);
 	
 	Messenger& messenger()
 	{
@@ -92,8 +102,7 @@ public:
 
 private:
 	Log& _log;
-	std::string _serial;
-	std::string _name;
+	DeviceInfo _info;
 	TransportSelection _available;
 	std::map<ConnectionTransport, std::unique_ptr<ConnectionToken>> _connectionTokens;
 	Messenger _messenger;

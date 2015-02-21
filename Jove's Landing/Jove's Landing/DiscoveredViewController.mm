@@ -23,7 +23,7 @@ using namespace SBJ::EV3;
 - (void) setDevice:(DiscoveredDevice::Ptr)device
 {
 	_device = device;
-	_name.text = [NSString stringWithUTF8String: device->name().c_str()];
+	_name.text = [NSString stringWithUTF8String: device->info().name.c_str()];
 	_wifi.enabled = device->hasTransport(ConnectionTransport::wifi);
 	_bluetooth.enabled = device->hasTransport(ConnectionTransport::bluetooth);
 	_usb.enabled = device->hasTransport(ConnectionTransport::usb);

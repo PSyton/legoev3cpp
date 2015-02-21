@@ -43,26 +43,6 @@ public:
 		float resistence() const { return voltage / current; }
 	};
 	
-	struct Version
-	{
-		std::string hardwareVersion;
-		std::string firmwareVersion;
-		std::string firmwareBuild;
-		std::string oSVersion;
-		std::string oSBuild;
-		std::string fullVersion;
-		
-		void clear()
-		{
-			hardwareVersion.clear();
-			firmwareVersion.clear();
-			firmwareBuild.clear();
-			oSVersion.clear();
-			oSBuild.clear();
-			fullVersion.clear();
-		}
-	};
-	
 	Brick(ConnectionFactory& factory);
 	
 	~Brick();
@@ -78,17 +58,11 @@ public:
 		return _activeTransport;
 	}
 	
-	const std::string& name() const
-	{
-		return _name;
-	}
+	std::string name() const;
 	
 	void setName(const std::string& name);
 	
-	const Version& version() const
-	{
-		return _version;
-	}
+	DeviceInfo version() const;
 	
 	Battery battery();
 	
@@ -120,12 +94,10 @@ public:
 
 private:
 	ConnectionFactory& _factory;
-	std::string _name;
-	Version _version;
 	ConnectionTransport _activeTransport = ConnectionTransport::none;
 	std::weak_ptr<DiscoveredDevice> _device;
 	
-	void fetchBrickInfo();
+	void fetchBrickInfo(DiscoveredDevice::Ptr device);
 };
 	
 }

@@ -57,6 +57,8 @@ public:
 	bool requestDisconnect(ConnectionToken& token);
 	bool requestConnect(ConnectionToken& token);
 	
+	void updateDeviceInfo(const DeviceInfo& info);
+	
 private:
 	DiscoveredDeviceChangeEvennt _deviceChangedEvent;
 	std::map<std::string, DiscoveredDevice::Ptr> _discovered;
@@ -65,7 +67,7 @@ private:
 	Log& _log;
 	
 	// Transport events
-	void discovered(ConnectionTransport transport, const std::string& serial, const std::string& name);
+	void discovered(ConnectionTransport transport, const std::string& serial, const DeviceInfo& info);
 	void undiscovered(ConnectionTransport transport, const std::string& serial);
 };
 

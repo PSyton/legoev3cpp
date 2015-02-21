@@ -22,12 +22,19 @@ std::string serialFromAccessory(EAAccessory* accessory)
 	return std::to_string(accessory.connectionID);
 }
 
-std::string nameFromAccessory(EAAccessory* accessory)
+DeviceInfo infoFromAccessory(EAAccessory* accessory)
 {
 	static unsigned int name = 0;
 	name++;
+	
+	DeviceInfo info;
+	info.serial = serialFromAccessory(accessory);
 	// TODO: accessory.name is always "MFI Accessory"!
-	return "BT EV3 " + std::to_string(name);
+	info.name = "BT EV3 " + std::to_string(name);
+	info.firmwareVersion = accessory.firmwareRevision.UTF8String;
+	info.hardwareVersion = accessory.hardwareRevision.UTF8String;
+	info.firmwareBuild = accessory.modelNumber.UTF8String;
+	return info;
 }
 
 @interface EV3BluetoothTransportListenerDelegate : NSObject
@@ -48,18 +55,6 @@ std::string nameFromAccessory(EAAccessory* accessory)
 	[mgr registerForLocalNotifications];
 }
 
-- (std::string) serialFromAccessory: (EAAccessory*) accessory
-{
-	// accessory.serialNumber is empty!
-	return std::to_string(accessory.connectionID);
-}
-
-- (std::string) nameFromAccessory: (EAAccessory*) accessory
-{
-	// accessory.name is "MFI Accessory"
-	return std::to_string(accessory.connectionID);
-}
-
 - (void) initialLoad
 {
 	EAAccessoryManager* mgr = [EAAccessoryManager sharedAccessoryManager];
@@ -68,7 +63,8 @@ std::string nameFromAccessory(EAAccessory* accessory)
 	{
 		if ([accessory.protocolStrings containsObject: LEGOAccessoryProtocol])
 		{
-			_callback(ConnectionTransport::bluetooth, serialFromAccessory(accessory), nameFromAccessory(accessory));
+			DeviceInfo info = infoFromAccessory(accessory);
+			_callback(ConnectionTransport::bluetooth, info.serial, &info);
 		}
 	}
 }
@@ -84,13 +80,14 @@ std::string nameFromAccessory(EAAccessory* accessory)
 - (void) accessoryDidConnect: (NSNotification*) notification
 {
 	EAAccessory* accessory = notification.userInfo[EAAccessoryKey];
-	_callback(ConnectionTransport::bluetooth, serialFromAccessory(accessory), nameFromAccessory(accessory));
+	DeviceInfo info = infoFromAccessory(accessory);
+	_callback(ConnectionTransport::bluetooth, info.serial, &info);
 }
 
 - (void) accessoryDidDisconnect: (NSNotification*) notification
 {
 	EAAccessory* accessory = notification.userInfo[EAAccessoryKey];
-	_callback(ConnectionTransport::none, serialFromAccessory(accessory), "");
+	_callback(ConnectionTransport::none, serialFromAccessory(accessory), nullptr);
 }
 
 - (void) prompt: (PromptAccessoryErrored) errored

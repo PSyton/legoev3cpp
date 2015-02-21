@@ -36,9 +36,9 @@ void ConnectionFactory::start(DiscoveredDeviceChangeEvennt deviceChangedEvent)
 	_deviceChangedEvent = deviceChangedEvent;
 	for (auto& i : _transports)
 	{
-		i.second->startWithDiscovery([this](auto transport, auto serial, auto name)
+		i.second->startWithDiscovery([this](auto transport, auto serial, auto info)
 		{
-			if (name.size()) discovered(transport, serial, name); else undiscovered(transport, serial);
+			if (info) discovered(transport, serial, *info); else undiscovered(transport, serial);
 		});
 	}
 }
@@ -79,12 +79,12 @@ DiscoveredDevice::Ptr ConnectionFactory::findDiscovered(DeviceIdentifier& identi
 		}
 		auto byName = [identifier, transport](const auto& i)
 		{
-			return i.second->name() == identifier.name && i.second->hasTransport(transport);
+			return i.second->info().name == identifier.name && i.second->hasTransport(transport);
 		};
 		
 		auto bySerial = [identifier, transport](const auto& i)
 		{
-			return i.second->serial() == identifier.serial && i.second->hasTransport(transport);
+			return i.second->info().serial == identifier.serial && i.second->hasTransport(transport);
 		};
 		
 		auto byConnection = [transport](const auto& i)
@@ -116,8 +116,8 @@ DiscoveredDevice::Ptr ConnectionFactory::findDiscovered(DeviceIdentifier& identi
 		if (f != _discovered.end())
 		{
 			discovered = f->second;
-			identifier.name = discovered->name();
-			identifier.serial = discovered->serial();
+			identifier.name = discovered->info().name;
+			identifier.serial = discovered->info().serial;
 			identifier.transports.makePriority(transport);
 			break;
 		}
@@ -125,9 +125,25 @@ DiscoveredDevice::Ptr ConnectionFactory::findDiscovered(DeviceIdentifier& identi
 	return discovered;
 }
 
+void ConnectionFactory::updateDeviceInfo(const DeviceInfo& info)
+{
+	DiscoveredDeviceChanged change = DiscoveredDeviceChanged::none;
+	DiscoveredDevice::Ptr discovered;
+	auto findDiscovered = _discovered.find(info.serial);
+	if (findDiscovered != _discovered.end())
+	{
+		discovered = findDiscovered->second;
+		if (discovered->updateInfo(info, true))
+		{
+			change |= DiscoveredDeviceChanged::infoChange;
+			_deviceChangedEvent(*discovered, change);
+		}
+	}
+}
+
 #pragma mark - Transport Events
 	
-void ConnectionFactory::discovered(ConnectionTransport transport, const std::string& serial, const std::string& name)
+void ConnectionFactory::discovered(ConnectionTransport transport, const std::string& serial, const DeviceInfo& info)
 {
 	DiscoveredDeviceChanged change = DiscoveredDeviceChanged::none;
 	DiscoveredDevice::Ptr discovered;
@@ -142,7 +158,7 @@ void ConnectionFactory::discovered(ConnectionTransport transport, const std::str
 	{
 		discovered = findDiscovered->second;
 	}
-	change |= discovered->addTransport(*this, transport, serial, name);
+	change |= discovered->addTransport(*this, transport, serial, info);
 	_deviceChangedEvent(*discovered, change);
 }
 

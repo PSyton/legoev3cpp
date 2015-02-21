@@ -27,7 +27,7 @@ Log mylog(std::cout);
 	std::unique_ptr<ConnectionFactory> _factory;
 	std::unique_ptr<Brick> _brick;
 	__weak DiscoveredViewController* _discovered;
-	__weak DeviceSelectionViewController* _connectivity;
+	__weak DeviceSelectionViewController* _selection;
 	__weak RailSwitchViewController* _rails;
 	__weak DirectoryListingViewController* _dirListing;
 	
@@ -45,7 +45,7 @@ Log mylog(std::cout);
 	_factory.reset(new ConnectionFactory(mylog));
 	_factory->start(^(DiscoveredDevice& device, DiscoveredDeviceChanged change)
 	{
-		[weakSelf updateUI];
+		[weakSelf updateUI: change];
 	});
 	
 	_brick.reset(new Brick(*_factory));
@@ -57,23 +57,23 @@ Log mylog(std::cout);
 	UITabBarController* controller = (UITabBarController*)root.childViewControllers[0];
 	
 	_discovered = controller.viewControllers[0];
-	_connectivity = controller.viewControllers[1];
-	_rails = controller.viewControllers[2];
-	_dirListing = controller.viewControllers[3];
+	_selection = controller.viewControllers[1];
+	_dirListing = controller.viewControllers[2];
+	_rails = controller.viewControllers[3];
 	
 	[_discovered setConnectionFactory: _factory.get()];
-	[_connectivity setBrick: _brick.get()];
-	[_rails setBrick: _brick.get()];
+	[_selection setBrick: _brick.get()];
 	[_dirListing setBrick: _brick.get()];
+	[_rails setBrick: _brick.get()];
 
 	return YES;
 }
 
-- (void) updateUI
+- (void) updateUI: (DiscoveredDeviceChanged) change
 {
 	[_discovered updateUI];
+	[_selection updateUI];
 }
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

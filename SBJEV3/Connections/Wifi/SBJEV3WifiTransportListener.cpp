@@ -8,6 +8,7 @@
 
 #include "SBJEV3WifiTransportListener.h"
 #include "SBJEV3DeviceIdentifier.h"
+#include "SBJEV3DiscoveredDevice.h"
 #include "SBJEV3Connection.h"
 
 #include <set>
@@ -25,7 +26,10 @@ void WifiTransportListener::onUdpPacket(const std::string& host, const uint8_t* 
 		{
 			accessory.reset(new WifiAccessory(spec));
 			_accessories[spec.serial()] = accessory;
-			_discovery(ConnectionTransport::wifi, spec.serial(), spec.name());
+			DeviceInfo info;
+			info.serial = spec.serial();
+			info.name = spec.name();
+			_discovery(ConnectionTransport::wifi, info.serial, &info);
 		}
 		else
 		{
@@ -61,6 +65,6 @@ void WifiTransportListener::evaluateStaleness()
 	
 	for (auto a : stale)
 	{
-		_discovery(ConnectionTransport::wifi, a->serial(), "");
+		_discovery(ConnectionTransport::wifi, a->serial(), nullptr);
 	}
 }
