@@ -75,20 +75,15 @@ Brick::Battery Brick::battery()
 
 void Brick::fetchBrickInfo()
 {
-	// TODO: bluetooth vs. wifi - the full call in bluetooth kills the stack on the brick (reboot required)
+	// TODO: bluetooth vs. wifi - the full call in bluetooth kills the BT stack on the brick (EV3 reboot required)
 	if (_activeTransport == ConnectionTransport::bluetooth)
 	{
 		auto result = directCommand(1.0,
 			GetBrickName<>(),
-			HardwareVersion(),
-			//FirmwareVersion(), // timeout
-			FirmwareBuild(),
-			//OSVersion(), // timeout
-			//OSBuild(), // timeout
 			FullVersion()
 			);
 		_name = std::get<0>(result);
-		_version = { std::get<1>(result), /*std::get<2>(result)*/"", std::get<2>(result), /*std::get<4>(result)*/"", /*std::get<5>(result)*/"", std::get<3>(result) };
+		_version = { "", "", "", "", "", std::get<1>(result) };
 	}
 	else
 	{

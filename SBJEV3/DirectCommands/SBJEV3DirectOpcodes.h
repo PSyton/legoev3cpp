@@ -155,7 +155,7 @@ struct OSBuild
 
 struct FullVersion
 {
-	constexpr static size_t MaxSize = vmFILENAMESIZE;
+	constexpr static size_t MaxSize = 48;
 	const UBYTE code = opUI_READ;
 	const CUTiny subcode =  GET_VERSION;
 	const CUByte length = MaxSize;
