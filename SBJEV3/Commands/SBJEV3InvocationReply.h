@@ -128,12 +128,14 @@ private:
 	inline bool itemizedCopy(const uint8_t* buffer, size_t maxLen, UBYTE cmdState)
 	{
 		size_t size = 0;
-		return tuple_for_each(_converters, [&size, this, &buffer, maxLen, cmdState](auto N, const auto& converter)
+		return tuple_for_each(_converters, [&size, this, buffer, maxLen, cmdState](auto N, const auto& converter)
 		{
 			using ConverterRef = decltype(converter);
 			using ConverterRef = decltype(converter);
 			using ConverterType = std::remove_reference_t<ConverterRef>;
 			using InputType = typename ConverterType::Input;
+			
+			const uint8_t* address = buffer + size;
 			
 			// Calculate full allocation size and check for boundary condition
 			for(size_t i = 0; i < ResultStorage<ConverterType>::globalCount(); i++)
@@ -148,8 +150,7 @@ private:
 			
 			// Convert the low level value to the requested high level type
 			auto& result = std::get<N>(_results);
-			converter.convert((InputType*)buffer, result, maxLen);
-			buffer+=size;
+			converter.convert((InputType*)address, result, maxLen);
 			return true;
 		});
 	}

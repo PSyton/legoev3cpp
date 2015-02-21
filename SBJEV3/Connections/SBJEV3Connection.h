@@ -29,9 +29,7 @@ public:
 	using Read = std::function< void(const uint8_t* buffer, size_t size)>;
 
 	virtual ~Connection() {};
-	
-	virtual ConnectionTransport transport() const = 0;
-	
+		
 	virtual void start(Connection::Read read) = 0;
 	
 	virtual bool write(const uint8_t* buffer, size_t len) = 0;

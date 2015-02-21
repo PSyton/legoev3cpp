@@ -19,7 +19,7 @@
 		5538B2AA1A75862300EFB7ED /* SBJEV3WifiAccessorySpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2A81A75862300EFB7ED /* SBJEV3WifiAccessorySpec.cpp */; };
 		5538B2B01A7587B700EFB7ED /* SBJEV3WifiTransportListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2AE1A7587B700EFB7ED /* SBJEV3WifiTransportListener.cpp */; };
 		5538B2D21A75C0CF00EFB7ED /* SBJEV3WifiAccessory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2D01A75C0CF00EFB7ED /* SBJEV3WifiAccessory.cpp */; };
-		5538B2D41A75C13900EFB7ED /* SBJEV3BluetoothTransportListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2D31A75C13900EFB7ED /* SBJEV3BluetoothTransportListener.mm */; };
+		5538B2D41A75C13900EFB7ED /* SBJEV3BluetoothTransportListeneriOS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2D31A75C13900EFB7ED /* SBJEV3BluetoothTransportListeneriOS.mm */; };
 		5538B2D71A75C22300EFB7ED /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2D61A75C22300EFB7ED /* GCDAsyncUdpSocket.m */; };
 		5538B2D91A75C37600EFB7ED /* SBJEV3ConnectionFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2D81A75C37600EFB7ED /* SBJEV3ConnectionFactory.cpp */; };
 		5538B2DC1A75CB4000EFB7ED /* SBJEV3WifiTransportListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5538B2DB1A75CB4000EFB7ED /* SBJEV3WifiTransportListener.mm */; };
@@ -93,6 +93,7 @@
 		550E29141A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJEV3WifiConnectionImplObjC.h; path = ObjC/SBJEV3WifiConnectionImplObjC.h; sourceTree = "<group>"; };
 		550E29151A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SBJEV3WifiConnectionImplObjC.mm; path = ObjC/SBJEV3WifiConnectionImplObjC.mm; sourceTree = "<group>"; };
 		550E291E1A7162A100A38E94 /* SBJEV3ByteCodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SBJEV3ByteCodes.h; sourceTree = "<group>"; };
+		551FED7B1A97B54E0003671C /* SBJEV3UsbTransportListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SBJEV3UsbTransportListener.h; path = USB/SBJEV3UsbTransportListener.h; sourceTree = "<group>"; };
 		5538B2A81A75862300EFB7ED /* SBJEV3WifiAccessorySpec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SBJEV3WifiAccessorySpec.cpp; path = Wifi/SBJEV3WifiAccessorySpec.cpp; sourceTree = "<group>"; };
 		5538B2A91A75862300EFB7ED /* SBJEV3WifiAccessorySpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJEV3WifiAccessorySpec.h; path = Wifi/SBJEV3WifiAccessorySpec.h; sourceTree = "<group>"; };
 		5538B2AE1A7587B700EFB7ED /* SBJEV3WifiTransportListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SBJEV3WifiTransportListener.cpp; path = Wifi/SBJEV3WifiTransportListener.cpp; sourceTree = "<group>"; };
@@ -103,7 +104,7 @@
 		5538B2CB1A75AF3600EFB7ED /* SBJEV3BluetoothTransportListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJEV3BluetoothTransportListener.h; path = Bluetooth/SBJEV3BluetoothTransportListener.h; sourceTree = "<group>"; };
 		5538B2D01A75C0CF00EFB7ED /* SBJEV3WifiAccessory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SBJEV3WifiAccessory.cpp; sourceTree = "<group>"; };
 		5538B2D11A75C0CF00EFB7ED /* SBJEV3WifiAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJEV3WifiAccessory.h; sourceTree = "<group>"; };
-		5538B2D31A75C13900EFB7ED /* SBJEV3BluetoothTransportListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SBJEV3BluetoothTransportListener.mm; path = Bluetooth/SBJEV3BluetoothTransportListener.mm; sourceTree = "<group>"; };
+		5538B2D31A75C13900EFB7ED /* SBJEV3BluetoothTransportListeneriOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SBJEV3BluetoothTransportListeneriOS.mm; path = Bluetooth/SBJEV3BluetoothTransportListeneriOS.mm; sourceTree = "<group>"; };
 		5538B2D51A75C22300EFB7ED /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncUdpSocket.h; path = ObjC/GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
 		5538B2D61A75C22300EFB7ED /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = ObjC/GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
 		5538B2D81A75C37600EFB7ED /* SBJEV3ConnectionFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SBJEV3ConnectionFactory.cpp; path = ObjC/SBJEV3ConnectionFactory.cpp; sourceTree = "<group>"; };
@@ -277,7 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				5538B2CB1A75AF3600EFB7ED /* SBJEV3BluetoothTransportListener.h */,
-				5538B2D31A75C13900EFB7ED /* SBJEV3BluetoothTransportListener.mm */,
+				5538B2D31A75C13900EFB7ED /* SBJEV3BluetoothTransportListeneriOS.mm */,
 				550E290D1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.h */,
 				550E290E1A71610C00A38E94 /* SBJEV3BluetoothConnectionImplIOS.mm */,
 			);
@@ -287,6 +288,7 @@
 		5538B2DA1A75C4BC00EFB7ED /* USB */ = {
 			isa = PBXGroup;
 			children = (
+				551FED7B1A97B54E0003671C /* SBJEV3UsbTransportListener.h */,
 			);
 			name = USB;
 			sourceTree = "<group>";
@@ -314,7 +316,6 @@
 		55A7CB761A3E07130028553C /* Jove's Landing */ = {
 			isa = PBXGroup;
 			children = (
-				55A7940F1A96791A00FC2811 /* Jove's Landing.entitlements */,
 				55A7CB7B1A3E07130028553C /* AppDelegate.h */,
 				55A7CB7C1A3E07130028553C /* AppDelegate.mm */,
 				557868F11A8CDF9000079D55 /* DiscoveredViewController.h */,
@@ -340,6 +341,7 @@
 		55A7CB771A3E07130028553C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				55A7940F1A96791A00FC2811 /* Jove's Landing.entitlements */,
 				55A7CBDD1A3E11350028553C /* ExternalAccessory.framework */,
 				55A7CB781A3E07130028553C /* Info.plist */,
 				55A7CB791A3E07130028553C /* main.m */,
@@ -509,7 +511,7 @@
 				550E28F91A715EC600A38E94 /* SBJEV3InvocationStack.cpp in Sources */,
 				557868F31A8CDF9000079D55 /* DiscoveredViewController.mm in Sources */,
 				5538B2D21A75C0CF00EFB7ED /* SBJEV3WifiAccessory.cpp in Sources */,
-				5538B2D41A75C13900EFB7ED /* SBJEV3BluetoothTransportListener.mm in Sources */,
+				5538B2D41A75C13900EFB7ED /* SBJEV3BluetoothTransportListeneriOS.mm in Sources */,
 				550E291C1A71610C00A38E94 /* SBJEV3WifiConnectionImplObjC.mm in Sources */,
 				5538B2DC1A75CB4000EFB7ED /* SBJEV3WifiTransportListener.mm in Sources */,
 				550E29011A715EC600A38E94 /* SBJEV3DirectoryEntry.cpp in Sources */,

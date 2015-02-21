@@ -28,9 +28,7 @@ public:
 	ConnectionObjC(EV3ConnectionImpl* impl);
 	
 	~ConnectionObjC() override;
-	
-	ConnectionTransport transport() const override;
-	
+		
 	void start(Read read) override;
 	
 	bool write(const uint8_t* buffer, size_t len) override;

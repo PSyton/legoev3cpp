@@ -75,7 +75,7 @@ Brick::Battery Brick::battery()
 
 void Brick::fetchBrickInfo()
 {
-	// TODO: WTF?
+	// TODO: bluetooth vs. wifi - the full call in bluetooth kills the stack on the brick (reboot required)
 	if (_activeTransport == ConnectionTransport::bluetooth)
 	{
 		auto result = directCommand(1.0,
@@ -89,17 +89,19 @@ void Brick::fetchBrickInfo()
 			);
 		_name = std::get<0>(result);
 		_version = { std::get<1>(result), /*std::get<2>(result)*/"", std::get<2>(result), /*std::get<4>(result)*/"", /*std::get<5>(result)*/"", std::get<3>(result) };
-		return;
 	}
-	auto result = directCommand(1.0,
-		GetBrickName<>(),
-		HardwareVersion(),
-		FirmwareVersion(),
-		FirmwareBuild(),
-		OSVersion(),
-		OSBuild(),
-		FullVersion()
-		);
-	_name = std::get<0>(result);
-	_version = { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<4>(result), std::get<5>(result), std::get<6>(result) };
+	else
+	{
+		auto result = directCommand(1.0,
+			GetBrickName<>(),
+			HardwareVersion(),
+			FirmwareVersion(),
+			FirmwareBuild(),
+			OSVersion(),
+			OSBuild(),
+			FullVersion()
+			);
+		_name = std::get<0>(result);
+		_version = { std::get<1>(result), std::get<2>(result), std::get<3>(result), std::get<4>(result), std::get<5>(result), std::get<6>(result) };
+	}
 }

@@ -22,11 +22,6 @@ ConnectionObjC::~ConnectionObjC()
 	_impl = nil;
 }
 
-ConnectionTransport ConnectionObjC::transport() const
-{
-	return _impl.transport;
-}
-
 void ConnectionObjC::start(Read read)
 {
 	[_impl start: read];

@@ -16,14 +16,6 @@
 
 using namespace SBJ::EV3;
 
-@interface EV3BluetoothTransportListenerDelegate : NSObject
-@end
-
-#import <ExternalAccessory/ExternalAccessory.h>
-
-using namespace SBJ::EV3;
-
-
 std::string serialFromAccessory(EAAccessory* accessory)
 {
 	// TODO: accessory.serialNumber is empty!
@@ -32,9 +24,14 @@ std::string serialFromAccessory(EAAccessory* accessory)
 
 std::string nameFromAccessory(EAAccessory* accessory)
 {
+	static unsigned int name = 0;
+	name++;
 	// TODO: accessory.name is always "MFI Accessory"!
-	return "EV3 " + std::to_string(accessory.connectionID);
+	return "BT EV3 " + std::to_string(name);
 }
+
+@interface EV3BluetoothTransportListenerDelegate : NSObject
+@end
 
 @implementation EV3BluetoothTransportListenerDelegate
 {

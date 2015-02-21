@@ -17,7 +17,6 @@
 @interface EV3ConnectionImpl : NSObject
 
 - (id) init: (SBJ::EV3::Log&) log;
-- (SBJ::EV3::ConnectionTransport) transport;
 - (void) start: (SBJ::EV3::Connection::Read) read;
 - (bool) write: (const uint8_t*) buffer len: (size_t) len;
 - (void) closeWithError: (NSError*) error;

@@ -27,11 +27,6 @@ using namespace SBJ::EV3;
 	return self;
 }
 
-- (SBJ::EV3::ConnectionTransport) transport
-{
-	return ConnectionTransport::bluetooth;
-}
-
 - (void) closeWithError: (NSError*) error
 {
 	[super closeWithError: error];

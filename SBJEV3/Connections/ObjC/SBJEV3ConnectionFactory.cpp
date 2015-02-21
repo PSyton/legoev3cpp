@@ -11,6 +11,7 @@
 #include "SBJEV3ConnectionToken.h"
 #include "SBJEV3Connection.h"
 
+#include "SBJEV3UsbTransportListener.h"
 #include "SBJEV3WifiTransportListener.h"
 #include "SBJEV3BluetoothTransportListener.h"
 #include "SBJEV3Messenger.h"
@@ -21,7 +22,7 @@ ConnectionFactory::ConnectionFactory(Log& log)
 : _log(log)
 {
 	_transports[ConnectionTransport::none].reset(new TransportListener());
-	_transports[ConnectionTransport::usb].reset(new TransportListener());
+	_transports[ConnectionTransport::usb].reset(new UsbTransportListener());
 	_transports[ConnectionTransport::wifi].reset(new WifiTransportListener());
 	_transports[ConnectionTransport::bluetooth].reset(new BluetoothTransportListener());
 }

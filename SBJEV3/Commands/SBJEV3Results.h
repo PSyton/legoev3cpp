@@ -152,10 +152,10 @@ struct StringResult
 		return MaxSize;
 	}
 	
-	static inline void convert(const Input* input, Output& output, size_t)
+	static inline void convert(const Input* input, Output& output, size_t maxSize)
 	{
 		if (input == nullptr) return;
-		output = input;
+		output.append(input, maxSize);
 	};
 };
 

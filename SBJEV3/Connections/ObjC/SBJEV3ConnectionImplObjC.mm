@@ -65,11 +65,6 @@ static const std::string LogDomian = "Stream";
 	stream.delegate = nil;
 }
 
-- (ConnectionTransport) transport
-{
-	return ConnectionTransport::none;
-}
-
 - (void) start: (Connection::Read) read
 {
 	_read = read;

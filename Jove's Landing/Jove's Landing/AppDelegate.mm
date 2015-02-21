@@ -40,16 +40,21 @@ Log mylog(std::cout);
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
 	
+	__weak decltype(self) weakSelf = self;
+	
 	_factory.reset(new ConnectionFactory(mylog));
 	_factory->start(^(DiscoveredDevice& device, DiscoveredDeviceChanged change)
 	{
+		[weakSelf updateUI];
 	});
 	
 	_brick.reset(new Brick(*_factory));
 	
 	[RailSwitch installOnBrick: _brick.get()];
-		
-	UITabBarController* controller = (UITabBarController*)self.window.rootViewController;
+	
+	UIViewController* root = self.window.rootViewController;
+	[[root view] setAlpha: 1.0]; // hack to force load of view so we can get the child view controller loaded
+	UITabBarController* controller = (UITabBarController*)root.childViewControllers[0];
 	
 	_discovered = controller.viewControllers[0];
 	_connectivity = controller.viewControllers[1];
@@ -60,9 +65,15 @@ Log mylog(std::cout);
 	[_connectivity setBrick: _brick.get()];
 	[_rails setBrick: _brick.get()];
 	[_dirListing setBrick: _brick.get()];
-	
+
 	return YES;
 }
+
+- (void) updateUI
+{
+	[_discovered updateUI];
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

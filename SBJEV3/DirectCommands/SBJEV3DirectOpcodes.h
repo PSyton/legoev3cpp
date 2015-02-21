@@ -119,7 +119,7 @@ struct HardwareVersion
 
 struct FirmwareVersion
 {
-	constexpr static size_t MaxSize = vmIPSIZE;
+	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opUI_READ;
 	const CUTiny subcode =  GET_FW_VERS;
 	const CUTiny length = MaxSize;
@@ -137,7 +137,7 @@ struct FirmwareBuild
 
 struct OSVersion
 {
-	constexpr static size_t MaxSize = vmIPSIZE;
+	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opUI_READ;
 	const CUTiny subcode =  GET_OS_VERS;
 	const CUTiny length = MaxSize;
@@ -146,7 +146,7 @@ struct OSVersion
 
 struct OSBuild
 {
-	constexpr static size_t MaxSize = vmIPSIZE;
+	constexpr static size_t MaxSize = vmNAMESIZE;
 	const UBYTE code = opUI_READ;
 	const CUTiny subcode =  GET_OS_BUILD;
 	const CUTiny length = MaxSize;
@@ -155,10 +155,10 @@ struct OSBuild
 
 struct FullVersion
 {
-	constexpr static size_t MaxSize = vmNAMESIZE;
+	constexpr static size_t MaxSize = vmFILENAMESIZE;
 	const UBYTE code = opUI_READ;
 	const CUTiny subcode =  GET_VERSION;
-	const CUTiny length = MaxSize;
+	const CUByte length = MaxSize;
 	using Result = StringResult<VarScope::global, MaxSize>;
 };
 

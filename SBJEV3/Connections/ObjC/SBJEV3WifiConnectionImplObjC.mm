@@ -56,11 +56,6 @@ static const std::string LogDomian = "Connect";
 	_accessory = nil;
 }
 
-- (ConnectionTransport) transport
-{
-	return ConnectionTransport::wifi;
-}
-
 - (void) createStreams
 {
 	if (_accessory)
